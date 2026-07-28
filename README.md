@@ -1,48 +1,186 @@
-# Doki Game Maker
+<p align="center">
+  <a href="https://cindy.app"><img src=".github/assets/hero-en.webp" width="100%" alt="CINDY — Consider it done. The open-source AI agent that works out of the box, doing real work on your own computer."></a>
+</p>
 
-> Doki World Web 游戏的一体化开发端 —— 可视化游戏制作工具（Maker）+ 内置运行引擎。
+<p align="center">
+  <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a>
+</p>
 
-Doki Game Maker 是一款面向 **Doki World** 系列 Web 游戏的可视化制作工具。目标是让开发者在一个统一的工具中完成游戏的编辑、预览与发布，并内置我们自研的 **Apollo 引擎（阿波罗引擎）** 作为运行时，实现「编辑 —— 运行 —— 发布」一体化。
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" alt="License" /></a>
+  <a href="https://github.com/makecindy/cindy/actions/workflows/ci.yml"><img src="https://github.com/makecindy/cindy/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-22.x-brightgreen.svg" alt="Node.js 22.x" /></a>
+  <a href="https://pnpm.io"><img src="https://img.shields.io/badge/pnpm-10-orange.svg" alt="pnpm" /></a>
+</p>
 
-当前处于 **初始版本（v0）** 阶段，本仓库用于承载后续的开源项目改造与引擎整合工作。
+<p align="center">
+  🌐 <a href="https://cindy.app">cindy.app</a> &nbsp;·&nbsp; ⬇️ <a href="https://cindy.app/download/">Download</a>
+</p>
 
----
 
-## 愿景
+Cindy is an open-source AI agent that works out of the box. She brings multiple
+harnesses, models and tools into one agent that finishes real work in your
+projects and apps. Ready from day one, yours to shape over time.
 
-- **一体化**：制作工具与运行引擎打包为同一套产物，开发者无需在多个工具之间切换。
-- **Web 原生**：编辑器与游戏运行时均运行在浏览器 / Web 技术栈之上。
-- **可复用**：以成熟开源项目为基座进行改造，避免从零重复造轮子。
-- **自研内核**：将 Apollo 引擎的逻辑与数据无缝整合进工具，作为 Doki World 游戏的统一运行内核。
+Cindy runs locally on your own machine, using your real files and logged-in
+apps. The first supported harnesses are **Claude Code** and **Codex** — more are
+being added, and a native harness is in the works. Models and harnesses mix
+freely and can switch mid-task while your workspace, memory, skills and tools
+stay continuous; one task can even be planned, executed in parallel, and
+reviewed by agents on different harness × model combos. She can drive your
+browser, computer and phone, and take work from IM and schedules.
 
-## 路线图（三阶段）
+This repository is the open-source **client** for Cindy — the desktop and mobile
+apps plus their shared packages, organized as a pnpm monorepo.
 
-本项目按三个阶段推进，详见 [`docs/ROADMAP.md`](docs/ROADMAP.md)。
+The client is free to use, and its source code is open under Apache-2.0. Bring
+models your way: sign in to the official Cindy service (usage deducted
+transparently), authorize the **Claude Code / Codex Coding Plan** you already
+pay for and keep using it inside Cindy — no duplicate bill — connect your own
+API keys, or use local models.
+See [cindy.app](https://cindy.app) for service details,
+[pricing](https://cindy.app/#pricing), and [downloads](https://cindy.app/download/).
 
-| 阶段 | 名称 | 目标 | 状态 |
-| --- | --- | --- | --- |
-| **Phase 1** | 项目初始化 | 建立仓库骨架、分支模型与工程规范，形成初始版本 | 🚧 进行中 |
-| **Phase 2** | 开源基座改造 | Fork 外部开源游戏制作工具，在其基础上裁剪 / 改造为 Doki Game Maker | ⏳ 待启动 |
-| **Phase 3** | 引擎整合发布 | 迁移并整合 Apollo 引擎的逻辑与数据，形成一体化发布产物 | ⏳ 规划中 |
+## Yours to shape
 
-## 仓库结构（初始）
+Open source means more than visible — it means changeable:
 
+- **Memory** — correct her once and she does it right from then on, shared across harnesses.
+- **Skills** — teach a way of working once and reuse it everywhere; handing them to your team is in the making.
+- **Automation** — recurring work schedules itself, runs itself, reports back.
+- **MCP** — wire your internal tools and business systems into her reach.
+- **Plugins** — reshape features, UI and interactions, shared through an open marketplace *(in the making)*.
+- **Source** — audit, fork, extend, and contribute improvements back under Apache-2.0.
+
+Ready out of the box, never boxed in — start with
+[`CONTRIBUTING.en.md`](CONTRIBUTING.en.md) and build Cindy with us.
+
+## What's in this repo
+
+| Path | Description |
+| --- | --- |
+| `apps/desktop` | Electron desktop client |
+| `apps/mobile` | Expo / React Native mobile client |
+| `packages/*` | Shared client capabilities (auth, device-link, agent orchestration, model providers, …) |
+| `apps/*-bin` | Tool binaries shipped with the desktop app; none are committed — claude-code, codex, and ripgrep are downloaded per platform by `pnpm install`, and the Android platform-tools binaries are fetched (pinned version, sha256-verified) before Windows packaging |
+| `cindy-protocol/` | Wire protocol shared with the server (git submodule) |
+
+**Not in this repo:** the backend service lives in a separate
+repository and is not part of this monorepo.
+
+| Mode | Account requirement | Availability |
+| --- | --- | --- |
+| Hosted service | Cindy cloud account | Use Cindy's full hosted service. See [pricing](https://cindy.app/#pricing). |
+| Local mode | No Cindy sign-in required | Choose “Local mode” on the login screen to use local agents. Server-backed capabilities are unavailable in this mode. |
+
+## Prerequisites
+
+- **Node.js** 22.x
+- **pnpm** 10.x (v11 is not yet supported)
+- **Git LFS**
+
+## Getting started
+
+Contributor setup, public submodule initialization, Git LFS, dependency updates,
+and access requirements are maintained in
+[`CONTRIBUTING.en.md`](CONTRIBUTING.en.md).
+The public checkout only needs the protocol submodule; plugins are installed through
+SkillHub or manually.
+
+Minimal entry point:
+
+```bash
+git clone https://github.com/makecindy/cindy.git
+cd cindy
+git submodule update --init --recursive cindy-protocol
+git lfs pull
+pnpm install
 ```
-DokiGameMaker/
-├── README.md          # 项目总览（本文件）
-├── .gitignore         # 忽略规则（Web / Node 工程）
-└── docs/
-    └── ROADMAP.md     # 详细路线图与架构规划
+
+## Development entry points
+
+```bash
+# Mainland China Cindy account
+pnpm restart:desktop:remote --region=cn
+
+# Global Cindy account
+pnpm restart:desktop:remote --region=global
 ```
 
-> 说明：初始阶段刻意保持轻量。Phase 2 引入的开源基座会带来正式的工程目录结构（构建配置、源码目录等），届时再据其规范落地。
+Remote development uses your own Cindy cloud account and existing login state, so
+you can continue existing sessions and work while developing the client. Use `cn`
+for Mainland China accounts and `global` for everyone else; do not rely
+on the internal default. Full desktop, mobile, data-isolation, and validation
+workflows are in [`CONTRIBUTING.en.md`](CONTRIBUTING.en.md).
 
-## 分支模型
+“Local mode” on the login screen is an unauthenticated local-agent mode, not a
+connection to a local server. Server-backed capabilities are unavailable in this
+mode.
 
-- `main`：稳定主干，仅通过评审后合入。
-- `claude/*`：开发 / 改造工作分支。
-- 每个阶段的改造在独立分支上进行，评审后合入 `main`。
+**About the default servers:** the client connects to Cindy's official cloud
+services by default (endpoint manifests in
+[`config/endpoint.json`](config/endpoint.json) and
+[`config/endpoint.global.json`](config/endpoint.global.json); desktop
+auto-updates also come from the official CDN). This is intentional — external
+developers don't need to self-host a server: sign in with your own Cindy
+account in a dev build and develop / test directly against the official
+servers.
 
-## 参与开发
+## Architecture
 
-初始阶段暂无构建步骤。Phase 2 引入开源基座后，本节将补充环境搭建、构建与运行说明。
+- [`DESIGN.md`](DESIGN.md) — visual design system, color tokens, and UI conventions
+- [`docs/README.md`](docs/README.md) — complete documentation and rules index
+- [`CONTRIBUTING.en.md`](CONTRIBUTING.en.md) — contributor setup, validation, and submission workflow
+- [`AGENTS.md`](AGENTS.md) — engineering rules, launch/runtime contracts, and module boundaries
+- [`docs/dev-rules/`](docs/dev-rules/) — deep-dive architecture docs (e.g. Orca multi-agent orchestration)
+
+## Contributing
+
+Contributions go through pull requests into `main`. Read
+[`CONTRIBUTING.en.md`](CONTRIBUTING.en.md) first, then use
+[`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md).
+Every commit needs a [Developer Certificate of Origin](DCO) sign-off
+(`git commit -s`); a DCO check on each pull request enforces it, and no CLA is
+required.
+Please also follow [`CODE_OF_CONDUCT.en.md`](CODE_OF_CONDUCT.en.md). For ordinary
+usage questions, see [`SUPPORT.en.md`](SUPPORT.en.md); report security issues
+privately through [`SECURITY.en.md`](SECURITY.en.md).
+
+## Security
+
+Never commit credentials or authorization files to the working tree. If you
+discover a security issue, follow [`SECURITY.en.md`](SECURITY.en.md) to report it
+privately rather than opening a public issue.
+
+## Privacy & telemetry
+
+**Official distribution builds** include [TapDB](https://www.taptap.io/tapdb)
+usage analytics for product-level aggregate statistics (device / OS / app-version
+metadata; associated with your account ID after sign-in). It does **not** collect
+chat content, file content, or working-directory data. In addition, while signed
+in to a cloud account the client sends an online heartbeat to Cindy services
+(account ID, platform, and version only). Crash dumps stay on the local machine
+and are never uploaded automatically.
+
+**Building from source?** You are not required to keep analytics:
+
+- Mobile is off by default — without TapDB credentials (`clientId` /
+  `clientToken`) injected at build time, `apps/mobile/src/analytics/mobileTapdb.ts`
+  is a no-op;
+- Desktop can be fully stripped by removing the `initTapdb()` call in
+  `apps/desktop/src/renderer/index.tsx` (implementation lives in
+  `apps/desktop/src/renderer/analytics/`).
+
+## License / 许可证
+
+Except as otherwise noted, the source code in this repository is licensed under
+the [Apache License, Version 2.0](LICENSE). Individual source files do not
+carry per-file license headers; the repository-root `LICENSE` governs.
+
+Model weights, datasets, prompts, trademarks, and other separately identified
+materials may be subject to their own license terms and are not automatically
+covered by the repository-level Apache-2.0 grant. Third-party open-source
+components retain their own copyright and license. Their attribution notices and
+SPDX SBOMs are managed under [`docs/legal/`](docs/legal/), with artifact-specific
+outputs in [`docs/legal/notices/`](docs/legal/notices/). See [`NOTICE`](NOTICE)
+for this project's copyright and attribution information.
