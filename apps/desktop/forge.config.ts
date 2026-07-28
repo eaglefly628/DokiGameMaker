@@ -418,6 +418,7 @@ async function rebuildNativeDepsInPackage(
 
 const isDev = process.env.NODE_ENV !== 'production' && !process.argv.includes('make') && !process.argv.includes('package');
 const isWin = process.platform === 'win32';
+const isMac = process.platform === 'darwin';
 
 /**
  * Build cindy-updater (Rust + Tauri) and copy the release binary into
@@ -1095,6 +1096,35 @@ if (isWin) {
       }),
     }),
   );
+}
+
+if (isMac) {
+  // macOS DMG 安装包（ZeroCraft.dmg）。ad-hoc 签名即可本地打包，无需 Apple 开发者账号；
+  // 未公证，别的 Mac 首次打开走「右键→打开」或 `xattr -cr <App>` 放行一次。
+  //
+  // best-effort：@electron-forge/maker-dmg 依赖 appdmg（macOS 原生，含 fs-xattr，
+  // 无法在 Linux/CI 安装），故不放进 package.json/lockfile，也不硬性 import。
+  // 在 Mac 上装了它（`pnpm --filter desktop add -D @electron-forge/maker-dmg`）就产出 .dmg；
+  // 没装则静默跳过、仍产出 MakerZIP 的 ZeroCraft.app（zip）。见 docs/BUILD-MACOS.md。
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const MakerDMG = require('@electron-forge/maker-dmg').default;
+    makers.push(
+      new MakerDMG(
+        {
+          // dmg 卷名 / 文件名 = 展示名（ZeroCraft），属展示层，不碰标识符 CINDY_EXE。
+          name: BRAND_IDENTITY.displayName,
+          overwrite: true,
+        },
+        ['darwin'],
+      ),
+    );
+  } catch {
+    console.log(
+      '[forge] @electron-forge/maker-dmg 未安装，跳过 .dmg，仅产出 .zip（ZeroCraft.app）。' +
+        '需要 dmg 安装包时在 Mac 上执行 `pnpm --filter desktop add -D @electron-forge/maker-dmg` 后重新 build。',
+    );
+  }
 }
 
 const config: ForgeConfig = {

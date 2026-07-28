@@ -39,6 +39,8 @@ pnpm build                    # 桌面端构建
 pnpm release:package          # 打桌面分发包（macOS 版需在 Mac 上执行）
 ```
 
+**在 Mac（Apple 芯片 / M 系列）上打包安装包**：见 [`docs/BUILD-MACOS.md`](docs/BUILD-MACOS.md)。
+
 > 桌面端 GUI 实跑与 macOS 打包需在本机（尤其 Mac）执行；无头 CI / 容器只做安装、类型检查、测试与构建校验。工程细节沿用上游文档 [`CONTRIBUTING.en.md`](CONTRIBUTING.en.md)、[`AGENTS.md`](AGENTS.md)、[`docs/`](docs/)。
 
 ## 许可证
