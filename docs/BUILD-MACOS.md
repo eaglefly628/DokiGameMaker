@@ -29,6 +29,12 @@ pnpm install          # 会自动下载 darwin-arm64 的 Electron 二进制并�
 > 不要加 `--frozen-lockfile` 之外的跳过开关；本机打包需要真实的 Electron 二进制
 > （与无头 CI 的 `ELECTRON_SKIP_BINARY_DOWNLOAD=1` 不同）。
 
+> **打包前置 —— agent 二进制**：`pnpm install` 的 postinstall 会「尽力（best-effort）」
+> 下载 ripgrep / claude-code / codex 三个随包二进制，而打包的 `prePackage` 钩子**强制要求**
+> 目标平台的这些二进制存在。若网络受限导致 best-effort 下载被跳过，`pnpm build` 会在
+> 打包阶段报 `failed to ensure pinned ripgrep <平台>；run "pnpm update:ripgrep" ...`。
+> 手动补齐即可：`pnpm install:agent-binaries`（或单独 `pnpm install:ripgrep`）。
+
 ## 三、打包安装包（本地 ad-hoc 签名，无需 Apple 开发者账号）
 
 ### 方式 A —— 最省事：ZIP（默认已可用）
