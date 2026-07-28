@@ -16,7 +16,7 @@ import './themes/colors';
 
 import { App } from './App';
 import { TopLevelErrorBoundary } from './components/error/TopLevelErrorBoundary';
-import { initTapdb } from './analytics/tapdbClient';
+// ZeroCraft：禁用 TapDB 遥测——不再 import / 调用 initTapdb（模块与测试保留，仅不在启动时初始化，避免向上游 Cindy 回连）。
 import { installScrollbarAutoHide } from './lib/scrollbarAutoHide';
 import { bootstrapMemorySettingsFromMain } from './lib/memorySettingsStore';
 import {
@@ -184,10 +184,9 @@ void (async () => {
   // 启动快照并发。浮窗不消费该设置，跳过同步以免多个 renderer 争写共享 localStorage。
   await bootstrapMemorySettingsFromMain();
 
-  // TapDB 在线活跃上报 — 只在主视图启用,避免 voice-input 浮窗的弹出被算成 PV。
-  // 这里只挂"同意闸":SDK 是否初始化由 main 的 analytics-settings 决定,用户没
-  // 同意过《隐私政策》时一个字节都不会发出去(见 analytics/tapdbClient.ts)。
-  initTapdb();
+  // TapDB 在线活跃上报 —— ZeroCraft 已禁用（本地优先，不向上游 Cindy 回连）。
+  // 原为 `initTapdb()`；模块 analytics/tapdbClient.ts 与其测试保留，仅不在启动时初始化。
+  // 需要恢复上报时改回 import 并调用 initTapdb() 即可。
 
   // 顶层 boundary:App 内 RouterProvider 之上的 provider 链渲染崩溃时兜底
   // (路由子树的崩溃仍由 router.tsx 的 errorElement 就近接住)。
