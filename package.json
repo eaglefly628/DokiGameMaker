@@ -1,19 +1,18 @@
 {
-  "name": "cindy",
+  "name": "zerocraft-game-maker",
   "private": true,
-  "description": "Cindy open-source client monorepo — desktop, mobile, and shared packages",
+  "description": "ZeroCraft Game Maker — 一体化 Web 游戏开发端（fork 自 Cindy 开源客户端，Apache-2.0）",
   "license": "Apache-2.0",
   "author": {
-    "name": "X.D. Network Inc.",
-    "email": "feedback@cindy.app"
+    "name": "ZeroCraft"
   },
-  "homepage": "https://cindy.app",
+  "homepage": "https://github.com/eaglefly628/DokiGameMaker",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/makecindy/cindy.git"
+    "url": "git+https://github.com/eaglefly628/DokiGameMaker.git"
   },
   "bugs": {
-    "url": "https://github.com/makecindy/cindy/issues"
+    "url": "https://github.com/eaglefly628/DokiGameMaker/issues"
   },
   "engines": {
     "node": ">=22",
