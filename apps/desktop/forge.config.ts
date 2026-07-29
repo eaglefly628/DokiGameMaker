@@ -660,6 +660,10 @@ function signPackagedExes(buildPath: string): void {
  */
 function applyMacPackagedDisplayName(buildPath: string, platform: string): void {
   if (platform !== 'darwin') return;
+  // ZeroCraft:显示名走品牌展示名(BRAND_IDENTITY.displayName)。exe/.app 包名现已
+  // 也是 ZeroCraft(见 brandIdentity.executableNameByRegion),故此步只是把
+  // Dock/Cmd+Tab/Finder/通知的显示层与展示名对齐、并作为 packager 行为变化的兜底。
+  const displayName = BRAND_IDENTITY.displayName;
   const apps = fs.readdirSync(buildPath).filter((n) => n.endsWith('.app'));
   for (const appDir of apps) {
     const plistPath = path.join(buildPath, appDir, 'Contents', 'Info.plist');
@@ -670,14 +674,14 @@ function applyMacPackagedDisplayName(buildPath: string, platform: string): void 
     // 否则 Electron 找不到 Helper app(见函数头 ⚠️)。
     const key = 'CFBundleDisplayName';
     // packager 必写该键,Set 即可;Add 兜底防未来 packager 行为变化。
-    const set = spawnSync('/usr/libexec/PlistBuddy', ['-c', `Set :${key} Cindy`, plistPath]);
+    const set = spawnSync('/usr/libexec/PlistBuddy', ['-c', `Set :${key} ${displayName}`, plistPath]);
     if (set.status !== 0) {
-      const add = spawnSync('/usr/libexec/PlistBuddy', ['-c', `Add :${key} string Cindy`, plistPath]);
+      const add = spawnSync('/usr/libexec/PlistBuddy', ['-c', `Add :${key} string ${displayName}`, plistPath]);
       if (add.status !== 0) {
         throw new Error(`[forge:postPackage] PlistBuddy failed to set ${key} in ${plistPath}`);
       }
     }
-    console.log(`[forge:postPackage] mac display name → Cindy (${appDir}/Contents/Info.plist)`);
+    console.log(`[forge:postPackage] mac display name → ${displayName} (${appDir}/Contents/Info.plist)`);
   }
 }
 
@@ -1177,8 +1181,8 @@ const config: ForgeConfig = {
     // (与 mac 显示名口径一致)。
     win32metadata: {
       CompanyName: 'XD',
-      ProductName: 'Cindy',
-      FileDescription: 'Cindy',
+      ProductName: BRAND_IDENTITY.displayName,
+      FileDescription: BRAND_IDENTITY.displayName,
     },
     icon: 'resources/icon',
     // 自定义 URL scheme: xdt-maker://session/<id> | xdt-maker://project/<encoded-workingDir>

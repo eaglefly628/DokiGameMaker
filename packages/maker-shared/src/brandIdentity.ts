@@ -136,13 +136,15 @@ export interface BrandIdentity {
  */
 export const BRAND_IDENTITY: BrandIdentity = Object.freeze({
   displayName: BRAND_NAME,
-  executableName: 'Cindy',
+  // ZeroCraft:可执行文件 / .app 包名 / 安装目录 / 快捷方式的**可见名**改为品牌名
+  // ZeroCraft(用户看到的产物就是 ZeroCraft.app / ZeroCraft.exe)。这是展示边界,
+  // 不是标识符:appId / scheme / userData 目录名 / dbFilePrefix / cdnPrefix 等
+  // 系统级标识符仍保持 Cindy 系不变(见下方各字段),不影响已注册身份与数据落盘。
+  executableName: 'ZeroCraft',
   executableNameByRegion: Object.freeze({
-    cn: 'Cindy',
-    // 2026-07-26 与 cn 同值(见字段 doc):global 包全部可见位置显示 Cindy,
-    // 放弃 cn/global 同机双装的文件层隔离;appId / userData 仍分区。
-    global: 'Cindy',
-    dev: 'CindyDev',
+    cn: 'ZeroCraft',
+    global: 'ZeroCraft',
+    dev: 'ZeroCraftDev',
   }),
   appIdByRegion: Object.freeze({
     cn: 'com.xd.cindycn',
@@ -151,9 +153,12 @@ export const BRAND_IDENTITY: BrandIdentity = Object.freeze({
   }),
   primaryScheme: 'cindy',
   legacySchemes: Object.freeze(['xdt-maker']),
-  userDataDirName: 'Cindy',
+  // userData 目录名 = package.json productName(Electron 默认派生),随展示名统一为
+  // ZeroCraft(dev 与 cn 走此默认目录)。global 仍用独立目录 'CindyGlobal':既与 cn
+  // 分库,又保留存量本地数据/密钥不迁移(该目录名对用户不可见,属内部标识符)。
+  userDataDirName: 'ZeroCraft',
   userDataDirNameByRegion: Object.freeze({
-    cn: 'Cindy',
+    cn: 'ZeroCraft',
     global: 'CindyGlobal',
     dev: 'CindyDev',
   }),

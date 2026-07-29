@@ -1,0 +1,58 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7C3AED"/>
+      <stop offset="0.52" stop-color="#4F46E5"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.28" cy="0.2" r="0.85">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.22"/>
+      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="faceLeft" x1="316" y1="300" x2="512" y2="612" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#DBE4FF"/>
+      <stop offset="1" stop-color="#B4C0FB"/>
+    </linearGradient>
+    <linearGradient id="faceRight" x1="512" y1="414" x2="708" y2="612" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#A9B6F8"/>
+      <stop offset="1" stop-color="#8E9DF2"/>
+    </linearGradient>
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#1E1B4B" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- 全幅背景（打包脚本会自动加圆角，这里画满方形） -->
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#glow)"/>
+
+  <!-- 地面投影 -->
+  <ellipse cx="512" cy="648" rx="182" ry="38" fill="#1E1B4B" opacity="0.26"/>
+
+  <!-- 等距立方体（craft / 搭建）+ 顶面挖出的 play 三角（运行游戏） -->
+  <g filter="url(#softShadow)">
+    <path d="M316,300 L512,413 L512,610 L316,497 Z" fill="url(#faceLeft)"/>
+    <path d="M512,413 L708,300 L708,497 L512,610 Z" fill="url(#faceRight)"/>
+    <path d="M512,187 L708,300 L512,413 L316,300 Z
+             M478,262 L478,338 L550,300 Z"
+          fill="#FFFFFF" fill-rule="evenodd"/>
+    <path d="M512,413 L512,610 M316,300 L512,413 L708,300"
+          fill="none" stroke="#4F46E5" stroke-width="6" stroke-opacity="0.28"
+          stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+
+  <!-- 创作火花 -->
+  <g fill="#FFFFFF">
+    <path d="M726,214 c7,29 12,34 41,41 c-29,7 -34,12 -41,41 c-7,-29 -12,-34 -41,-41 c29,-7 34,-12 41,-41 Z" opacity="0.92"/>
+    <circle cx="664" cy="166" r="8" opacity="0.7"/>
+  </g>
+
+  <!-- 文字标识 ZeroCraft -->
+  <text x="512" y="812" text-anchor="middle"
+        font-family="DejaVu Sans, sans-serif" font-weight="bold" font-size="150"
+        letter-spacing="2" fill="#FFFFFF">ZeroCraft</text>
+  <text x="512" y="892" text-anchor="middle"
+        font-family="DejaVu Sans, sans-serif" font-weight="bold" font-size="52"
+        letter-spacing="14" fill="#FFFFFF" opacity="0.66">GAME MAKER</text>
+</svg>
