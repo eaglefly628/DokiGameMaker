@@ -32,11 +32,11 @@
   "localDbFatal": {
     "updateReady": {
       "title": "続行にはアップデートが必要です",
-      "description": "ローカルデータは新しいバージョンの Cindy によって更新されているため、現在のバージョンでは開けません。新しいバージョンのダウンロードは完了しています。再起動してインストールすると復旧します。",
+      "description": "ローカルデータは新しいバージョンの ZeroCraft によって更新されているため、現在のバージョンでは開けません。新しいバージョンのダウンロードは完了しています。再起動してインストールすると復旧します。",
       "confirm": "再起動してアップデート"
     },
     "preparing": {
-      "description": "ローカルデータは新しいバージョンの Cindy によって更新されているため、現在のバージョンでは開けません。新しいバージョンを取得しています。しばらくお待ちください…",
+      "description": "ローカルデータは新しいバージョンの ZeroCraft によって更新されているため、現在のバージョンでは開けません。新しいバージョンを取得しています。しばらくお待ちください…",
       "progress": "ダウンロード済み {{progress}}%"
     },
     "noUpdate": {
@@ -437,16 +437,16 @@
         "hint": "初回に確認します。後からここで変更できます。",
         "aria": "メインウィンドウを閉じるときの動作を選択",
         "tray": "トレイに最小化",
-        "quit": "Cindy を終了"
+        "quit": "ZeroCraft を終了"
       },
       "closePrompt": {
-        "title": "Cindy を閉じる",
+        "title": "ZeroCraft を閉じる",
         "message": "メインウィンドウを閉じるときの動作を選択してください。",
         "detail": "システムトレイに最小化すると、タスクは実行を続けます。後から設定で変更できます。"
       },
       "trayMenu": {
-        "show": "Cindy を開く",
-        "quit": "Cindy を終了"
+        "show": "ZeroCraft を開く",
+        "quit": "ZeroCraft を終了"
       },
       "trayError": {
         "title": "トレイに最小化できません",
@@ -550,8 +550,8 @@
       "local": {
         "exitFailed": "ローカルモードの終了に失敗しました。もう一度お試しください",
         "name": "ローカルモード",
-        "description": "データはこの端末だけに保存され、Cindy アカウントサービスは使用しません",
-        "signIn": "Cindy にログイン",
+        "description": "データはこの端末だけに保存され、ZeroCraft アカウントサービスは使用しません",
+        "signIn": "ZeroCraft にログイン",
         "exit": "ローカルモードを終了"
       },
       "copyUserId": {
@@ -647,14 +647,14 @@
       "autoUpdateDisabledToast": "アイドル時の更新インストールを無効にしました",
       "autoUpdateSaveFailed": "自動更新設定を保存できませんでした",
       "analyticsLabel": "利用統計",
-      "analyticsDescription": "Cindy の起動状況や継続利用状況の把握に使います。送信するのはデバイスの機種名、OS バージョン、アプリバージョン、デバイス識別子などのデバイス・利用環境情報と、ログイン後はアカウント ID で、会話内容・ファイル・プロンプトは一切含みません。オフにすると送信は直ちに停止します。",
+      "analyticsDescription": "ZeroCraft の起動状況や継続利用状況の把握に使います。送信するのはデバイスの機種名、OS バージョン、アプリバージョン、デバイス識別子などのデバイス・利用環境情報と、ログイン後はアカウント ID で、会話内容・ファイル・プロンプトは一切含みません。オフにすると送信は直ちに停止します。",
       "analyticsEnabledToast": "利用統計を有効にしました",
       "analyticsDisabledToast": "利用統計を無効にしました",
       "analyticsSaveFailed": "利用統計の設定を保存できませんでした",
       "debugLogLabel": "デバッグログ",
       "debugLogDescription": "有効にすると詳細なデバッグログを出力します:main/maker logger が debug レベルになり、新しい Claude Code セッションは API リクエスト URL/ステータス/レイテンシ、Node レベルの DNS/TCP/TLS ハンドシェイクのタイミング、SDK 内部情報も出力します。ログ量が大きいため、調査が終わったらオフにしてください。dev モードでは常に有効です。",
       "social": {
-        "title": "Cindy とつながる",
+        "title": "ZeroCraft とつながる",
         "discordLabel": "Discord",
         "discordDescription": "コミュニティに参加",
         "xLabel": "X",
@@ -715,15 +715,15 @@
       },
       "serviceSource": {
         "label": "音声サービス",
-        "hint": "既定では Cindy 音声サービスを使用します。リアルタイム ASR 対応サービスと専用の音声認証情報に切り替えることもできます。",
-        "localHint": "ローカルモードでは Cindy アカウントサービスを使用しません。リアルタイム ASR 対応サービスと専用の音声認証情報を設定してください。",
+        "hint": "既定では ZeroCraft 音声サービスを使用します。リアルタイム ASR 対応サービスと専用の音声認証情報に切り替えることもできます。",
+        "localHint": "ローカルモードでは ZeroCraft アカウントサービスを使用しません。リアルタイム ASR 対応サービスと専用の音声認証情報を設定してください。",
         "ariaLabel": "音声サービスソースの選択",
         "options": {
-          "cindy": "Cindy 公式サービス",
+          "cindy": "ZeroCraft 公式サービス",
           "byok": "カスタム音声サービス"
         },
         "optionDescriptions": {
-          "cindy": "Cindy のログイン情報を使用し、キーの設定は不要です",
+          "cindy": "ZeroCraft のログイン情報を使用し、キーの設定は不要です",
           "byok": "ASR 対応サービスと専用の音声認証情報を使用します"
         },
         "asr": {
@@ -762,7 +762,7 @@
         "customAsr": {
           "optionLabel": "カスタムリアルタイム ASR",
           "optionDescription": "専用の音声認識 WebSocket と API キーを使用",
-          "notice": "ASR 対応サービスが提供する完全な WebSocket URL を入力してください。Cindy はチャットモデルの URL を再利用せず、音声用パスも追加しません。",
+          "notice": "ASR 対応サービスが提供する完全な WebSocket URL を入力してください。ZeroCraft はチャットモデルの URL を再利用せず、音声用パスも追加しません。",
           "protocol": {
             "label": "リアルタイムプロトコル",
             "hint": "ASR サービスが実装しているメッセージ形式を選択します。",
@@ -1051,12 +1051,12 @@
           "binaryMissing": "Codex コンポーネントが利用できません。アプリを再起動してください"
         },
         "apiMode": {
-          "label": "API モード (Cindy AI 経由)",
-          "description": "オンにすると Codex はサブスクではなく、モデルプロバイダーの Cindy AI Key を使用します。",
-          "noKey": "Cindy AI Key が未設定です。モデルプロバイダーで Cindy AI を接続してください",
+          "label": "API モード (ZeroCraft AI 経由)",
+          "description": "オンにすると Codex はサブスクではなく、モデルプロバイダーの ZeroCraft AI Key を使用します。",
+          "noKey": "ZeroCraft AI Key が未設定です。モデルプロバイダーで ZeroCraft AI を接続してください",
           "noKeyDialog": {
             "title": "API Key が未設定です",
-            "description": "API モードは Cindy AI Key を再利用しますが、まだ設定されていません。モデルプロバイダーで Cindy AI を接続すると有効化できます。"
+            "description": "API モードは ZeroCraft AI Key を再利用しますが、まだ設定されていません。モデルプロバイダーで ZeroCraft AI を接続すると有効化できます。"
           },
           "badge": {
             "api": "● API",
@@ -1064,7 +1064,7 @@
           },
           "expandAria": "Codex API モード設定を展開 / 折りたたむ",
           "toggleAria": "Codex API モードを切り替え",
-          "sharedKeyWarning": "Cindy AI と Key を共有 — 削除/変更すると Claude にも影響します",
+          "sharedKeyWarning": "ZeroCraft AI と Key を共有 — 削除/変更すると Claude にも影響します",
           "toast": {
             "toggleFailed": "API モードの切り替えに失敗しました。再試行してください"
           }
@@ -1099,7 +1099,7 @@
         },
         "logoutConfirm": {
           "title": "Claude.ai サブスクリプションを切断しますか？",
-          "description": "切断するとこの端末の Claude Code のログイン資格情報が削除されます（ローカルの `claude` CLI もログアウトされます）。サブスクリプションモード中の場合は Cindy AI に自動的に戻ります。復元するには再度認証が必要です。",
+          "description": "切断するとこの端末の Claude Code のログイン資格情報が削除されます（ローカルの `claude` CLI もログアウトされます）。サブスクリプションモード中の場合は ZeroCraft AI に自動的に戻ります。復元するには再度認証が必要です。",
           "confirm": "切断",
           "cancel": "キャンセル"
         },
@@ -1112,13 +1112,13 @@
           "needAuth": "先に Claude.ai にログイン認証してください"
         },
         "apiMode": {
-          "label": "API モード（Cindy AI 経由）",
-          "description": "オンにすると Claude は Cindy AI の共有 Key を使用します（デフォルト）。オフにすると Anthropic ネイティブモデル（Claude）はあなたのサブスクリプションで api.anthropic.com に直接接続し、それ以外のモデルは引き続き Cindy AI を使用します。",
+          "label": "API モード（ZeroCraft AI 経由）",
+          "description": "オンにすると Claude は ZeroCraft AI の共有 Key を使用します（デフォルト）。オフにすると Anthropic ネイティブモデル（Claude）はあなたのサブスクリプションで api.anthropic.com に直接接続し、それ以外のモデルは引き続き ZeroCraft AI を使用します。",
           "toggleAria": "Claude API モードを切り替え",
-          "sharedKeyWarning": "Cindy AI と Key を共有 — API モードをオフにしても Claude 以外のモデルには Cindy AI が必要です",
+          "sharedKeyWarning": "ZeroCraft AI と Key を共有 — API モードをオフにしても Claude 以外のモデルには ZeroCraft AI が必要です",
           "noKeyDialog": {
             "title": "API Key が未設定です",
-            "description": "API モードをオフ（サブスクリプション）にしても、Claude 以外のモデル（gpt / deepseek など）には Cindy AI Key を再利用しますが、まだ設定されていません。モデルプロバイダーで Cindy AI を接続してください。"
+            "description": "API モードをオフ（サブスクリプション）にしても、Claude 以外のモデル（gpt / deepseek など）には ZeroCraft AI Key を再利用しますが、まだ設定されていません。モデルプロバイダーで ZeroCraft AI を接続してください。"
           },
           "toast": {
             "toggleFailed": "API モードの切り替えに失敗しました。再試行してください"
@@ -1160,13 +1160,13 @@
         "billingLabel": "SuperGrok サブスク直結"
       },
       "xd": {
-        "title": "Cindy AI",
+        "title": "ZeroCraft AI",
         "subtitle": "すべてのモデル · Claude Code / Codex 共通 · トークン課金",
         "modelLabel": "すべてのモデル",
         "billingLabel": "トークン課金",
         "disconnectConfirm": {
-          "title": "Cindy AI を切断しますか?",
-          "description": "切断するとローカルに保存された Cindy AI Key が削除されます。Cindy AI のモデルを引き続き使うには再接続が必要です。"
+          "title": "ZeroCraft AI を切断しますか?",
+          "description": "切断するとローカルに保存された ZeroCraft AI Key が削除されます。ZeroCraft AI のモデルを引き続き使うには再接続が必要です。"
         },
         "sync": {
           "syncing": "認証情報を取得中…",
@@ -1180,7 +1180,7 @@
           "modelsFetchFailed": "モデル一覧を取得できませんでした。ネットワークを確認して、もう一度お試しください。"
         },
         "rotateConfirm": {
-          "title": "Cindy AI Key をローテーションしますか?",
+          "title": "ZeroCraft AI Key をローテーションしますか?",
           "description": "現在のキーを失効させ、新しいキーを発行します。旧キーは即時無効になります:旧キーを使用中のセッション、リモートセッション、モバイル音声はやり直しが必要です。",
           "confirm": "ローテーション"
         },
@@ -1222,15 +1222,15 @@
         },
         "wireProtocol": {
           "responses": "OpenAI Responses（ネイティブ）",
-          "chat": "Chat Completions（Cindy ブリッジ）",
-          "responsesHelp": "プロバイダーが Responses API をネイティブ対応しているため、Cindy はイベントストリームをそのまま転送します。",
-          "chatHelp": "Chat Completions のみを提供するプロバイダー向けです。Cindy がストリーミングテキストと関数ツール呼び出しを変換します。一部の高度な Responses 機能は利用できません。"
+          "chat": "Chat Completions（ZeroCraft ブリッジ）",
+          "responsesHelp": "プロバイダーが Responses API をネイティブ対応しているため、ZeroCraft はイベントストリームをそのまま転送します。",
+          "chatHelp": "Chat Completions のみを提供するプロバイダー向けです。ZeroCraft がストリーミングテキストと関数ツール呼び出しを変換します。一部の高度な Responses 機能は利用できません。"
         },
         "protocol": {
           "claude": "Claude Code",
           "claudeDesc": "Claude Code は Anthropic プロトコルに従います（x-api-key で認証）。この提供元の Claude Code 用 baseURL・キー・モデルを入力します。空欄にするとこの提供元は Claude Code を提供しません。",
           "codex": "Codex",
-          "codexDesc": "Codex は OpenAI Responses プロトコルを使用します。Responses ネイティブの上流、または Chat Completions のみを提供するプロバイダーを Cindy でブリッジする方式を選べます。このプロバイダーの Codex 用ベース URL・キー・モデルを入力します。空欄にすると Codex では利用しません。"
+          "codexDesc": "Codex は OpenAI Responses プロトコルを使用します。Responses ネイティブの上流、または Chat Completions のみを提供するプロバイダーを ZeroCraft でブリッジする方式を選べます。このプロバイダーの Codex 用ベース URL・キー・モデルを入力します。空欄にすると Codex では利用しません。"
         },
         "errors": {
           "nameRequired": "表示名を入力してください",
@@ -1360,7 +1360,7 @@
         "authorizeFailed": "「{{name}}」の認証に失敗しました。もう一度お試しください",
         "nameLabel": "表示名",
         "onlyAgentNote": "このプロバイダーは {{agent}} のみ対応です",
-        "bridgedNote": "Cindy ブリッジ（Chat Completions）",
+        "bridgedNote": "ZeroCraft ブリッジ（Chat Completions）",
         "docsLink": "接続ドキュメントを見る",
         "fetching": "接続を確認してモデル一覧を取得しています…",
         "fetchFailed": "モデル一覧を取得できませんでした。プリセットの推奨モデルで追加を完了し、あとで詳細から更新できます",
@@ -1378,8 +1378,8 @@
       },
       "xdSignin": {
         "badge": "おすすめ",
-        "desc": "Cindy にサインインすると公式 Cindy AI サービスが有効になります。全モデルがすぐ使え、キー管理は不要です。",
-        "cta": "Cindy にサインイン"
+        "desc": "ZeroCraft にサインインすると公式 ZeroCraft AI サービスが有効になります。全モデルがすぐ使え、キー管理は不要です。",
+        "cta": "ZeroCraft にサインイン"
       }
     },
     "experimental": {
@@ -1534,24 +1534,24 @@
       "title": "メモリ",
       "description": "ワークスペース単位のメモリを実現します。設定を変更したら、新しい Session を開始してから反映されます。メモリに問題があれば Reset するか OFF にしてください。",
       "maker": {
-        "label": "Cindy",
+        "label": "ZeroCraft",
         "description": "メモリはモデルごとではなく Agent の入口ごとに管理されます。同じ作業ディレクトリでは、Claude Code と Codex の入口から開始した Session がメモリを共有します",
-        "toggleAria": "Cindy メモリを切り替え",
-        "resetAria": "Cindy メモリをリセット",
+        "toggleAria": "ZeroCraft メモリを切り替え",
+        "resetAria": "ZeroCraft メモリをリセット",
         "resetConfirm": {
-          "title": "Cindy メモリをリセットしますか？",
-          "description": "すべてのプロジェクトの Cindy メモリを完全に削除します（user-data 配下に保存、リポジトリ内ではありません）。この操作は取り消せません。",
+          "title": "ZeroCraft メモリをリセットしますか？",
+          "description": "すべてのプロジェクトの ZeroCraft メモリを完全に削除します（user-data 配下に保存、リポジトリ内ではありません）。この操作は取り消せません。",
           "confirm": "リセット",
           "cancel": "キャンセル"
         },
         "toast": {
-          "enabled": "Cindy メモリを有効化しました",
-          "disabled": "Cindy メモリを無効化しました",
+          "enabled": "ZeroCraft メモリを有効化しました",
+          "disabled": "ZeroCraft メモリを無効化しました",
           "deferredSuffix": " — 実行中の Codex セッションには現在のタスク終了後に適用されます",
-          "toggleFailed": "Cindy メモリの切り替えに失敗しました",
-          "resetSuccess_one": "Cindy メモリをリセットしました — {{count}} 件の作業ディレクトリを削除",
-          "resetSuccess_other": "Cindy メモリをリセットしました — {{count}} 件の作業ディレクトリを削除",
-          "resetFailed": "Cindy メモリのリセットに失敗しました"
+          "toggleFailed": "ZeroCraft メモリの切り替えに失敗しました",
+          "resetSuccess_one": "ZeroCraft メモリをリセットしました — {{count}} 件の作業ディレクトリを削除",
+          "resetSuccess_other": "ZeroCraft メモリをリセットしました — {{count}} 件の作業ディレクトリを削除",
+          "resetFailed": "ZeroCraft メモリのリセットに失敗しました"
         }
       },
       "agents": {
@@ -1707,7 +1707,7 @@
           "openForLoginFailed": "ブラウザを開けませんでした"
         },
         "openForLogin": "Agent 専用ブラウザを開く",
-        "openForLoginHint": "これはエージェント専用の独立したブラウザです。お使いの Chrome を利用しますが、プロファイルは完全に独立しており（右上に「Cindy」と表示）、普段の Chrome のタブ・ブックマーク・ログイン状態には一切影響しません。エージェントはこのブラウザであなたの代わりにページを開き、読み、クリックし、スクリーンショットを撮ります。ログインが必要なサイトは、上の「Agent 専用ブラウザを開く」から一度ログインすれば、ログイン状態が保持され、以降はエージェントがあなたとして操作を続けられます。"
+        "openForLoginHint": "これはエージェント専用の独立したブラウザです。お使いの Chrome を利用しますが、プロファイルは完全に独立しており（右上に「ZeroCraft」と表示）、普段の Chrome のタブ・ブックマーク・ログイン状態には一切影響しません。エージェントはこのブラウザであなたの代わりにページを開き、読み、クリックし、スクリーンショットを撮ります。ログインが必要なサイトは、上の「Agent 専用ブラウザを開く」から一度ログインすれば、ログイン状態が保持され、以降はエージェントがあなたとして操作を続けられます。"
       },
       "browserBackend": {
         "title": "自動操作のブラウザ対象",
@@ -1823,9 +1823,9 @@
           "draggingHint": "「{{permission}}」の一覧にドロップ",
           "appName": "CuaDriver",
           "turnOnTitle": "「{{permission}}」をオンにする",
-          "turnOnDescription": "システム設定でこの権限をオンにしてください。Cindy が自動的に続行します。",
+          "turnOnDescription": "システム設定でこの権限をオンにしてください。ZeroCraft が自動的に続行します。",
           "readyTitle": "Computer Use の準備ができました",
-          "readyDescription": "必要なときに Cindy がこのコンピュータを操作できます。"
+          "readyDescription": "必要なときに ZeroCraft がこのコンピュータを操作できます。"
         },
         "permissions": {
           "title": "システム権限",
@@ -1893,7 +1893,7 @@
         "user": "ユーザーデフォルト",
         "userTooltip": "新しい会話のデフォルトを継承",
         "product": "製品デフォルト",
-        "productTooltip": "Cindy の製品デフォルトを継承"
+        "productTooltip": "ZeroCraft の製品デフォルトを継承"
       },
       "toast": {
         "enabled": "{{name}} を有効化しました — 次回セッションから反映",
@@ -1919,11 +1919,11 @@
           "description": "タスクスケジューリング — cron 定期ジョブとワンショットリマインダー"
         },
         "memory": {
-          "name": "Cindy メモリ",
+          "name": "ZeroCraft メモリ",
           "description": "セッションをまたいでコンテキストを保持する Agent 横断の長期メモリ"
         },
         "xdt_helper": {
-          "name": "Cindy Helper",
+          "name": "ZeroCraft Helper",
           "description": "ホスト機能の開示 — 利用可能なツールとモデルを Agent に伝える"
         },
         "collab": {
@@ -1970,11 +1970,11 @@
       "sections": {
         "myDevices": "マイデバイス",
         "ssh": "SSH リモートホスト",
-        "hook": "Cindy IM ボット"
+        "hook": "ZeroCraft IM ボット"
       },
       "hook": {
-        "description": "Slack と Telegram を同じ Cindy に接続します。メッセージはこのデバイスに送られ、プロジェクト一覧とセッション実行基盤を共有します。アカウント連携と設定はプロバイダーごとに分離されます。",
-        "slackDescription": "Slack ワークスペースを連携し、Slack から Cindy にタスクを依頼できます。",
+        "description": "Slack と Telegram を同じ ZeroCraft に接続します。メッセージはこのデバイスに送られ、プロジェクト一覧とセッション実行基盤を共有します。アカウント連携と設定はプロバイダーごとに分離されます。",
+        "slackDescription": "Slack ワークスペースを連携し、Slack から ZeroCraft にタスクを依頼できます。",
         "slackDisabledHint": "スイッチをオンにすると Slack 認証が始まります。連携が完了すると Slack からタスクを依頼できます。",
         "slackBoundHint": "連携が完了しました。スイッチをオフにすると連携が解除され、再びオンにするには再認証が必要です。",
         "toggleAria": "Slack 接続の有効状態を切り替え",
@@ -2013,17 +2013,17 @@
           "actionFailed": "操作に失敗しました"
         },
         "loginRequired": "先に {{appName}} アカウントにログインしてください。ログイン後、接続は自動的に復旧します。",
-        "standbyHint": "このコンピューター上の別の Cindy インスタンスが Slack 接続を使用しています。それを閉じてから、このスイッチをもう一度オンにすると引き継げます。",
+        "standbyHint": "このコンピューター上の別の ZeroCraft インスタンスが Slack 接続を使用しています。それを閉じてから、このスイッチをもう一度オンにすると引き継げます。",
         "authorizing": "認可中…",
         "statusBound": "連携済み @{{name}}",
         "statusBoundTeam": "{{team}} に連携済み @{{name}}",
         "statusUnbound": "未連携",
         "notInstalled": {
-          "title": "認証した Slack ワークスペースに Cindy アプリがインストールされていません",
-          "hint": "bot がメッセージの送受信やタスク配信を行うには、まず Cindy アプリをワークスペースにインストールしてください。インストール後、スイッチをもう一度オンにするとバインドが完了します。",
+          "title": "認証した Slack ワークスペースに ZeroCraft アプリがインストールされていません",
+          "hint": "bot がメッセージの送受信やタスク配信を行うには、まず ZeroCraft アプリをワークスペースにインストールしてください。インストール後、スイッチをもう一度オンにするとバインドが完了します。",
           "status": "アプリのインストール待ち",
-          "confirmTitle": "Slack ワークスペースに Cindy アプリをインストール",
-          "confirmDescription": "認証した Slack ワークスペースには Cindy アプリがインストールされていません。bot がメッセージの送受信やタスク配信を行うにはインストールが必要です。今すぐインストールしますか?インストール完了後、バインドは自動的に完了します。",
+          "confirmTitle": "Slack ワークスペースに ZeroCraft アプリをインストール",
+          "confirmDescription": "認証した Slack ワークスペースには ZeroCraft アプリがインストールされていません。bot がメッセージの送受信やタスク配信を行うにはインストールが必要です。今すぐインストールしますか?インストール完了後、バインドは自動的に完了します。",
           "confirmInstall": "インストール",
           "confirmCancel": "キャンセル",
           "waitingHint": "インストールの完了を待っています…完了するとバインドは自動的に行われ、再認証は不要です。"
@@ -2048,7 +2048,7 @@
           "alreadyBound": "認可されたのはすでに連携済みの {{team}} です。別のワークスペースを追加するには、Slack の認可ページ右上でワークスペースを切り替えてから許可してください。"
         },
         "telegram": {
-          "description": "Telegram アカウントを連携し、公式 bot 経由で Cindy にタスクを依頼できます。",
+          "description": "Telegram アカウントを連携し、公式 bot 経由で ZeroCraft にタスクを依頼できます。",
           "disabledHint": "スイッチをオンにして、Telegram 内の案内に従ってアカウント連携を完了してください。",
           "toggleAria": "Telegram 接続を切り替える",
           "connect": "Telegram と連携",
@@ -2177,7 +2177,7 @@
         "personal": "個人"
       },
       "tips": {
-        "cindy": "Cindy は公式提供の共有ボットです。認証情報の申請は不要で、Slack を連携して @Cindy にメンションするだけでタスクを任せられます。",
+        "cindy": "ZeroCraft は公式提供の共有ボットです。認証情報の申請は不要で、Slack を連携して @ZeroCraft にメンションするだけでタスクを任せられます。",
         "personal": "個人ボットは自分で申請した認証情報で Feishu / Discord に接続します。ボットは完全に自分専用ですが、アプリの作成と設定の入力が必要です。",
         "personalFeishuOnly": "個人ボットは自分で申請した認証情報で Feishu に接続します。ボットは完全に自分専用ですが、アプリの作成と設定の入力が必要です。"
       },
@@ -2295,14 +2295,14 @@
     },
     "ghosts": {
       "title": "プラグイン",
-      "description": "Cindy の機能を広げるツールと連携。",
+      "description": "ZeroCraft の機能を広げるツールと連携。",
       "page": {
         "search": "プラグインを検索",
         "clearSearch": "プラグイン検索をクリア",
         "addPlugin": "プラグインを追加",
         "addPluginAria": "プラグイン追加オプション",
-        "createWithCindy": "Cindy で作成",
-        "createPrompt": "Cindy プラグインを作成したいです。まず ghost_forge_guide を呼び出して完全な仕様を読み、すぐに実装を始めないでください。質問から始め、毎回一つの重要な判断に集中しながら、解決する課題、対象ユーザー、操作フロー、必要なツールと接続、権限の境界、受け入れ条件を段階的に確認してください。設計を確認した後、仕様に沿って実装と検証を行い、最後に ghost_forge_pack を呼び出してプラグインをパッケージ化し、インストールしてください。",
+        "createWithZeroCraft": "ZeroCraft で作成",
+        "createPrompt": "ZeroCraft プラグインを作成したいです。まず ghost_forge_guide を呼び出して完全な仕様を読み、すぐに実装を始めないでください。質問から始め、毎回一つの重要な判断に集中しながら、解決する課題、対象ユーザー、操作フロー、必要なツールと接続、権限の境界、受け入れ条件を段階的に確認してください。設計を確認した後、仕様に沿って実装と検証を行い、最後に ghost_forge_pack を呼び出してプラグインをパッケージ化し、インストールしてください。",
         "installedTitle": "インストール済みプラグイン",
         "installedExpand": "インストール済みプラグインをさらに {{count}} 件表示",
         "installedCollapse": "追加のインストール済みプラグインを隠す",
@@ -2337,7 +2337,7 @@
         "installed": "インストール済み",
         "conflict": "プラグイン ID の競合",
         "unavailable": "プラグインマーケットを一時的に利用できません。インストール済みプラグインは引き続き利用できます。",
-        "authenticationRequired": "プラグインマーケットを表示するには Cindy にログインしてください。",
+        "authenticationRequired": "プラグインマーケットを表示するには ZeroCraft にログインしてください。",
         "notConfigured": "この環境ではプラグインマーケットが設定されていません。インストール済みプラグインは引き続き利用できます。",
         "errors": {
           "generic": "プラグインマーケットの操作に失敗しました。もう一度お試しください。",
@@ -2347,7 +2347,7 @@
           "stateChanged": "操作中にアカウント、プラグイン、またはリリースが変更されました。最新の状態を確認して、もう一度お試しください。",
           "accessDenied": "このプラグイン操作は許可されていないか、キャンセルされました。",
           "notConfigured": "この環境ではプラグインマーケットを利用できません。",
-          "invalidPackage": "このプラグインパッケージは無効か、現在の Cindy バージョンではサポートされていません。"
+          "invalidPackage": "このプラグインパッケージは無効か、現在の ZeroCraft バージョンではサポートされていません。"
         },
         "securityTitle": "インストールと権限",
         "securityDescription": "メインプロセスでサイズと SHA-256、プラグインマニフェストを検証してからアトミックにインストールします。権限を確認して有効にするまで、新規プラグインは無効のままです。",
@@ -2366,9 +2366,9 @@
         "partial": "{{count}} 個の旧プラグインディレクトリを検出しました。一部を自動復元できなかったため、再試行できます。",
         "partial_one": "{{count}} 個の旧プラグインディレクトリを検出しました。一部を自動復元できなかったため、再試行できます。",
         "partial_other": "{{count}} 個の旧プラグインディレクトリを検出しました。一部を自動復元できなかったため、再試行できます。",
-        "partialBlocked": "{{count}} 個の旧プラグインディレクトリを検出しましたが、Cindy は安全に自動復元できませんでした。データは変更せず保持されています。",
-        "partialBlocked_one": "{{count}} 個の旧プラグインディレクトリを検出しましたが、Cindy は安全に自動復元できませんでした。データは変更せず保持されています。",
-        "partialBlocked_other": "{{count}} 個の旧プラグインディレクトリを検出しましたが、Cindy は安全に自動復元できませんでした。データは変更せず保持されています。",
+        "partialBlocked": "{{count}} 個の旧プラグインディレクトリを検出しましたが、ZeroCraft は安全に自動復元できませんでした。データは変更せず保持されています。",
+        "partialBlocked_one": "{{count}} 個の旧プラグインディレクトリを検出しましたが、ZeroCraft は安全に自動復元できませんでした。データは変更せず保持されています。",
+        "partialBlocked_other": "{{count}} 個の旧プラグインディレクトリを検出しましたが、ZeroCraft は安全に自動復元できませんでした。データは変更せず保持されています。",
         "claimedByOtherOwner": "{{count}} 個の旧プラグインディレクトリを検出しましたが、このデータは最初に取得したアカウントに属します。元のアカウントに戻って復元してください。",
         "claimedByOtherOwner_one": "{{count}} 個の旧プラグインディレクトリを検出しましたが、このデータは最初に取得したアカウントに属します。元のアカウントに戻って復元してください。",
         "claimedByOtherOwner_other": "{{count}} 個の旧プラグインディレクトリを検出しましたが、このデータは最初に取得したアカウントに属します。元のアカウントに戻って復元してください。",
@@ -2430,38 +2430,38 @@
         "collapseDescription": "紹介を折りたたむ"
       },
       "trust": {
-        "official": "Cindy 公式プラグイン",
-        "officialDetail": "Cindy に同梱されています。",
+        "official": "ZeroCraft 公式プラグイン",
+        "officialDetail": "ZeroCraft に同梱されています。",
         "reviewed": "発行元を確認済み · このバージョンは審査済み",
-        "reviewedDetail": "署名は有効で、Cindy の審査署名がこの正確なバージョンの全ファイルに対応しています。",
+        "reviewedDetail": "署名は有効で、ZeroCraft の審査署名がこの正確なバージョンの全ファイルに対応しています。",
         "verifiedPublisher": "確認済みの発行元:{{publisher}}",
-        "verifiedPublisherDetail": "署名は有効でファイルは変更されていませんが、この正確なバージョンには Cindy の審査署名がありません。",
+        "verifiedPublisherDetail": "署名は有効でファイルは変更されていませんが、この正確なバージョンには ZeroCraft の審査署名がありません。",
         "signedUnverified": "署名あり・発行元の身元は未確認:{{publisher}}",
-        "signedUnverifiedDetail": "ファイルが変更されていないことは確認できますが、現在の Cindy はこの発行元キーを認識していません。",
+        "signedUnverifiedDetail": "ファイルが変更されていないことは確認できますが、現在の ZeroCraft はこの発行元キーを認識していません。",
         "unsigned": "未確認 / 署名なし",
         "unsignedDetail": "配布元と、配布後に変更されたかどうかを確認できません。",
         "unknownPublisher": "不明な発行元",
-        "unknownReviewerDetail": "審査情報はありますが、現在の Cindy は審査キーを認識していないため、審査済みとは表示しません。"
+        "unknownReviewerDetail": "審査情報はありますが、現在の ZeroCraft は審査キーを認識していないため、審査済みとは表示しません。"
       },
       "perm": {
         "grantsTitle": "インストール後に持つ権限:",
         "toolsGroup": "登録ツール",
         "itemCount": "{{count}} 件",
-        "cindyImageGenerate": "画像生成(Cindy に代行依頼)",
-        "cindyImageEdit": "画像編集(Cindy に代行依頼、自身が生成した画像のみ)",
-        "cindyVideoGenerate": "動画生成(Cindy に代行依頼)",
-        "cindyVideoEdit": "画像から動画(Cindy に代行依頼、参照画像は自身名義のもののみ)",
+        "cindyImageGenerate": "画像生成(ZeroCraft に代行依頼)",
+        "cindyImageEdit": "画像編集(ZeroCraft に代行依頼、自身が生成した画像のみ)",
+        "cindyVideoGenerate": "動画生成(ZeroCraft に代行依頼)",
+        "cindyVideoEdit": "画像から動画(ZeroCraft に代行依頼、参照画像は自身名義のもののみ)",
         "agentUserAction": "プラグインカードをクリックした後、Agent の新しいターンを開始できます",
         "agentUserActionDetail": "1 回のクリックにつき 1 回だけ開始でき、そのカードが属するセッションでのみ使用できます。",
         "agentBackground": "バックグラウンドで Agent の新しいターンを自動的に開始できます",
         "agentBackgroundDetail": "毎回のクリックは不要ですが、以前このプラグインに関連付けたセッションでのみ使用できます。モデル料金が発生する場合があります。",
         "nodeRuntime": "同梱された Node プログラムをこのコンピューターで実行できます",
         "nodeMcp": "同梱された stdio MCP をこのコンピューターで実行できます",
-        "nodeRuntimeDetail": "高リスク:あなたのユーザーアカウントと同じ権限で、ローカルファイルの読み書き、ネットワークアクセス、他のプログラムの起動ができます。Cindy のブラウザーサンドボックスでは隔離できません。",
+        "nodeRuntimeDetail": "高リスク:あなたのユーザーアカウントと同じ権限で、ローカルファイルの読み書き、ネットワークアクセス、他のプログラムの起動ができます。ZeroCraft のブラウザーサンドボックスでは隔離できません。",
         "nodeSecret": "保存済みの認証情報「{{name}}」をローカル Node プログラムに渡せます",
-        "nodeSecretDetail": "Cindy は暗号化して保管し、以下で宣言された Worker メソッドの実行時だけ一時的に注入します。Node プログラムは平文を受け取り、ブラウザー側のプラグインコードや Agent パラメーターへ返したり、ログやファイルに保存したりできるため、信頼できるプラグインだけをインストールしてください。",
+        "nodeSecretDetail": "ZeroCraft は暗号化して保管し、以下で宣言された Worker メソッドの実行時だけ一時的に注入します。Node プログラムは平文を受け取り、ブラウザー側のプラグインコードや Agent パラメーターへ返したり、ログやファイルに保存したりできるため、信頼できるプラグインだけをインストールしてください。",
         "nodeResident": "Node プログラムをバックグラウンドで常駐実行できます",
-        "nodeResidentDetail": "プラグインが有効な間は実行を続け、無効化、更新、アンインストール、または Cindy 終了時に停止します。",
+        "nodeResidentDetail": "プラグインが有効な間は実行を続け、無効化、更新、アンインストール、または ZeroCraft 終了時に停止します。",
         "tool": "ツール「{{name}}」",
         "command": "チャット指令 ${{command}}",
         "panelLeft": "パネル「{{title}}」· チャットの左側にドッキング",
@@ -2498,7 +2498,7 @@
         "unchanged": "他 {{count}} 件の権限は変更なし",
         "noChange": "権限に変更はありません。",
         "pick": "フォルダの選択をあなたに依頼できます",
-        "pickDetail": "依頼があると、Cindy がシステムのフォルダ選択ウィンドウを表示します。どのフォルダを渡すかはあなたが直接決め、キャンセルすれば何も渡りません。",
+        "pickDetail": "依頼があると、ZeroCraft がシステムのフォルダ選択ウィンドウを表示します。どのフォルダを渡すかはあなたが直接決め、キャンセルすれば何も渡りません。",
         "workspace": "プロジェクトフォルダのセッション入口をサイドバーに作成するよう依頼できます",
         "workspaceDetail": "依頼があると、あなたが直接フォルダを選ぶか、確認カードでフルパスを見てから許可を決めます。あなたが開始した呼び出しの処理中は、現在のセッションの作業ディレクトリ内のサブフォルダは追加確認なしで使用されます。既にセッションがあるフォルダは再利用され、重複作成はされません。作成されるのは空のセッションだけで、勝手にタスクが始まることはありません。",
         "sessionContext": "現在のセッションが使用中のプロジェクトフォルダの場所を知ることができます",
@@ -2552,8 +2552,8 @@
         "updateTitle": "バージョン更新",
         "updateDesc": "新しい .cindy ファイルを選んでその場で置き換えます。有効状態とパネル位置は保持されます。",
         "cindyPrefs": {
-          "title": "Cindy 能力",
-          "desc": "このプラグインが申請した Cindy 代行能力ごとに使用モデルを指定できます。既定ではシステム(内蔵プロキシ)に従います。",
+          "title": "ZeroCraft 能力",
+          "desc": "このプラグインが申請した ZeroCraft 代行能力ごとに使用モデルを指定できます。既定ではシステム(内蔵プロキシ)に従います。",
           "cap": {
             "image.generate": "画像生成",
             "image.edit": "画像編集",
@@ -2588,7 +2588,7 @@
         "panel": "パネル",
         "settingsUi": "カスタム設定画面",
         "code": "実行コード",
-        "slotCindy": "Cindy 代行",
+        "slotZeroCraft": "ZeroCraft 代行",
         "slotAgent": "Agent の新しいターンを開始",
         "slotNode": "ローカル Node プログラム",
         "slotTool": "ツール登録",
@@ -2853,7 +2853,7 @@
     "entryButton": "アカウントを削除",
     "entryAria": "現在のアカウントを削除",
     "introTitle": "アカウントを削除しますか？",
-    "introDescription": "Cindy のログインアカウントの完全削除を予約します。",
+    "introDescription": "ZeroCraft のログインアカウントの完全削除を予約します。",
     "confirmTitle": "アカウント削除の確認",
     "sendCodeButton": "削除確認コードを送信",
     "confirmButton": "アカウントを削除",
@@ -2867,11 +2867,11 @@
       "sms": "SMS"
     },
     "sessionNotice": "確認後、このパソコンはすぐにログアウトします。他のクライアントは、現在のアクセス認証情報が期限切れになり更新を試みた時点でログアウトします。",
-    "gracePeriodNotice": "確認後、アカウントは 30 日間の待機期間に入ります。期間内にログインすると削除を取り消せます。期間終了後、Cindy のログインアカウントは完全に削除されます。",
+    "gracePeriodNotice": "確認後、アカウントは 30 日間の待機期間に入ります。期間内にログインすると削除を取り消せます。期間終了後、ZeroCraft のログインアカウントは完全に削除されます。",
     "verificationNotice": "削除確認コードを{{channel}}で {{target}} に送信します。",
-    "appleRevocationNotice": "Apple でサインインを使用した場合は、Apple ID の設定でも Cindy のアクセス権を取り消してください。",
-    "acknowledgement": "待機期間の終了後、Cindy のログインアカウントが復元できない形で完全に削除されることを理解しました。",
-    "restoredNotice": "アカウント削除は取り消されました。Cindy のログインアカウントは引き続き保持されます。",
+    "appleRevocationNotice": "Apple でサインインを使用した場合は、Apple ID の設定でも ZeroCraft のアクセス権を取り消してください。",
+    "acknowledgement": "待機期間の終了後、ZeroCraft のログインアカウントが復元できない形で完全に削除されることを理解しました。",
+    "restoredNotice": "アカウント削除は取り消されました。ZeroCraft のログインアカウントは引き続き保持されます。",
     "errors": {
       "fallback": "削除リクエストを完了できませんでした。ネットワークを確認して再試行してください。",
       "UNAUTHENTICATED": "ログインの有効期限が切れました。再度ログインしてお試しください。",
@@ -2896,8 +2896,8 @@
       "processingTitle": "アカウントを削除しています",
       "completedTitle": "アカウントを削除しました",
       "pendingCopy": "{{date}} に完全削除される予定です。それまでにログインすると削除を取り消せます。",
-      "processingCopy": "待機期間が終了し、Cindy のログインアカウントを削除しています。",
-      "completedCopy": "Cindy のログインアカウントを削除しました。",
+      "processingCopy": "待機期間が終了し、ZeroCraft のログインアカウントを削除しています。",
+      "completedCopy": "ZeroCraft のログインアカウントを削除しました。",
       "dismissButton": "確認"
     }
   },
@@ -2908,7 +2908,7 @@
     "backToLogin": "ログイン方法に戻る"
   },
   "login": {
-    "title": "Cindy へようこそ",
+    "title": "ZeroCraft へようこそ",
     "subtitle": "安全なログイン方法を選択してください",
     "phonePlaceholder": "電話番号を入力",
     "emailPlaceholder": "メールアドレスを入力",
@@ -2937,11 +2937,11 @@
     "localModeEntry": "ログインをスキップ",
     "localModeOpening": "ローカルモードを開いています…",
     "returnToLocalMode": "ローカルモードに戻る",
-    "localModeDescription": "Cindy アカウントは不要です。データはこのデバイスに保存され、クラウドモデル、デバイス間アクセス、マーケットサービスは利用できません。",
+    "localModeDescription": "ZeroCraft アカウントは不要です。データはこのデバイスに保存され、クラウドモデル、デバイス間アクセス、マーケットサービスは利用できません。",
     "consentStatement": "<terms>利用規約</terms>と<privacy>プライバシーポリシー</privacy>を読み、同意します",
     "consentDialog": {
       "title": "利用規約とプライバシーポリシー",
-      "body": "続行するには、Cindyの<terms>利用規約</terms>と<privacy>プライバシーポリシー</privacy>を確認し、同意してください。",
+      "body": "続行するには、ZeroCraftの<terms>利用規約</terms>と<privacy>プライバシーポリシー</privacy>を確認し、同意してください。",
       "agree": "同意する",
       "disagree": "同意しない"
     },
@@ -3018,10 +3018,10 @@
   "splash": {
     "tips": {
       "checkingUpdate": "更新を確認中…",
-      "updating": "Cindyを更新中…",
+      "updating": "ZeroCraftを更新中…",
       "updateDone": "更新完了、まもなく自動的に再起動します…",
       "checkingEnv": "実行環境を確認中…",
-      "waking": "Cindyを起こしています…",
+      "waking": "ZeroCraftを起こしています…",
       "envFailed": "環境の初期化に失敗しました。クリックして再試行してください"
     },
     "downloadStats": "{{percent}}% · {{speed}} MB/s · {{done}} MB / {{total}} MB",
@@ -3682,19 +3682,19 @@
       "canaryBadge": "Canary ユーザー",
       "viewReleaseNotes": "リリースノートを表示",
       "reopenUpdateBanner": "更新の準備完了 — クリックして確認",
-      "downloadMobile": "Cindy モバイル版をダウンロード"
+      "downloadMobile": "ZeroCraft モバイル版をダウンロード"
     },
     "mobileDownload": {
-      "title": "Cindy をリモート操作",
+      "title": "ZeroCraft をリモート操作",
       "subtitle": "モバイルからデスクトップへ接続",
-      "qrAlt": "Cindy モバイル版ダウンロード用 QR コード",
+      "qrAlt": "ZeroCraft モバイル版ダウンロード用 QR コード",
       "preparing": "QR コードを準備しています…",
       "error": "QR コードを作成できませんでした。しばらくしてからお試しください。",
       "openPage": "ダウンロードページを開く",
       "openFailed": "ダウンロードページを開けませんでした。システムのブラウザー設定を確認してください",
-      "scanToOpen": "スキャンして Cindy アプリを開き、同じアカウントでログイン",
+      "scanToOpen": "スキャンして ZeroCraft アプリを開き、同じアカウントでログイン",
       "scanAnother": "別のデバイスをスキャン",
-      "scanAnotherHint": "別のスマートフォンで Cindy を開く",
+      "scanAnotherHint": "別のスマートフォンで ZeroCraft を開く",
       "myDevices": "自分のデバイス",
       "deviceOffline": "オフライン",
       "allowControl": "同じアカウントのデバイスによるこのマシンの操作を許可",
@@ -3801,7 +3801,7 @@
         "AUTH_CANCELLED": "認証がキャンセルされました。必要に応じてもう一度認証してください。",
         "AUTH_FAILED": "認証を完了できませんでした。もう一度お試しください。",
         "INLINE_INVALID": "設定内容が無効です。内容を確認してもう一度お試しください。",
-        "INLINE_UNAVAILABLE": "このバージョンの Cindy ではチャット内でこの設定を保存できません。Cindy を更新してもう一度お試しください。",
+        "INLINE_UNAVAILABLE": "このバージョンの ZeroCraft ではチャット内でこの設定を保存できません。ZeroCraft を更新してもう一度お試しください。",
         "SAVE_FAILED": "設定を保存できませんでした。もう一度お試しください。",
         "WINDOW_CLOSED": "設定を開始したウィンドウが閉じられました。セッションに戻ってもう一度お試しください。",
         "TARGET_UNAVAILABLE": "プラグインが無効、アンインストール済み、または利用できません。プラグインの状態を確認してもう一度お試しください。",
@@ -4146,7 +4146,7 @@
       "permissionSwitchFailed": "権限モードの変更に失敗したため、以前の設定を維持しました",
       "fullAccessConfirmation": {
         "title": "Full access を有効にしますか？",
-        "description": "Full access はワークスペースのサンドボックスを無効にし、通常の承認を省略します。Cindy はワークスペース外のファイル変更やネットワークコマンドを確認なしで実行できます。組み込みの高リスク操作では引き続き確認が必要です。",
+        "description": "Full access はワークスペースのサンドボックスを無効にし、通常の承認を省略します。ZeroCraft はワークスペース外のファイル変更やネットワークコマンドを確認なしで実行できます。組み込みの高リスク操作では引き続き確認が必要です。",
         "confirm": "Full access を有効にする",
         "cancel": "現在の権限を維持"
       },
@@ -4216,10 +4216,10 @@
       "desc": "利用可能なモデルがまだありません。プロバイダーを接続すると会話を始められます。",
       "recommendedLabel": "おすすめ",
       "cindy": {
-        "title": "Cindy AI",
+        "title": "ZeroCraft AI",
         "desc": "公式サービス · 全モデル · Claude Code / Codex 対応",
-        "loginTitle": "Cindy にサインイン",
-        "loginDesc": "サインインすると公式 Cindy AI サービスが有効になり、全モデルを利用できます"
+        "loginTitle": "ZeroCraft にサインイン",
+        "loginDesc": "サインインすると公式 ZeroCraft AI サービスが有効になり、全モデルを利用できます"
       },
       "othersToggle": "その他のプロバイダー({{count}})",
       "presetSub": "API キーを入力して接続",
@@ -4228,7 +4228,7 @@
       "banner": {
         "text": "利用可能なモデルがありません。プロバイダーを接続すると会話できます。",
         "connectCta": "プロバイダーを接続",
-        "loginCta": "Cindy にサインイン",
+        "loginCta": "ZeroCraft にサインイン",
         "dismissAria": "閉じる"
       },
       "detectedLabel": "検出済み",
@@ -4277,7 +4277,7 @@
     "closeWithShortcut": "閉じて破棄（{{shortcut}}）",
     "codexRequired": "音声入力を使用するには、先に {{appName}} で Codex に接続してください。",
     "apiKeyRequired": "音声入力を使用するには、先に API Key を設定してください。",
-    "cindyServiceUnavailable": "Cindy 音声サービスを利用できません。ネットワークを確認するか、サービス提供元を切り替えてください。",
+    "cindyServiceUnavailable": "ZeroCraft 音声サービスを利用できません。ネットワークを確認するか、サービス提供元を切り替えてください。",
     "asrServiceUnavailable": "音声認識サービスに接続できません。ネットワークを確認してから再試行してください。",
     "emptyTranscript": "音声は検出されましたが、テキストを認識できませんでした。もう一度お試しください。"
   },
@@ -4799,7 +4799,7 @@
       }
     },
     "threadContext": {
-      "cindyFrom": "Cindy · {{platform}} から",
+      "cindyFrom": "ZeroCraft · {{platform}} から",
       "viewThread": "スレッドの文脈を見る ({{count}})"
     },
     "rewind": {
@@ -4850,7 +4850,7 @@
       "REMOTE_DAEMON_CLOSED": "リモート接続が中断されました（daemon がアップグレードまたは再起動中の可能性があります）。ターンが終了しました — 再送信してください。",
       "REMOTE_LOCAL_ATTACHMENT_UNSUPPORTED": "リモートセッションではローカルのファイル/画像の添付にアクセスできません。内容を直接貼り付けてください。",
       "REMOTE_COMPAT_MODE_UNSUPPORTED": "リモート Claude Code セッションはローカル互換プロキシ経由でルーティングできません(内部エラー)。",
-      "REMOTE_GATEWAY_ENDPOINT_UNAVAILABLE": "Cindy AI の資格情報がまだ準備できていません(サインイン後に自動発行されます)。しばらくしてから再試行してください。続く場合は 設定 → モデルプロバイダー で Cindy AI の接続状態を確認してください。",
+      "REMOTE_GATEWAY_ENDPOINT_UNAVAILABLE": "ZeroCraft AI の資格情報がまだ準備できていません(サインイン後に自動発行されます)。しばらくしてから再試行してください。続く場合は 設定 → モデルプロバイダー で ZeroCraft AI の接続状態を確認してください。",
       "DEVICE_LINK_CONTROL_DISABLED": "このデバイスの操作はオフです。メッセージは送信されていません。",
       "DEVICE_LINK_MEDIA_TRANSFER_FAILED": "添付ファイルの転送に失敗しました。メッセージは送信されていません。もう一度お試しください。"
     },
@@ -4984,8 +4984,8 @@
       "markedAsRead_other": "{{count}} 件の実行を既読にしました",
       "markAllReadFailed": "すべて既読の処理に失敗：{{error}}",
       "apiKeyDialog": {
-        "title": "Cindy AI の接続が必要です",
-        "description": "メッセージを送信する前に、モデルプロバイダーで Cindy AI に接続してください。下のボタンで設定画面を開きます",
+        "title": "ZeroCraft AI の接続が必要です",
+        "description": "メッセージを送信する前に、モデルプロバイダーで ZeroCraft AI に接続してください。下のボタンで設定画面を開きます",
         "confirm": "設定を開く",
         "cancel": "キャンセル"
       },
@@ -5834,7 +5834,7 @@
         "aiGenerating": "生成中…",
         "aiDone": "スクリプトを {{path}} に書き込みました。「テスト」で確認することをおすすめします",
         "aiFailure": {
-          "no_candidate": "現在利用できる軽量モデルがありません。OpenAI または Cindy AI に接続してから、もう一度お試しください。",
+          "no_candidate": "現在利用できる軽量モデルがありません。OpenAI または ZeroCraft AI に接続してから、もう一度お試しください。",
           "all_candidates_failed": "すべての軽量モデルへのリクエストが失敗しました。プロバイダー接続を確認してください。",
           "empty_response": "軽量モデルから利用可能な内容が返されませんでした。再試行するか、プロバイダー接続を確認してください。",
           "timeout": "軽量モデルへのリクエストがタイムアウトしました。接続を確認して再試行してください。",
@@ -5846,8 +5846,8 @@
             "modelUnavailable": "選択したモデルはこのプロバイダーでは利用できません",
             "notAuthenticated": "OpenAI へのログインが必要です",
             "authProbeFailed": "OpenAI のログイン状態を確認できません",
-            "apiKeyMissing": "Cindy AI Key を利用できません",
-            "endpointMissing": "Cindy AI エンドポイントを利用できません",
+            "apiKeyMissing": "ZeroCraft AI Key を利用できません",
+            "endpointMissing": "ZeroCraft AI エンドポイントを利用できません",
             "timeout": "リクエストがタイムアウトしました",
             "emptyResponse": "応答が空です",
             "httpError": "HTTP {{status}}",
@@ -6268,7 +6268,7 @@
       "titleLabel": "タイトル",
       "bodyLabel": "本文(Markdown)",
       "identityGithubUser": "送信者:GitHub ユーザー @{{login}}(本人)",
-      "identityPlatform": "送信者:Cindy プラットフォームによる代理送信(GitHub App {{login}})",
+      "identityPlatform": "送信者:ZeroCraft プラットフォームによる代理送信(GitHub App {{login}})",
       "envLine": "送信時に自動で付加されます:クライアント {{appVersion}} · {{platform}} {{arch}} · 表示言語 {{uiLanguage}}",
       "submit": "送信",
       "cancel": "キャンセル"
@@ -6301,7 +6301,7 @@
       "descriptionDir": "以下のディレクトリ/ファイルは現在のセッションの作業ディレクトリの外にあります。許可すると、その中のファイルがアップロード用にこのプラグインへ渡されます(渡されるのはワンタイムチケットのみで、パスは渡されません)。",
       "descriptionSaveDir": "以下のディレクトリは現在のセッションの作業ディレクトリの外にあります。許可すると、このプラグインがダウンロードしたファイルをここに保存できます(既存ファイルは上書きされません)。",
       "descriptionFsWrite": "このプラグインは現在のセッションの作業ディレクトリに以下のファイルを書き込もうとしています。許可すると、このセッション中は同じディレクトリへの書き込みは再確認されません。",
-      "descriptionWorkspace": "このフォルダは現在のセッションの作業ディレクトリの外にあります。許可すると、Cindy がこのフォルダを作業ディレクトリとする空のセッションをサイドバーに作成します(既にセッションがある場合は再利用)。中のファイルは読み取りません。",
+      "descriptionWorkspace": "このフォルダは現在のセッションの作業ディレクトリの外にあります。許可すると、ZeroCraft がこのフォルダを作業ディレクトリとする空のセッションをサイドバーに作成します(既にセッションがある場合は再利用)。中のファイルは読み取りません。",
       "dirMeta": "{{count}} 個のファイル · {{size}}",
       "directory": "ディレクトリ",
       "allowDirs": "これらのファイルのフォルダーも許可(このセッション中、同じフォルダーのメディアファイルは再確認しません)",
@@ -6926,8 +6926,8 @@
         "device-mismatch": "ログイン状態がこのデバイスと一致しません。再度ログインしてください。",
         "account-unavailable": "アカウントを利用できません（無効化または削除された可能性があります）。必要に応じて管理者にお問い合わせください。"
       },
-      "voiceApiKeyAuthTitle": "Cindy AI の設定が必要です",
-      "voiceApiKeyAuthDescription": "現在の音声入力プロバイダーは Cindy AI を使用します。Cindy AI が未接続のため音声入力を開始できません。モデルプロバイダーを開いて接続しますか？",
+      "voiceApiKeyAuthTitle": "ZeroCraft AI の設定が必要です",
+      "voiceApiKeyAuthDescription": "現在の音声入力プロバイダーは ZeroCraft AI を使用します。ZeroCraft AI が未接続のため音声入力を開始できません。モデルプロバイダーを開いて接続しますか？",
       "voiceDirectApiKeyAuthTitle": "音声入力の API Key が必要です",
       "voiceDirectApiKeyAuthDescription": "現在の音声入力プロバイダーには直接接続用の API Key が必要です。API Keys で追加しますか？",
       "codexVoiceAuthTitle": "ChatGPT への接続が必要です",
@@ -7260,8 +7260,8 @@
     },
     "balance": {
       "title": "利用可能残高",
-      "creditParityCny": "1クレジット = 1元。クレジットは Cindy AI の利用量の決済に使われ、支払いは第三者の決済事業者が処理します。",
-      "creditParityUsd": "1クレジット = 1米ドル。クレジットは Cindy AI の利用量の決済に使われ、支払いは第三者の決済事業者が処理します。",
+      "creditParityCny": "1クレジット = 1元。クレジットは ZeroCraft AI の利用量の決済に使われ、支払いは第三者の決済事業者が処理します。",
+      "creditParityUsd": "1クレジット = 1米ドル。クレジットは ZeroCraft AI の利用量の決済に使われ、支払いは第三者の決済事業者が処理します。",
       "plan": "プランクレジット",
       "purchased": "購入済みクレジット",
       "promotional": "特典クレジット",
@@ -7378,7 +7378,7 @@
       "scanHint": "対応する支払いアプリでスキャンしてください",
       "checkingExpiry": "有効期限を確認中…",
       "expiresIn": "QRコードの有効期限 {{minutes}}:{{seconds}}",
-      "redirectHint": "支払いページで完了後、Cindyに戻ってください。",
+      "redirectHint": "支払いページで完了後、ZeroCraftに戻ってください。",
       "openPayment": "支払いページを開く",
       "refreshingAction": "支払い情報を取得中…",
       "paymentCompleted": "支払いが完了しました。",
@@ -7401,7 +7401,7 @@
       "confirmingTitle": "変更を送信中",
       "confirmingBody": "プラン変更をサーバーに送信しています…",
       "pendingProviderTitle": "プラン変更を処理中",
-      "pendingProviderBody": "決済プロバイダーが変更を処理しています。Cindy が結果を確認し続けます…",
+      "pendingProviderBody": "決済プロバイダーが変更を処理しています。ZeroCraft が結果を確認し続けます…",
       "awaitingTitle": "差額のお支払い",
       "scheduledTitle": "ダウングレードを予約しました",
       "scheduledBody": "新しいプランは {{date}} に適用されます。それまで現在のプランが継続します。",
@@ -7434,7 +7434,7 @@
   "fileAccess": {
     "epermGuidance": {
       "title": "macOS のフォルダアクセスが拒否されました",
-      "message": "Cindy は「{{folder}}」フォルダにアクセスできません",
+      "message": "ZeroCraft は「{{folder}}」フォルダにアクセスできません",
       "detail": "macOS によりアクセスが拒否されました。「システム設定」を開いて権限を付与し、Agent のコマンドをもう一度実行してください。",
       "openSystemSettings": "システム設定を開く",
       "cancel": "キャンセル",

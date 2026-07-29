@@ -32,11 +32,11 @@
   "localDbFatal": {
     "updateReady": {
       "title": "Update required to continue",
-      "description": "Your local data was upgraded by a newer version of Cindy and can't be opened by this version. The new version is downloaded and ready — restart to install it and get back in.",
+      "description": "Your local data was upgraded by a newer version of ZeroCraft and can't be opened by this version. The new version is downloaded and ready — restart to install it and get back in.",
       "confirm": "Restart & Install Update"
     },
     "preparing": {
-      "description": "Your local data was upgraded by a newer version of Cindy and can't be opened by this version. Fetching the new version, please wait…",
+      "description": "Your local data was upgraded by a newer version of ZeroCraft and can't be opened by this version. Fetching the new version, please wait…",
       "progress": "{{progress}}% downloaded"
     },
     "noUpdate": {
@@ -437,16 +437,16 @@
         "hint": "You will be asked the first time. You can change the choice here later.",
         "aria": "Choose what happens when the main window closes",
         "tray": "Minimize to tray",
-        "quit": "Quit Cindy"
+        "quit": "Quit ZeroCraft"
       },
       "closePrompt": {
-        "title": "Close Cindy",
+        "title": "Close ZeroCraft",
         "message": "What should happen when you close the main window?",
-        "detail": "Tasks keep running when Cindy is minimized to the system tray. You can change this later in Settings."
+        "detail": "Tasks keep running when ZeroCraft is minimized to the system tray. You can change this later in Settings."
       },
       "trayMenu": {
-        "show": "Open Cindy",
-        "quit": "Quit Cindy"
+        "show": "Open ZeroCraft",
+        "quit": "Quit ZeroCraft"
       },
       "trayError": {
         "title": "Could not minimize to tray",
@@ -550,8 +550,8 @@
       "local": {
         "exitFailed": "Failed to exit local mode, please try again",
         "name": "Local mode",
-        "description": "Data stays on this device without Cindy account services",
-        "signIn": "Sign in to Cindy",
+        "description": "Data stays on this device without ZeroCraft account services",
+        "signIn": "Sign in to ZeroCraft",
         "exit": "Exit local mode"
       },
       "copyUserId": {
@@ -647,14 +647,14 @@
       "autoUpdateDisabledToast": "Idle update installation disabled",
       "autoUpdateSaveFailed": "Failed to save auto-update settings",
       "analyticsLabel": "Usage statistics",
-      "analyticsDescription": "Helps us understand how often Cindy is launched and kept in use. Reports device and usage-environment information — such as your device model, OS version, app version, and a device identifier — plus, once signed in, your account ID; never conversations, files, or prompts. Turning this off stops reporting immediately.",
+      "analyticsDescription": "Helps us understand how often ZeroCraft is launched and kept in use. Reports device and usage-environment information — such as your device model, OS version, app version, and a device identifier — plus, once signed in, your account ID; never conversations, files, or prompts. Turning this off stops reporting immediately.",
       "analyticsEnabledToast": "Usage statistics enabled",
       "analyticsDisabledToast": "Usage statistics disabled",
       "analyticsSaveFailed": "Failed to save usage statistics settings",
       "debugLogLabel": "Debug logs",
       "debugLogDescription": "When enabled, emits verbose debug logs: main/maker logger raised to debug level; new Claude Code sessions also log API request URL/status/latency, Node-level DNS/TCP/TLS handshake timing, and SDK internals. Output is large — turn off after troubleshooting. Always on in dev mode.",
       "social": {
-        "title": "Connect with Cindy",
+        "title": "Connect with ZeroCraft",
         "discordLabel": "Discord",
         "discordDescription": "Join the community",
         "xLabel": "X",
@@ -715,15 +715,15 @@
       },
       "serviceSource": {
         "label": "Voice service",
-        "hint": "Uses the Cindy voice service by default. You can instead connect a realtime ASR service with separate voice credentials.",
-        "localHint": "Local mode does not use Cindy account services; connect a realtime ASR service with separate voice credentials.",
+        "hint": "Uses the ZeroCraft voice service by default. You can instead connect a realtime ASR service with separate voice credentials.",
+        "localHint": "Local mode does not use ZeroCraft account services; connect a realtime ASR service with separate voice credentials.",
         "ariaLabel": "Voice service source",
         "options": {
-          "cindy": "Cindy official service",
+          "cindy": "ZeroCraft official service",
           "byok": "Custom voice service"
         },
         "optionDescriptions": {
-          "cindy": "Uses your Cindy sign-in, no keys to configure",
+          "cindy": "Uses your ZeroCraft sign-in, no keys to configure",
           "byok": "Uses an ASR-capable service and its own voice credentials"
         },
         "asr": {
@@ -762,7 +762,7 @@
         "customAsr": {
           "optionLabel": "Custom realtime ASR",
           "optionDescription": "Uses a dedicated speech-recognition WebSocket and API key",
-          "notice": "Enter the complete WebSocket address from an ASR-capable service. Cindy will not reuse or append paths to your chat model endpoint.",
+          "notice": "Enter the complete WebSocket address from an ASR-capable service. ZeroCraft will not reuse or append paths to your chat model endpoint.",
           "protocol": {
             "label": "Realtime protocol",
             "hint": "Choose the message format implemented by the ASR service.",
@@ -1051,12 +1051,12 @@
           "binaryMissing": "Codex component is unavailable, please restart the app"
         },
         "apiMode": {
-          "label": "API mode (via Cindy AI)",
-          "description": "When on, Codex uses the Cindy AI key from Model Providers instead of your subscription.",
-          "noKey": "No Cindy AI key configured — connect Cindy AI in Model Providers",
+          "label": "API mode (via ZeroCraft AI)",
+          "description": "When on, Codex uses the ZeroCraft AI key from Model Providers instead of your subscription.",
+          "noKey": "No ZeroCraft AI key configured — connect ZeroCraft AI in Model Providers",
           "noKeyDialog": {
             "title": "API Key not configured",
-            "description": "API mode reuses the Cindy AI key, which is not set yet. Connect Cindy AI in Model Providers to enable API mode."
+            "description": "API mode reuses the ZeroCraft AI key, which is not set yet. Connect ZeroCraft AI in Model Providers to enable API mode."
           },
           "badge": {
             "api": "● API",
@@ -1064,7 +1064,7 @@
           },
           "expandAria": "Expand / collapse Codex API mode settings",
           "toggleAria": "Toggle Codex API mode",
-          "sharedKeyWarning": "Shares one key with Cindy AI — deleting/changing it also affects Claude",
+          "sharedKeyWarning": "Shares one key with ZeroCraft AI — deleting/changing it also affects Claude",
           "toast": {
             "toggleFailed": "Failed to switch API mode, please retry"
           }
@@ -1099,7 +1099,7 @@
         },
         "logoutConfirm": {
           "title": "Disconnect Claude.ai subscription?",
-          "description": "Disconnecting clears this machine's Claude Code login credential (your local `claude` CLI is signed out too); if you're currently in subscription mode it falls back to Cindy AI. You'll need to authorize again to restore it.",
+          "description": "Disconnecting clears this machine's Claude Code login credential (your local `claude` CLI is signed out too); if you're currently in subscription mode it falls back to ZeroCraft AI. You'll need to authorize again to restore it.",
           "confirm": "Disconnect",
           "cancel": "Cancel"
         },
@@ -1112,13 +1112,13 @@
           "needAuth": "Authorize and sign in to Claude.ai first"
         },
         "apiMode": {
-          "label": "API mode (via Cindy AI)",
-          "description": "When on, Claude uses the Cindy AI shared key (default); when off, native Anthropic models (Claude) connect directly to api.anthropic.com using your subscription, while other models still use Cindy AI.",
+          "label": "API mode (via ZeroCraft AI)",
+          "description": "When on, Claude uses the ZeroCraft AI shared key (default); when off, native Anthropic models (Claude) connect directly to api.anthropic.com using your subscription, while other models still use ZeroCraft AI.",
           "toggleAria": "Toggle Claude API mode",
-          "sharedKeyWarning": "Shares one key with Cindy AI — with API mode off, non-Claude models still need Cindy AI",
+          "sharedKeyWarning": "Shares one key with ZeroCraft AI — with API mode off, non-Claude models still need ZeroCraft AI",
           "noKeyDialog": {
             "title": "No API Key configured",
-            "description": "With API mode off (subscription), non-Claude models (gpt / deepseek, etc.) still reuse the Cindy AI key, which is not configured yet. Connect Cindy AI in Model Providers to continue."
+            "description": "With API mode off (subscription), non-Claude models (gpt / deepseek, etc.) still reuse the ZeroCraft AI key, which is not configured yet. Connect ZeroCraft AI in Model Providers to continue."
           },
           "toast": {
             "toggleFailed": "Failed to switch API mode, please retry"
@@ -1160,13 +1160,13 @@
         "billingLabel": "SuperGrok subscription (direct)"
       },
       "xd": {
-        "title": "Cindy AI",
+        "title": "ZeroCraft AI",
         "subtitle": "All models · Claude Code / Codex · billed per token",
         "modelLabel": "All models",
         "billingLabel": "billed per token",
         "disconnectConfirm": {
-          "title": "Disconnect Cindy AI?",
-          "description": "Disconnecting clears the Cindy AI key saved locally. You will need to reconnect to keep using models provided by Cindy AI."
+          "title": "Disconnect ZeroCraft AI?",
+          "description": "Disconnecting clears the ZeroCraft AI key saved locally. You will need to reconnect to keep using models provided by ZeroCraft AI."
         },
         "sync": {
           "syncing": "Fetching credentials…",
@@ -1180,7 +1180,7 @@
           "modelsFetchFailed": "Couldn’t fetch the model list. Check your network and try again."
         },
         "rotateConfirm": {
-          "title": "Rotate Cindy AI Key?",
+          "title": "Rotate ZeroCraft AI Key?",
           "description": "This revokes the current key and issues a new one. The old key stops working immediately: in-flight sessions, remote sessions, and mobile voice using it will need to restart.",
           "confirm": "Rotate"
         },
@@ -1222,15 +1222,15 @@
         },
         "wireProtocol": {
           "responses": "OpenAI Responses (native)",
-          "chat": "Chat Completions (Cindy bridge)",
-          "responsesHelp": "The provider supports the Responses API natively, so Cindy forwards its event stream unchanged.",
-          "chatHelp": "For providers that only expose Chat Completions. Cindy converts streaming text and function tool calls; some advanced Responses features are unavailable."
+          "chat": "Chat Completions (ZeroCraft bridge)",
+          "responsesHelp": "The provider supports the Responses API natively, so ZeroCraft forwards its event stream unchanged.",
+          "chatHelp": "For providers that only expose Chat Completions. ZeroCraft converts streaming text and function tool calls; some advanced Responses features are unavailable."
         },
         "protocol": {
           "claude": "Claude Code",
           "claudeDesc": "Claude Code follows the Anthropic protocol (auth via x-api-key). Enter this source's baseURL, key, and models for Claude Code; leave blank to skip Claude Code for this source.",
           "codex": "Codex",
-          "codexDesc": "Codex speaks the OpenAI Responses protocol. Choose a native Responses upstream or let Cindy bridge a provider that only supports Chat Completions. Enter this source's base URL, key, and models for Codex; leave blank to skip Codex for this source."
+          "codexDesc": "Codex speaks the OpenAI Responses protocol. Choose a native Responses upstream or let ZeroCraft bridge a provider that only supports Chat Completions. Enter this source's base URL, key, and models for Codex; leave blank to skip Codex for this source."
         },
         "errors": {
           "nameRequired": "Display name is required",
@@ -1361,7 +1361,7 @@
         "authorizeFailed": "Failed to authorize {{name}}. Please try again",
         "nameLabel": "Display name",
         "onlyAgentNote": "This provider only supports {{agent}}",
-        "bridgedNote": "Cindy bridge (Chat Completions)",
+        "bridgedNote": "ZeroCraft bridge (Chat Completions)",
         "docsLink": "View setup docs",
         "fetching": "Verifying connection and fetching models…",
         "fetchFailed": "Couldn't fetch the model list — you can finish with the preset's recommended models and refresh later in details",
@@ -1379,8 +1379,8 @@
       },
       "xdSignin": {
         "badge": "Recommended",
-        "desc": "Sign in to Cindy to enable the official Cindy AI service — all models work out of the box, no keys to manage.",
-        "cta": "Sign in to Cindy"
+        "desc": "Sign in to ZeroCraft to enable the official ZeroCraft AI service — all models work out of the box, no keys to manage.",
+        "cta": "Sign in to ZeroCraft"
       }
     },
     "experimental": {
@@ -1535,24 +1535,24 @@
       "title": "Memory",
       "description": "Powers workspace-scoped memory. After changing settings you usually need to start a new Session for it to take effect. If memory misbehaves, click Reset or turn it off.",
       "maker": {
-        "label": "Cindy",
+        "label": "ZeroCraft",
         "description": "Memory is managed by the agent entry, not by each model. Claude Code and Codex sessions can share memory within the same working directory.",
-        "toggleAria": "Toggle Cindy memory",
-        "resetAria": "Reset Cindy memories",
+        "toggleAria": "Toggle ZeroCraft memory",
+        "resetAria": "Reset ZeroCraft memories",
         "resetConfirm": {
-          "title": "Reset Cindy memories?",
-          "description": "This will permanently delete all Cindy memories across every project (stored under user-data, not in your repos). This action cannot be undone.",
+          "title": "Reset ZeroCraft memories?",
+          "description": "This will permanently delete all ZeroCraft memories across every project (stored under user-data, not in your repos). This action cannot be undone.",
           "confirm": "Reset",
           "cancel": "Cancel"
         },
         "toast": {
-          "enabled": "Cindy memory enabled",
-          "disabled": "Cindy memory disabled",
+          "enabled": "ZeroCraft memory enabled",
+          "disabled": "ZeroCraft memory disabled",
           "deferredSuffix": " — running Codex sessions will apply this after their current task finishes",
-          "toggleFailed": "Failed to toggle Cindy memory",
-          "resetSuccess_one": "Cindy memories reset — removed {{count}} workdir",
-          "resetSuccess_other": "Cindy memories reset — removed {{count}} workdirs",
-          "resetFailed": "Failed to reset Cindy memories"
+          "toggleFailed": "Failed to toggle ZeroCraft memory",
+          "resetSuccess_one": "ZeroCraft memories reset — removed {{count}} workdir",
+          "resetSuccess_other": "ZeroCraft memories reset — removed {{count}} workdirs",
+          "resetFailed": "Failed to reset ZeroCraft memories"
         }
       },
       "agents": {
@@ -1708,7 +1708,7 @@
           "openForLoginFailed": "Failed to open the browser"
         },
         "openForLogin": "Open agent browser",
-        "openForLoginHint": "This is a dedicated browser for agents: it runs on your installed Chrome but with a separate profile (shown as “Cindy”), so it never touches your everyday Chrome's tabs, bookmarks, or logins. Agents open pages, read, click, and take screenshots here on your behalf. For sites that need a login, click “Open agent browser” above and sign in once — your session is kept, so the agent can keep acting as you afterward."
+        "openForLoginHint": "This is a dedicated browser for agents: it runs on your installed Chrome but with a separate profile (shown as “ZeroCraft”), so it never touches your everyday Chrome's tabs, bookmarks, or logins. Agents open pages, read, click, and take screenshots here on your behalf. For sites that need a login, click “Open agent browser” above and sign in once — your session is kept, so the agent can keep acting as you afterward."
       },
       "browserBackend": {
         "title": "Automation browser target",
@@ -1824,9 +1824,9 @@
           "draggingHint": "Drop into {{permission}}",
           "appName": "CuaDriver",
           "turnOnTitle": "Turn on {{permission}}",
-          "turnOnDescription": "Turn on this permission in System Settings. Cindy will continue automatically.",
+          "turnOnDescription": "Turn on this permission in System Settings. ZeroCraft will continue automatically.",
           "readyTitle": "Computer Use is ready",
-          "readyDescription": "Cindy can now operate this computer when you ask."
+          "readyDescription": "ZeroCraft can now operate this computer when you ask."
         },
         "permissions": {
           "title": "System access",
@@ -1894,7 +1894,7 @@
         "user": "user default",
         "userTooltip": "Inherited from new conversation defaults",
         "product": "product default",
-        "productTooltip": "Inherited from Cindy product defaults"
+        "productTooltip": "Inherited from ZeroCraft product defaults"
       },
       "toast": {
         "enabled": "{{name}} enabled — takes effect on next session",
@@ -1920,11 +1920,11 @@
           "description": "Task scheduling — cron-based recurring jobs and one-shot reminders"
         },
         "memory": {
-          "name": "Cindy Memory",
+          "name": "ZeroCraft Memory",
           "description": "Cross-agent long-term memory for persistent context across sessions"
         },
         "xdt_helper": {
-          "name": "Cindy Helper",
+          "name": "ZeroCraft Helper",
           "description": "Host capability disclosure — tells agents what tools and models are available"
         },
         "collab": {
@@ -1971,11 +1971,11 @@
       "sections": {
         "myDevices": "My devices",
         "ssh": "SSH remote hosts",
-        "hook": "Cindy IM bots"
+        "hook": "ZeroCraft IM bots"
       },
       "hook": {
-        "description": "Connect Slack and Telegram to the same Cindy. Messages are dispatched to this device and share its project list and session runner; each provider keeps its own account and preferences.",
-        "slackDescription": "Bind Slack workspaces and hand tasks to Cindy from Slack.",
+        "description": "Connect Slack and Telegram to the same ZeroCraft. Messages are dispatched to this device and share its project list and session runner; each provider keeps its own account and preferences.",
+        "slackDescription": "Bind Slack workspaces and hand tasks to ZeroCraft from Slack.",
         "slackDisabledHint": "Turn on the switch to start Slack authorization; once bound you can dispatch tasks from Slack.",
         "slackBoundHint": "Binding complete. Turning the switch off unbinds this device; turning it back on requires authorizing again.",
         "toggleAria": "Toggle the Slack connection",
@@ -2014,17 +2014,17 @@
           "actionFailed": "Operation failed"
         },
         "loginRequired": "Sign in to your {{appName}} account first; the connection resumes automatically after login.",
-        "standbyHint": "Another Cindy instance on this computer is using the Slack connection. Close it, then turn this switch back on to take over.",
+        "standbyHint": "Another ZeroCraft instance on this computer is using the Slack connection. Close it, then turn this switch back on to take over.",
         "authorizing": "Authorizing…",
         "statusBound": "Linked as @{{name}}",
         "statusBoundTeam": "Linked to {{team}} as @{{name}}",
         "statusUnbound": "Not linked",
         "notInstalled": {
-          "title": "The Cindy app isn't installed in the Slack workspace you authorized",
-          "hint": "Install the Cindy app to the workspace so the bot can send and receive messages and dispatch tasks. After installing, turn the switch on again to finish binding.",
+          "title": "The ZeroCraft app isn't installed in the Slack workspace you authorized",
+          "hint": "Install the ZeroCraft app to the workspace so the bot can send and receive messages and dispatch tasks. After installing, turn the switch on again to finish binding.",
           "status": "App install required",
-          "confirmTitle": "Install the Cindy app to your Slack workspace",
-          "confirmDescription": "The Slack workspace you authorized doesn't have the Cindy app installed. The bot needs it to send and receive messages and dispatch tasks. Install now? Binding completes automatically once installed.",
+          "confirmTitle": "Install the ZeroCraft app to your Slack workspace",
+          "confirmDescription": "The Slack workspace you authorized doesn't have the ZeroCraft app installed. The bot needs it to send and receive messages and dispatch tasks. Install now? Binding completes automatically once installed.",
           "confirmInstall": "Install",
           "confirmCancel": "Cancel",
           "waitingHint": "Waiting for the installation to finish… Binding completes automatically once installed, no re-authorization needed."
@@ -2049,7 +2049,7 @@
           "alreadyBound": "You authorized {{team}}, which is already linked. To add another workspace, switch workspaces in the top-right corner of the Slack authorization page before allowing."
         },
         "telegram": {
-          "description": "Link your Telegram account and dispatch tasks to Cindy via the official bot.",
+          "description": "Link your Telegram account and dispatch tasks to ZeroCraft via the official bot.",
           "disabledHint": "Turn on the switch, then follow the prompts in Telegram to link your account.",
           "toggleAria": "Toggle the Telegram connection",
           "connect": "Link Telegram",
@@ -2178,7 +2178,7 @@
         "personal": "Personal"
       },
       "tips": {
-        "cindy": "Cindy is the official shared bot — no credentials needed. Connect Slack and just @Cindy to hand off tasks.",
+        "cindy": "ZeroCraft is the official shared bot — no credentials needed. Connect Slack and just @ZeroCraft to hand off tasks.",
         "personal": "Personal bots connect to Feishu / Discord with your own credentials — the bot is fully yours, but you create the app and fill in its config yourself.",
         "personalFeishuOnly": "Personal bots connect to Feishu with your own credentials — the bot is fully yours, but you create the app and fill in its config yourself."
       },
@@ -2296,14 +2296,14 @@
     },
     "ghosts": {
       "title": "Plugins",
-      "description": "Tools and integrations that extend Cindy.",
+      "description": "Tools and integrations that extend ZeroCraft.",
       "page": {
         "search": "Search plugins",
         "clearSearch": "Clear Plugin Search",
         "addPlugin": "Add plugin",
         "addPluginAria": "Plugin add options",
-        "createWithCindy": "Create with Cindy",
-        "createPrompt": "I want to create a Cindy plugin. First call ghost_forge_guide to read the full specification; do not start implementing yet. Begin by asking questions, focusing on one key decision at a time, and work with me to define the problem, target users, interaction flow, required tools and connections, permission boundaries, and acceptance criteria. After I confirm the design, implement and validate it according to the specification, then call ghost_forge_pack to package and install the plugin.",
+        "createWithZeroCraft": "Create with ZeroCraft",
+        "createPrompt": "I want to create a ZeroCraft plugin. First call ghost_forge_guide to read the full specification; do not start implementing yet. Begin by asking questions, focusing on one key decision at a time, and work with me to define the problem, target users, interaction flow, required tools and connections, permission boundaries, and acceptance criteria. After I confirm the design, implement and validate it according to the specification, then call ghost_forge_pack to package and install the plugin.",
         "installedTitle": "Installed Plugins",
         "installedExpand": "Show {{count}} more installed plugins",
         "installedCollapse": "Hide additional installed plugins",
@@ -2338,7 +2338,7 @@
         "installed": "Installed",
         "conflict": "Plugin ID conflict",
         "unavailable": "The plugin market is temporarily unavailable. Installed plugins remain available.",
-        "authenticationRequired": "Sign in to Cindy to view the plugin market.",
+        "authenticationRequired": "Sign in to ZeroCraft to view the plugin market.",
         "notConfigured": "The plugin market is not configured for this environment. Installed plugins remain available.",
         "errors": {
           "generic": "The plugin market operation failed. Please try again.",
@@ -2348,10 +2348,10 @@
           "stateChanged": "The account, plugin, or release changed during this operation. Review the latest state and try again.",
           "accessDenied": "This plugin operation is not permitted or was cancelled.",
           "notConfigured": "The plugin market is not available in this environment.",
-          "invalidPackage": "This plugin package is invalid or is not supported by this version of Cindy."
+          "invalidPackage": "This plugin package is invalid or is not supported by this version of ZeroCraft."
         },
         "securityTitle": "Install and permissions",
-        "securityDescription": "Cindy verifies package size and SHA-256 in the main process, validates the plugin manifest, then installs atomically. New installs stay disabled until you review permissions and enable them.",
+        "securityDescription": "ZeroCraft verifies package size and SHA-256 in the main process, validates the plugin manifest, then installs atomically. New installs stay disabled until you review permissions and enable them.",
         "noPermissions": "This plugin declares no additional capabilities.",
         "installConfirmTitle": "Install “{{name}}”?",
         "installConfirmDescription": "The package will be verified for integrity and manifest compatibility, then installed disabled. Review its setup and enable it when ready."
@@ -2361,15 +2361,15 @@
       "emptyHint": "Install from the market, or import a .cindy file from the menu above",
       "legacyRecovery": {
         "title": "Plugins from an older version are waiting to be restored",
-        "deferred": "Found {{count}} older plugin directory. Cindy deferred restoration to avoid moving data while another instance may still be using it.",
-        "deferred_one": "Found {{count}} older plugin directory. Cindy deferred restoration to avoid moving data while another instance may still be using it.",
-        "deferred_other": "Found {{count}} older plugin directories. Cindy deferred restoration to avoid moving data while another instance may still be using it.",
+        "deferred": "Found {{count}} older plugin directory. ZeroCraft deferred restoration to avoid moving data while another instance may still be using it.",
+        "deferred_one": "Found {{count}} older plugin directory. ZeroCraft deferred restoration to avoid moving data while another instance may still be using it.",
+        "deferred_other": "Found {{count}} older plugin directories. ZeroCraft deferred restoration to avoid moving data while another instance may still be using it.",
         "partial": "Found {{count}} older plugin directory. Some data was not restored automatically, so you can retry now.",
         "partial_one": "Found {{count}} older plugin directory. Some data was not restored automatically, so you can retry now.",
         "partial_other": "Found {{count}} older plugin directories. Some data was not restored automatically, so you can retry now.",
-        "partialBlocked": "Found {{count}} older plugin directory, but Cindy could not safely restore it automatically. The data was kept unchanged.",
-        "partialBlocked_one": "Found {{count}} older plugin directory, but Cindy could not safely restore it automatically. The data was kept unchanged.",
-        "partialBlocked_other": "Found {{count}} older plugin directories, but Cindy could not safely restore them automatically. The data was kept unchanged.",
+        "partialBlocked": "Found {{count}} older plugin directory, but ZeroCraft could not safely restore it automatically. The data was kept unchanged.",
+        "partialBlocked_one": "Found {{count}} older plugin directory, but ZeroCraft could not safely restore it automatically. The data was kept unchanged.",
+        "partialBlocked_other": "Found {{count}} older plugin directories, but ZeroCraft could not safely restore them automatically. The data was kept unchanged.",
         "claimedByOtherOwner": "Found {{count}} older plugin directory, but it belongs to the first account that claimed this device data. Switch back to that account to restore it.",
         "claimedByOtherOwner_one": "Found {{count}} older plugin directory, but it belongs to the first account that claimed this device data. Switch back to that account to restore it.",
         "claimedByOtherOwner_other": "Found {{count}} older plugin directories, but it belongs to the first account that claimed this device data. Switch back to that account to restore it.",
@@ -2431,38 +2431,38 @@
         "collapseDescription": "Hide Full Description"
       },
       "trust": {
-        "official": "Official Cindy plugin",
-        "officialDetail": "Bundled with Cindy.",
+        "official": "Official ZeroCraft plugin",
+        "officialDetail": "Bundled with ZeroCraft.",
         "reviewed": "Verified publisher · This version was reviewed",
-        "reviewedDetail": "The signatures are valid and the Cindy review signature matches every file in this exact version.",
+        "reviewedDetail": "The signatures are valid and the ZeroCraft review signature matches every file in this exact version.",
         "verifiedPublisher": "Verified publisher: {{publisher}}",
-        "verifiedPublisherDetail": "The signature is valid and the files are unchanged, but this exact version has no Cindy review signature.",
+        "verifiedPublisherDetail": "The signature is valid and the files are unchanged, but this exact version has no ZeroCraft review signature.",
         "signedUnverified": "Signed, but publisher identity is unverified: {{publisher}}",
-        "signedUnverifiedDetail": "The signature proves the files are unchanged, but this Cindy version does not recognize the publisher key.",
+        "signedUnverifiedDetail": "The signature proves the files are unchanged, but this ZeroCraft version does not recognize the publisher key.",
         "unsigned": "Unverified / unsigned",
         "unsignedDetail": "The source and whether the package changed after distribution cannot be verified.",
         "unknownPublisher": "Unknown publisher",
-        "unknownReviewerDetail": "The package claims a review, but this Cindy version does not recognize the reviewer key, so it is not shown as reviewed."
+        "unknownReviewerDetail": "The package claims a review, but this ZeroCraft version does not recognize the reviewer key, so it is not shown as reviewed."
       },
       "perm": {
         "grantsTitle": "After installing it will have:",
         "toolsGroup": "Registered Tools",
         "itemCount": "{{count}} total",
-        "cindyImageGenerate": "Image generation (delegated to Cindy)",
-        "cindyImageEdit": "Image editing (delegated to Cindy, its own images only)",
-        "cindyVideoGenerate": "Video generation (delegated to Cindy)",
-        "cindyVideoEdit": "Image-to-video (delegated to Cindy, reference images from its own media only)",
+        "cindyImageGenerate": "Image generation (delegated to ZeroCraft)",
+        "cindyImageEdit": "Image editing (delegated to ZeroCraft, its own images only)",
+        "cindyVideoGenerate": "Video generation (delegated to ZeroCraft)",
+        "cindyVideoEdit": "Image-to-video (delegated to ZeroCraft, reference images from its own media only)",
         "agentUserAction": "Can start a new Agent turn after you click a plugin card",
         "agentUserActionDetail": "Each click permits one turn only, and only in the session that owns the card.",
         "agentBackground": "Can automatically start new Agent turns in the background",
         "agentBackgroundDetail": "Does not require a click each time, but can only use sessions you previously connected to this plugin. Model charges may apply.",
         "nodeRuntime": "Can run a bundled Node program on this computer",
         "nodeMcp": "Can run a bundled stdio MCP on this computer",
-        "nodeRuntimeDetail": "High risk: it has the same local access as your user account, including files, network, and starting other programs. Cindy cannot contain it in the browser sandbox.",
+        "nodeRuntimeDetail": "High risk: it has the same local access as your user account, including files, network, and starting other programs. ZeroCraft cannot contain it in the browser sandbox.",
         "nodeSecret": "Can provide the stored credential “{{name}}” to the local Node program",
-        "nodeSecretDetail": "Cindy stores it encrypted and injects it only while the declared Worker methods below run. The Node program receives the plaintext and can return, log, save, or otherwise expose it to browser-side plugin code or Agent parameters. Only install plugins you trust.",
+        "nodeSecretDetail": "ZeroCraft stores it encrypted and injects it only while the declared Worker methods below run. The Node program receives the plaintext and can return, log, save, or otherwise expose it to browser-side plugin code or Agent parameters. Only install plugins you trust.",
         "nodeResident": "The Node program can stay running in the background",
-        "nodeResidentDetail": "Runs while the plugin is enabled and stops when disabled, updated, uninstalled, or when Cindy exits.",
+        "nodeResidentDetail": "Runs while the plugin is enabled and stops when disabled, updated, uninstalled, or when ZeroCraft exits.",
         "tool": "Tool \"{{name}}\"",
         "command": "Chat command ${{command}}",
         "panelLeft": "Panel \"{{title}}\" · docked left of the chat",
@@ -2499,7 +2499,7 @@
         "unchanged": "{{count}} other permissions unchanged",
         "noChange": "No permission changes.",
         "pick": "Can ask you to pick a folder for it",
-        "pickDetail": "When it asks, Cindy shows the system folder picker; you decide what to share, and cancelling gives it nothing.",
+        "pickDetail": "When it asks, ZeroCraft shows the system folder picker; you decide what to share, and cancelling gives it nothing.",
         "workspace": "Can ask to create a session entry for a project folder in the sidebar",
         "workspaceDetail": "When it asks, you either pick the folder yourself or see the full path on a confirmation card before deciding; while it is handling a call you started, subfolders inside the current session's working directory are used directly without an extra prompt. Folders that already have a session are reused, and what gets created is an empty session — nothing starts running on its own.",
         "sessionContext": "Can learn which project folder the current session is working in",
@@ -2553,8 +2553,8 @@
         "updateTitle": "Update version",
         "updateDesc": "Pick a new .cindy file to replace the installed version in place; enabled state and panel position are preserved.",
         "cindyPrefs": {
-          "title": "Cindy abilities",
-          "desc": "Each Cindy delegation ability this plugin requested can be pinned to a specific model; defaults follow the system (built-in proxy).",
+          "title": "ZeroCraft abilities",
+          "desc": "Each ZeroCraft delegation ability this plugin requested can be pinned to a specific model; defaults follow the system (built-in proxy).",
           "cap": {
             "image.generate": "Image generation",
             "image.edit": "Image editing",
@@ -2589,7 +2589,7 @@
         "panel": "Panel",
         "settingsUi": "Custom settings UI",
         "code": "Executable code",
-        "slotCindy": "Cindy delegation",
+        "slotZeroCraft": "ZeroCraft delegation",
         "slotAgent": "Starts Agent turns",
         "slotNode": "Local Node program",
         "slotTool": "Tools",
@@ -2854,7 +2854,7 @@
     "entryButton": "Delete account",
     "entryAria": "Delete the current account",
     "introTitle": "Delete your account?",
-    "introDescription": "This schedules permanent deletion of your Cindy sign-in account.",
+    "introDescription": "This schedules permanent deletion of your ZeroCraft sign-in account.",
     "confirmTitle": "Confirm account deletion",
     "sendCodeButton": "Send deletion code",
     "confirmButton": "Delete account",
@@ -2868,11 +2868,11 @@
       "sms": "SMS"
     },
     "sessionNotice": "This computer signs out immediately. Other clients sign out when their current access credential expires and they attempt to refresh it.",
-    "gracePeriodNotice": "After confirmation, your account enters a 30-day waiting period. Signing in during that period cancels deletion; afterwards, your Cindy sign-in account is permanently deleted.",
+    "gracePeriodNotice": "After confirmation, your account enters a 30-day waiting period. Signing in during that period cancels deletion; afterwards, your ZeroCraft sign-in account is permanently deleted.",
     "verificationNotice": "A deletion code will be sent to {{target}} via {{channel}}.",
-    "appleRevocationNotice": "If you used Sign in with Apple, you must also revoke Cindy's access in your Apple ID settings.",
-    "acknowledgement": "I understand that after the waiting period, my Cindy sign-in account will be permanently deleted and cannot be recovered.",
-    "restoredNotice": "Account deletion was cancelled. Your Cindy sign-in account will be retained.",
+    "appleRevocationNotice": "If you used Sign in with Apple, you must also revoke ZeroCraft's access in your Apple ID settings.",
+    "acknowledgement": "I understand that after the waiting period, my ZeroCraft sign-in account will be permanently deleted and cannot be recovered.",
+    "restoredNotice": "Account deletion was cancelled. Your ZeroCraft sign-in account will be retained.",
     "errors": {
       "fallback": "The deletion request could not be completed. Check your network and try again.",
       "UNAUTHENTICATED": "Your login expired. Sign in and try again.",
@@ -2897,8 +2897,8 @@
       "processingTitle": "Account deletion in progress",
       "completedTitle": "Account deleted",
       "pendingCopy": "Scheduled for permanent deletion on {{date}}. Sign in before then to cancel deletion.",
-      "processingCopy": "The waiting period ended. Your Cindy sign-in account is being removed.",
-      "completedCopy": "Your Cindy sign-in account has been removed.",
+      "processingCopy": "The waiting period ended. Your ZeroCraft sign-in account is being removed.",
+      "completedCopy": "Your ZeroCraft sign-in account has been removed.",
       "dismissButton": "Got it"
     }
   },
@@ -2909,7 +2909,7 @@
     "backToLogin": "Back to sign-in"
   },
   "login": {
-    "title": "Welcome to Cindy",
+    "title": "Welcome to ZeroCraft",
     "subtitle": "Choose a secure way to sign in",
     "phonePlaceholder": "Enter your phone number",
     "emailPlaceholder": "Enter your email",
@@ -2938,11 +2938,11 @@
     "localModeEntry": "Skip Sign-In",
     "localModeOpening": "Opening local mode…",
     "returnToLocalMode": "Return to local mode",
-    "localModeDescription": "No Cindy account required. Data stays on this device; cloud models, cross-device access, and marketplace services are unavailable.",
+    "localModeDescription": "No ZeroCraft account required. Data stays on this device; cloud models, cross-device access, and marketplace services are unavailable.",
     "consentStatement": "I have read and agree to the <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>",
     "consentDialog": {
       "title": "Terms of Service & Privacy Policy",
-      "body": "Read and agree to Cindy's <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy> to continue.",
+      "body": "Read and agree to ZeroCraft's <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy> to continue.",
       "agree": "Agree",
       "disagree": "Not Now"
     },
@@ -3019,10 +3019,10 @@
   "splash": {
     "tips": {
       "checkingUpdate": "Checking for updates…",
-      "updating": "Updating Cindy…",
+      "updating": "Updating ZeroCraft…",
       "updateDone": "Update complete, restarting shortly…",
       "checkingEnv": "Checking runtime environment…",
-      "waking": "Waking Cindy…",
+      "waking": "Waking ZeroCraft…",
       "envFailed": "Environment setup failed — click to retry"
     },
     "downloadStats": "{{percent}}% · {{speed}} MB/s · {{done}} MB / {{total}} MB",
@@ -3683,19 +3683,19 @@
       "canaryBadge": "Canary user",
       "viewReleaseNotes": "View release notes",
       "reopenUpdateBanner": "Update ready — click to review",
-      "downloadMobile": "Download Cindy Mobile"
+      "downloadMobile": "Download ZeroCraft Mobile"
     },
     "mobileDownload": {
-      "title": "Control Cindy Remotely",
+      "title": "Control ZeroCraft Remotely",
       "subtitle": "Connect your phone to this desktop",
-      "qrAlt": "QR code to download Cindy mobile",
+      "qrAlt": "QR code to download ZeroCraft mobile",
       "preparing": "Preparing QR code…",
       "error": "Couldn’t create the QR code. Try again later.",
       "openPage": "Open Download Page",
       "openFailed": "Couldn’t open the download page. Check your system browser settings.",
-      "scanToOpen": "Scan to open the Cindy app and sign in with the same account",
+      "scanToOpen": "Scan to open the ZeroCraft app and sign in with the same account",
       "scanAnother": "Scan Another Device",
-      "scanAnotherHint": "Open Cindy on another phone",
+      "scanAnotherHint": "Open ZeroCraft on another phone",
       "myDevices": "My Devices",
       "deviceOffline": "Offline",
       "allowControl": "Allow same-account devices to control this machine",
@@ -3802,7 +3802,7 @@
         "AUTH_CANCELLED": "Authorization was cancelled. Authorize the account again when ready.",
         "AUTH_FAILED": "Couldn't authorize the account. Try again.",
         "INLINE_INVALID": "This configuration is invalid. Check it and try again.",
-        "INLINE_UNAVAILABLE": "This Cindy version can't save this configuration in chat. Update Cindy and try again.",
+        "INLINE_UNAVAILABLE": "This ZeroCraft version can't save this configuration in chat. Update ZeroCraft and try again.",
         "SAVE_FAILED": "Couldn't save this configuration. Try again.",
         "WINDOW_CLOSED": "The window that started setup was closed. Return to the session and try again.",
         "TARGET_UNAVAILABLE": "This plugin is disabled, uninstalled, or unavailable. Check the plugin and try again.",
@@ -4147,7 +4147,7 @@
       "permissionSwitchFailed": "Permission mode change failed; the previous setting was kept",
       "fullAccessConfirmation": {
         "title": "Enable Full access?",
-        "description": "Full access disables the workspace sandbox and skips routine approvals. Cindy can modify files outside the workspace and run network commands without asking; built-in high-risk operations will still require confirmation.",
+        "description": "Full access disables the workspace sandbox and skips routine approvals. ZeroCraft can modify files outside the workspace and run network commands without asking; built-in high-risk operations will still require confirmation.",
         "confirm": "Enable Full access",
         "cancel": "Keep current permissions"
       },
@@ -4217,10 +4217,10 @@
       "desc": "No models are available yet. Connect a provider to start chatting.",
       "recommendedLabel": "Recommended",
       "cindy": {
-        "title": "Cindy AI",
+        "title": "ZeroCraft AI",
         "desc": "Official service · all models · works with Claude Code and Codex",
-        "loginTitle": "Sign in to Cindy",
-        "loginDesc": "Sign in to enable the official Cindy AI service with access to all models"
+        "loginTitle": "Sign in to ZeroCraft",
+        "loginDesc": "Sign in to enable the official ZeroCraft AI service with access to all models"
       },
       "othersToggle": "Other providers ({{count}})",
       "presetSub": "Paste an API key to connect",
@@ -4229,7 +4229,7 @@
       "banner": {
         "text": "No models available — connect a provider to start chatting.",
         "connectCta": "Connect a provider",
-        "loginCta": "Sign in to Cindy",
+        "loginCta": "Sign in to ZeroCraft",
         "dismissAria": "Dismiss"
       },
       "detectedLabel": "Detected",
@@ -4278,7 +4278,7 @@
     "closeWithShortcut": "Close and discard ({{shortcut}})",
     "codexRequired": "Connect Codex in {{appName}} before using voice input.",
     "apiKeyRequired": "Configure an API Key before using voice input.",
-    "cindyServiceUnavailable": "The Cindy voice service is unavailable. Check your network or switch service source.",
+    "cindyServiceUnavailable": "The ZeroCraft voice service is unavailable. Check your network or switch service source.",
     "asrServiceUnavailable": "Voice recognition service failed to connect. Check your network and try again.",
     "emptyTranscript": "Speech was detected, but no text was recognized. Please try again."
   },
@@ -4800,7 +4800,7 @@
       }
     },
     "threadContext": {
-      "cindyFrom": "Cindy · from {{platform}}",
+      "cindyFrom": "ZeroCraft · from {{platform}}",
       "viewThread": "View thread context ({{count}})"
     },
     "rewind": {
@@ -4851,7 +4851,7 @@
       "REMOTE_DAEMON_CLOSED": "Remote connection interrupted (the daemon may be upgrading or restarting). The turn has ended — please resend.",
       "REMOTE_LOCAL_ATTACHMENT_UNSUPPORTED": "Local file/image attachments aren't accessible in remote sessions. Paste the content directly instead.",
       "REMOTE_COMPAT_MODE_UNSUPPORTED": "Remote Claude Code sessions can't route through the local compat proxy (internal error).",
-      "REMOTE_GATEWAY_ENDPOINT_UNAVAILABLE": "Cindy AI credentials are not ready yet (issued automatically after sign-in). Please retry shortly; if this persists, check the Cindy AI status in Settings → Model Providers.",
+      "REMOTE_GATEWAY_ENDPOINT_UNAVAILABLE": "ZeroCraft AI credentials are not ready yet (issued automatically after sign-in). Please retry shortly; if this persists, check the ZeroCraft AI status in Settings → Model Providers.",
       "DEVICE_LINK_CONTROL_DISABLED": "Control for this device is off; the message was not sent.",
       "DEVICE_LINK_MEDIA_TRANSFER_FAILED": "Attachment transfer failed; the message was not sent. Please try again."
     },
@@ -4994,8 +4994,8 @@
       "markedAsRead_other": "Marked {{count}} runs as read",
       "markAllReadFailed": "Failed to mark all read: {{error}}",
       "apiKeyDialog": {
-        "title": "Cindy AI required",
-        "description": "Connect Cindy AI in Model Providers before sending messages — tap below to open settings",
+        "title": "ZeroCraft AI required",
+        "description": "Connect ZeroCraft AI in Model Providers before sending messages — tap below to open settings",
         "confirm": "Open Settings",
         "cancel": "Cancel"
       },
@@ -5844,7 +5844,7 @@
         "aiGenerating": "Generating…",
         "aiDone": "Script written to {{path}} — run Test to verify",
         "aiFailure": {
-          "no_candidate": "No utility model is currently available. Connect OpenAI or Cindy AI, then try again.",
+          "no_candidate": "No utility model is currently available. Connect OpenAI or ZeroCraft AI, then try again.",
           "all_candidates_failed": "Every utility model request failed. Check the provider connection and try again.",
           "empty_response": "The utility models returned no usable content. Try again or check the provider connection.",
           "timeout": "The utility model request timed out. Check the connection and try again.",
@@ -5856,8 +5856,8 @@
             "modelUnavailable": "the selected model is unavailable for this provider",
             "notAuthenticated": "OpenAI login required",
             "authProbeFailed": "could not verify OpenAI login",
-            "apiKeyMissing": "Cindy AI key is unavailable",
-            "endpointMissing": "Cindy AI endpoint is unavailable",
+            "apiKeyMissing": "ZeroCraft AI key is unavailable",
+            "endpointMissing": "ZeroCraft AI endpoint is unavailable",
             "timeout": "request timed out",
             "emptyResponse": "empty response",
             "httpError": "HTTP {{status}}",
@@ -6278,7 +6278,7 @@
       "titleLabel": "Title",
       "bodyLabel": "Body (Markdown)",
       "identityGithubUser": "Submitting identity: GitHub user @{{login}} (you)",
-      "identityPlatform": "Submitting identity: Cindy platform (GitHub App {{login}})",
+      "identityPlatform": "Submitting identity: ZeroCraft platform (GitHub App {{login}})",
       "envLine": "Attached automatically on submit: client {{appVersion}} · {{platform}} {{arch}} · UI language {{uiLanguage}}",
       "submit": "Submit",
       "cancel": "Cancel"
@@ -6311,7 +6311,7 @@
       "descriptionDir": "The directory/file below is outside this session's working directory. If you allow, its files will be handed to this plugin for upload (it only receives a one-time ticket, never paths).",
       "descriptionSaveDir": "The directory below is outside this session's working directory. If you allow, this plugin can save downloaded files into it (existing files are never overwritten).",
       "descriptionFsWrite": "This plugin requests to write the files below into the current session's working directory. If you allow, further writes to the same directory in this session won't ask again.",
-      "descriptionWorkspace": "This folder is outside this session's working directory. If you allow, Cindy creates an empty session for it in the sidebar (an existing session is reused) without reading any files inside.",
+      "descriptionWorkspace": "This folder is outside this session's working directory. If you allow, ZeroCraft creates an empty session for it in the sidebar (an existing session is reused) without reading any files inside.",
       "dirMeta": "{{count}} files · {{size}}",
       "directory": "Directory",
       "allowDirs": "Also allow their folders (media files in the same folders won't ask again this session)",
@@ -6914,7 +6914,7 @@
       "registrationFailed": "Creation failed, please retry later",
       "silentStopExhausted": "The model returned empty responses repeatedly; auto-resume is paused. Click \"Continue\" to resume the task.",
       "permissionTightenInterruptFailed": "Failed to stop the running task while tightening permissions; it may keep running without approval prompts until it finishes. Stop it manually if needed.",
-      "codexAutoReviewUnavailable": "Auto-review is temporarily unavailable. The current action was blocked and permissions switched to Default. Retry the request; Cindy will ask when needed."
+      "codexAutoReviewUnavailable": "Auto-review is temporarily unavailable. The current action was blocked and permissions switched to Default. Retry the request; ZeroCraft will ask when needed."
     },
     "validation": {
       "feishuFieldsRequired": "App ID and App Secret are both required",
@@ -6936,8 +6936,8 @@
         "device-mismatch": "Your login no longer matches this device. Please log in again.",
         "account-unavailable": "Your account is unavailable (it may have been disabled or deleted). Contact your administrator if needed."
       },
-      "voiceApiKeyAuthTitle": "Cindy AI required",
-      "voiceApiKeyAuthDescription": "The current voice input provider uses Cindy AI. Cindy AI is not connected yet, so voice input cannot start. Open Model Providers to connect it?",
+      "voiceApiKeyAuthTitle": "ZeroCraft AI required",
+      "voiceApiKeyAuthDescription": "The current voice input provider uses ZeroCraft AI. ZeroCraft AI is not connected yet, so voice input cannot start. Open Model Providers to connect it?",
       "voiceDirectApiKeyAuthTitle": "Voice input API key required",
       "voiceDirectApiKeyAuthDescription": "The current voice input provider requires a direct API key. Add it in API Keys to start voice input?",
       "codexVoiceAuthTitle": "ChatGPT Connection Required",
@@ -7271,8 +7271,8 @@
     },
     "balance": {
       "title": "Available balance",
-      "creditParityCny": "1 credit = 1 CNY. Credits pay for Cindy AI usage; payments are processed by third-party providers.",
-      "creditParityUsd": "1 credit = 1 USD. Credits pay for Cindy AI usage; payments are processed by third-party providers.",
+      "creditParityCny": "1 credit = 1 CNY. Credits pay for ZeroCraft AI usage; payments are processed by third-party providers.",
+      "creditParityUsd": "1 credit = 1 USD. Credits pay for ZeroCraft AI usage; payments are processed by third-party providers.",
       "plan": "Plan credits",
       "purchased": "Purchased credits",
       "promotional": "Promotional credits",
@@ -7389,7 +7389,7 @@
       "scanHint": "Scan with the corresponding payment app",
       "checkingExpiry": "Checking expiration…",
       "expiresIn": "QR code expires in {{minutes}}:{{seconds}}",
-      "redirectHint": "Complete payment on the provider page, then return to Cindy.",
+      "redirectHint": "Complete payment on the provider page, then return to ZeroCraft.",
       "openPayment": "Open payment page",
       "refreshingAction": "Loading payment instructions…",
       "paymentCompleted": "Your payment was completed.",
@@ -7412,7 +7412,7 @@
       "confirmingTitle": "Submitting plan change",
       "confirmingBody": "Submitting your plan change to the server…",
       "pendingProviderTitle": "Processing plan change",
-      "pendingProviderBody": "The payment provider is processing this change. Cindy will keep checking the result…",
+      "pendingProviderBody": "The payment provider is processing this change. ZeroCraft will keep checking the result…",
       "awaitingTitle": "Pay the difference",
       "scheduledTitle": "Downgrade scheduled",
       "scheduledBody": "The new plan takes effect on {{date}}. Your current plan stays active until then.",
@@ -7445,7 +7445,7 @@
   "fileAccess": {
     "epermGuidance": {
       "title": "macOS folder access denied",
-      "message": "Cindy cannot access your {{folder}} folder",
+      "message": "ZeroCraft cannot access your {{folder}} folder",
       "detail": "macOS denied access. Open System Settings to grant permission, then run your agent command again.",
       "openSystemSettings": "Open System Settings",
       "cancel": "Cancel",

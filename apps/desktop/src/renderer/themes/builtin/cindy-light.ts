@@ -148,7 +148,7 @@ const overrides = {
 
 export const cindyLight: Theme = {
   id: 'cindy-light',
-  name: 'CINDY Light',
+  name: 'ZeroCraft Light',
   type: 'light',
   colors: overrides,
   // U5 品牌版横向 logo：黑字+红箭头，浅底可见。

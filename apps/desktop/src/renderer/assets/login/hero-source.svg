@@ -1,0 +1,130 @@
+<svg width="934" height="934" viewBox="0 0 934 934" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="glow" cx="0.5" cy="0.45" r="0.55">
+      <stop offset="0" stop-color="#8B5CF6" stop-opacity="0.55"/>
+      <stop offset="0.5" stop-color="#6366F1" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#6366F1" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A78BFA"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="topV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#DDD6FE"/>
+      <stop offset="1" stop-color="#A78BFA"/>
+    </linearGradient>
+    <linearGradient id="leftV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#5B21B6"/>
+    </linearGradient>
+    <linearGradient id="rightV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4F46E5"/>
+      <stop offset="1" stop-color="#3730A3"/>
+    </linearGradient>
+    <linearGradient id="topC" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A5F3FC"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="leftC" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0891B2"/>
+      <stop offset="1" stop-color="#0E7490"/>
+    </linearGradient>
+    <linearGradient id="rightC" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#06B6D4"/>
+      <stop offset="1" stop-color="#0891B2"/>
+    </linearGradient>
+    <linearGradient id="play" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F5F3FF"/>
+      <stop offset="1" stop-color="#67E8F9"/>
+    </linearGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+
+  <!-- 光晕 -->
+  <circle cx="467" cy="400" r="360" fill="url(#glow)"/>
+
+  <!-- 轨道环 -->
+  <g stroke="url(#line)" fill="none" stroke-width="2">
+    <ellipse cx="467" cy="410" rx="400" ry="150" opacity="0.28" transform="rotate(-18 467 410)"/>
+    <ellipse cx="467" cy="400" rx="300" ry="115" opacity="0.18" transform="rotate(14 467 400)"/>
+  </g>
+
+  <!-- 连接线 -->
+  <g stroke="url(#line)" stroke-width="2.5" opacity="0.5" stroke-linecap="round">
+    <line x1="467" y1="360" x2="700" y2="250"/>
+    <line x1="467" y1="360" x2="250" y2="235"/>
+    <line x1="467" y1="360" x2="740" y2="430"/>
+    <line x1="467" y1="360" x2="255" y2="480"/>
+    <line x1="467" y1="360" x2="490" y2="150"/>
+  </g>
+
+  <!-- 小方块 A（左上，线框） -->
+  <g stroke="url(#line)" stroke-width="3.5" fill="none" stroke-linejoin="round" opacity="0.9">
+    <path d="M250,187 L298,211 L250,235 L202,211 Z"/>
+    <path d="M202,211 L250,235 L250,291 L202,267 Z"/>
+    <path d="M250,235 L298,211 L298,267 L250,291 Z"/>
+  </g>
+  <!-- 小方块 D（左下，线框） -->
+  <g stroke="url(#line)" stroke-width="3.5" fill="none" stroke-linejoin="round" opacity="0.8">
+    <path d="M255,428 L307,454 L255,480 L203,454 Z"/>
+    <path d="M203,454 L255,480 L255,540 L203,514 Z"/>
+    <path d="M255,480 L307,454 L307,514 L255,540 Z"/>
+  </g>
+
+  <!-- 小方块 E（顶部，实心紫） -->
+  <g stroke-linejoin="round">
+    <path d="M490,120 L520,135 L490,150 L460,135 Z" fill="url(#topV)"/>
+    <path d="M460,135 L490,150 L490,186 L460,171 Z" fill="url(#leftV)"/>
+    <path d="M490,150 L520,135 L520,171 L490,186 Z" fill="url(#rightV)"/>
+  </g>
+  <!-- 小方块 B（右上，实心青） -->
+  <g stroke-linejoin="round">
+    <path d="M700,190 L760,220 L700,250 L640,220 Z" fill="url(#topC)"/>
+    <path d="M640,220 L700,250 L700,320 L640,290 Z" fill="url(#leftC)"/>
+    <path d="M700,250 L760,220 L760,290 L700,320 Z" fill="url(#rightC)"/>
+  </g>
+  <!-- 小方块 C（右中，实心紫） -->
+  <g stroke-linejoin="round">
+    <path d="M740,388 L782,409 L740,430 L698,409 Z" fill="url(#topV)"/>
+    <path d="M698,409 L740,430 L740,480 L698,459 Z" fill="url(#leftV)"/>
+    <path d="M740,430 L782,409 L782,459 L740,480 Z" fill="url(#rightV)"/>
+  </g>
+
+  <!-- 中央大方块光晕 -->
+  <ellipse cx="467" cy="410" rx="185" ry="170" fill="#8B5CF6" opacity="0.35" filter="url(#soft)"/>
+
+  <!-- 中央大方块 -->
+  <g stroke-linejoin="round">
+    <path d="M467,250 L617,325 L467,400 L317,325 Z" fill="url(#topV)"/>
+    <path d="M317,325 L467,400 L467,575 L317,500 Z" fill="url(#leftV)"/>
+    <path d="M467,400 L617,325 L617,500 L467,575 Z" fill="url(#rightV)"/>
+    <!-- 顶面棱线提亮 -->
+    <path d="M317,325 L467,400 L617,325" fill="none" stroke="#EDE9FE" stroke-width="2.5" opacity="0.6"/>
+    <path d="M467,400 L467,575" fill="none" stroke="#312E81" stroke-width="2.5" opacity="0.4"/>
+  </g>
+
+  <!-- 顶面 play 三角（呼应 app 图标 + 字标） -->
+  <path d="M432,300 L432,360 L492,330 Z" fill="url(#play)" filter="url(#soft)" opacity="0.7"/>
+  <path d="M434,302 L434,358 L488,330 Z" fill="url(#play)"/>
+
+  <!-- 粒子 -->
+  <g fill="url(#line)">
+    <circle cx="360" cy="560" r="6"/>
+    <circle cx="600" cy="590" r="7" opacity="0.85"/>
+    <circle cx="300" cy="150" r="5" opacity="0.8"/>
+    <circle cx="820" cy="360" r="6" opacity="0.7"/>
+    <circle cx="150" cy="360" r="5" opacity="0.7"/>
+    <circle cx="660" cy="130" r="4" opacity="0.7"/>
+    <circle cx="470" cy="80" r="5" opacity="0.6"/>
+    <circle cx="510" cy="640" r="6" opacity="0.6"/>
+    <circle cx="250" cy="600" r="5" opacity="0.5"/>
+    <circle cx="700" cy="560" r="6" opacity="0.55"/>
+  </g>
+  <g fill="#22D3EE">
+    <path d="M840,470 l8,8 l-8,8 l-8,-8 Z" opacity="0.7"/>
+    <path d="M120,470 l7,7 l-7,7 l-7,-7 Z" opacity="0.6"/>
+    <path d="M560,40 l6,6 l-6,6 l-6,-6 Z" opacity="0.6"/>
+  </g>
+</svg>
