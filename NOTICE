@@ -1,0 +1,17 @@
+ZeroCraft Game Maker
+Copyright 2026 ZeroCraft
+
+This product is a fork of Cindy, the open-source client developed by
+心动网络股份有限公司 (X.D. Network Inc.), and is distributed under Apache-2.0.
+
+--- Upstream attribution ---
+
+Cindy
+Copyright 2026 心动网络股份有限公司 (X.D. Network Inc.)
+
+This product includes software developed by
+心动网络股份有限公司 (X.D. Network Inc.).
+
+Third-party components distributed with this product retain their own
+copyright and license terms. Their attribution notices and SPDX SBOMs are
+collected under docs/legal/notices/, not in this file.

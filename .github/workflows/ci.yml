@@ -1,0 +1,51 @@
+name: zerocraft-ci
+
+# ZeroCraft Game Maker CI —— 精简自上游 Cindy 的 client-ci。
+# 本 fork 把 cindy-protocol 由 submodule 改为 vendored 普通文件，故去掉「submodule 来源校验」
+# 与 mobile 相关步骤；只做「装桌面端依赖 + 桌面端类型检查」这一条已在本地验证通过的绿色路径。
+# 桌面 GUI 实跑与 macOS 打包在 Mac 本机进行（见 docs/BUILD-MACOS.md），不在无头 CI 内。
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zerocraft-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  XDT_SKIP_AGENT_BIN_INSTALL: '1'
+  ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+  NODE_OPTIONS: '--max-old-space-size=4096'
+
+jobs:
+  desktop-typecheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install desktop dependencies (scoped)
+        run: pnpm install --filter "desktop..." --frozen-lockfile
+
+      - name: Typecheck desktop
+        run: pnpm --filter desktop typecheck

@@ -1,0 +1,417 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+
+const currentDbClient = vi.hoisted(() => ({
+  userId: 'user-a' as string | null,
+}));
+const mocks = vi.hoisted(() => ({
+  electronAppGetPath: vi.fn(() => ''),
+}));
+
+vi.mock('../../localDb/dailySpend', () => ({
+  getAllSpendDays: vi.fn(),
+  localDayKey: () => '2026-06-11',
+}));
+vi.mock('../../localDb/dailyModelUsage', () => ({
+  getModelUsageSince: vi.fn(),
+}));
+vi.mock('../../localDb/client/current', () => ({
+  getCurrentDbClientUserId: () => currentDbClient.userId,
+}));
+vi.mock('../modelPricing', () => ({
+  getModelPricing: vi.fn(),
+  isModelPricingRefreshInFlight: vi.fn(() => false),
+  getCodexSubscriptionValuePrice: (
+    model: string,
+    pricing: Record<string, Record<string, unknown>> | null | undefined,
+  ) =>
+    pricing?.openai?.[model] ??
+    (model === 'gpt-5.5'
+      ? {
+          providerId: 'openai',
+          modelId: model,
+          currency: 'USD',
+          source: 'subscription-reference',
+          approximate: true,
+          inputPerMtok: 2,
+          outputPerMtok: 8,
+        }
+      : undefined),
+  getSubscriptionDirectValuePrice: (model: string) =>
+    model === 'xai/grok-4.3'
+      ? {
+          providerId: 'xai',
+          modelId: model,
+          currency: 'USD',
+          source: 'subscription-reference',
+          approximate: true,
+          inputPerMtok: 3,
+          outputPerMtok: 15,
+        }
+      : undefined,
+}));
+vi.mock('electron', () => ({
+  app: {
+    getPath: mocks.electronAppGetPath,
+  },
+}));
+vi.mock('../../logger', () => ({
+  createLogger: () => ({
+    info: vi.fn(),
+    debug: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+  }),
+}));
+
+import {
+  __resetUsageHistoryCacheForTesting,
+  claudeSubscriptionUsageModelKey,
+  codexApiUsageModelKey,
+  codexSubscriptionUsageModelKey,
+  computeAnomaly,
+  computeStreaks,
+  emptyUsageHistoryPayload,
+  prevDayKey,
+  readUsageHistory,
+  readUsageHistoryWith,
+  shiftDayKey,
+  type UsageHistoryDeps,
+} from '../usageHistory';
+import { getAllSpendDays } from '../../localDb/dailySpend';
+import { getModelUsageSince } from '../../localDb/dailyModelUsage';
+import { getModelPricing, isModelPricingRefreshInFlight } from '../modelPricing';
+import {
+  zeroUsageMoney,
+  type ModelPriceQuote,
+  type RegionalMoney,
+} from '../../../shared/regionalMoney';
+
+const TODAY = '2026-06-11';
+
+function actual(amount: number, approximate = false): RegionalMoney {
+  return {
+    amount,
+    currency: 'USD',
+    approximate,
+    kind: 'actual-cost',
+    ...(approximate ? { estimateReasons: ['legacy-usd'] } : {}),
+  };
+}
+
+function subscriptionQuote(
+  providerId: string,
+  modelId: string,
+  inputPerMtok: number,
+  outputPerMtok: number,
+): ModelPriceQuote {
+  return {
+    providerId,
+    modelId,
+    currency: 'USD',
+    source: 'subscription-reference',
+    approximate: true,
+    inputPerMtok,
+    outputPerMtok,
+  };
+}
+
+function modelRow(
+  day: string,
+  agentKind: 'claude-code' | 'codex',
+  model: string,
+  money: RegionalMoney,
+  tokens: {
+    inputTokens?: number;
+    outputTokens?: number;
+    cacheReadTokens?: number;
+    cacheCreateTokens?: number;
+  } = {},
+) {
+  return {
+    day,
+    agentKind,
+    model,
+    money,
+    inputTokens: tokens.inputTokens ?? 0,
+    outputTokens: tokens.outputTokens ?? 0,
+    cacheReadTokens: tokens.cacheReadTokens ?? 0,
+    cacheCreateTokens: tokens.cacheCreateTokens ?? 0,
+  };
+}
+
+function makeDeps(overrides: Partial<UsageHistoryDeps> = {}): UsageHistoryDeps {
+  return {
+    getAllSpendDays: async () => [],
+    getModelUsageSince: async () => [],
+    getModelPricing: async () => null,
+    isModelPricingRefreshInFlight: () => false,
+    todayKey: () => TODAY,
+    ...overrides,
+  };
+}
+
+beforeEach(async () => {
+  mocks.electronAppGetPath.mockReturnValue(
+    await mkdtemp(path.join(os.tmpdir(), 'cindy-usage-history-')),
+  );
+  currentDbClient.userId = 'user-a';
+  __resetUsageHistoryCacheForTesting();
+  vi.mocked(getAllSpendDays).mockResolvedValue([]);
+  vi.mocked(getModelUsageSince).mockResolvedValue([]);
+  vi.mocked(getModelPricing).mockResolvedValue(null);
+  vi.mocked(isModelPricingRefreshInFlight).mockReturnValue(false);
+});
+
+afterEach(async () => {
+  const dir = mocks.electronAppGetPath();
+  vi.useRealTimers();
+  vi.restoreAllMocks();
+  if (dir) {
+    await rm(dir, {
+      recursive: true,
+      force: true,
+      maxRetries: 5,
+      retryDelay: 100,
+    });
+  }
+});
+
+describe('day arithmetic and streaks', () => {
+  it('crosses month/year boundaries and shifts arbitrary deltas', () => {
+    expect(prevDayKey('2026-01-01')).toBe('2025-12-31');
+    expect(prevDayKey('2026-03-01')).toBe('2026-02-28');
+    expect(shiftDayKey('2026-06-11', -30)).toBe('2026-05-12');
+  });
+
+  it('keeps today grace while preserving the longest historical run', () => {
+    expect(computeStreaks(
+      ['2026-05-01', '2026-05-02', '2026-05-03', '2026-06-09', '2026-06-10'],
+      TODAY,
+    )).toEqual({ current: 2, longest: 3 });
+    expect(computeStreaks([], TODAY)).toEqual({ current: 0, longest: 0 });
+  });
+});
+
+describe('anomaly detection', () => {
+  function spendMap(trailing: number[], todayValue: number): Map<string, number> {
+    const values = new Map<string, number>();
+    trailing.forEach((value, index) => {
+      values.set(shiftDayKey(TODAY, -(index + 1)), value);
+    });
+    values.set(TODAY, todayValue);
+    return values;
+  }
+
+  it('requires three active baseline days and a strict two-times increase', () => {
+    expect(computeAnomaly(
+      spendMap([5, 0, 0, 0, 0, 0, 0], 100),
+      TODAY,
+    )).toEqual({ isAnomalous: false, trailing7DayAvg: null });
+    expect(computeAnomaly(
+      spendMap([7, 7, 7, 0, 0, 0, 0], 7),
+      TODAY,
+    )).toEqual({ isAnomalous: true, trailing7DayAvg: 3 });
+    expect(computeAnomaly(
+      spendMap([7, 7, 7, 7, 7, 7, 7], 14),
+      TODAY,
+    )).toEqual({ isAnomalous: false, trailing7DayAvg: 7 });
+  });
+});
+
+describe('billing model keys', () => {
+  it('keeps API and subscription accounting rows distinct', () => {
+    expect(codexApiUsageModelKey('gpt-5.5')).toBe('gpt-5.5#billing=api');
+    expect(codexSubscriptionUsageModelKey('gpt-5.5')).toBe(
+      'gpt-5.5#billing=subscription',
+    );
+    expect(claudeSubscriptionUsageModelKey('claude-opus-4-8')).toBe(
+      'claude-opus-4-8#billing=subscription',
+    );
+  });
+});
+
+describe('readUsageHistoryWith', () => {
+  it('aggregates actual money and subscription value without double counting', async () => {
+    const estimateAmount = 2;
+    const result = await readUsageHistoryWith(makeDeps({
+      getAllSpendDays: async () => [
+        { day: '2026-06-10', money: actual(3) },
+        { day: TODAY, money: actual(5) },
+      ],
+      getModelUsageSince: async () => [
+        modelRow(
+          '2026-06-10',
+          'claude-code',
+          'claude-opus-4-8',
+          actual(2),
+          { inputTokens: 10, outputTokens: 20 },
+        ),
+        modelRow(
+          TODAY,
+          'claude-code',
+          'claude-opus-4-8',
+          actual(4),
+          { inputTokens: 10, outputTokens: 20 },
+        ),
+        modelRow(
+          TODAY,
+          'codex',
+          codexSubscriptionUsageModelKey('gpt-5.5'),
+          actual(0),
+          { inputTokens: 1_000_000 },
+        ),
+        modelRow(
+          TODAY,
+          'codex',
+          codexApiUsageModelKey('gpt-5.5'),
+          actual(1),
+          { outputTokens: 100 },
+        ),
+      ],
+      getModelPricing: async () => ({
+        openai: {
+          'gpt-5.5': subscriptionQuote('openai', 'gpt-5.5', 2, 8),
+        },
+      }),
+    }));
+
+    expect(result.estimatesPending).toBe(false);
+    expect(result.totals.today).toEqual(actual(5));
+    expect(result.totals.last30Days).toEqual(actual(8));
+    expect(result.totals.last30DaysEstimatedValue).toMatchObject({
+      amount: estimateAmount,
+      kind: 'value-estimate',
+      approximate: true,
+    });
+    expect(result.totals.last30DaysWithEstimatedValue.amount).toBeCloseTo(
+      8 + estimateAmount,
+    );
+    expect(result.totals.last30DaysWithEstimatedValue.approximate).toBe(true);
+    expect(result.totals.todayTokens).toBe(1_000_130);
+    expect(result.totals.last30DaysTokens).toBe(1_000_160);
+
+    const subscription = result.models.find(
+      (row) => row.agentKind === 'codex' && row.estimatedMoney,
+    );
+    expect(subscription?.estimatedMoney?.amount).toBeCloseTo(estimateAmount);
+    const api = result.modelDaily.find(
+      (row) => row.apiMoney.amount === 1,
+    );
+    expect(api?.subscriptionEstimateMoney.amount).toBe(0);
+  });
+
+  it('uses provider-scoped Anthropic reference pricing for Claude subscription rows', async () => {
+    const expected = 5;
+    const result = await readUsageHistoryWith(makeDeps({
+      getModelUsageSince: async () => [
+        modelRow(
+          TODAY,
+          'claude-code',
+          claudeSubscriptionUsageModelKey('claude-opus-4-8'),
+          actual(0),
+          { inputTokens: 1_000_000 },
+        ),
+      ],
+      getModelPricing: async () => ({
+        anthropic: {
+          'claude-opus-4-8': subscriptionQuote(
+            'anthropic',
+            'claude-opus-4-8',
+            5,
+            25,
+          ),
+        },
+      }),
+    }));
+
+    expect(result.models[0]).toMatchObject({
+      agentKind: 'claude-code',
+      model: 'claude-opus-4-8',
+    });
+    expect(result.models[0].estimatedMoney?.amount).toBe(expected);
+  });
+
+  it('marks estimates pending only when a subscription price is missing during refresh', async () => {
+    const row = modelRow(
+      TODAY,
+      'codex',
+      codexSubscriptionUsageModelKey('unknown-model'),
+      actual(0),
+      { inputTokens: 1_000 },
+    );
+    const pending = await readUsageHistoryWith(makeDeps({
+      getModelUsageSince: async () => [row],
+      isModelPricingRefreshInFlight: () => true,
+    }));
+    const settled = await readUsageHistoryWith(makeDeps({
+      getModelUsageSince: async () => [row],
+      isModelPricingRefreshInFlight: () => false,
+    }));
+    expect(pending.estimatesPending).toBe(true);
+    expect(settled.estimatesPending).toBe(false);
+    expect(settled.models[0].estimatedMoney).toBeNull();
+  });
+
+  it('propagates approximate legacy history into anomaly and totals', async () => {
+    const trailing = Array.from({ length: 7 }, (_, index) => ({
+      day: shiftDayKey(TODAY, -(index + 1)),
+      money: actual(1, true),
+    }));
+    const result = await readUsageHistoryWith(makeDeps({
+      getAllSpendDays: async () => [
+        ...trailing,
+        { day: TODAY, money: actual(7, true) },
+      ],
+    }));
+    expect(result.anomaly).toMatchObject({
+      isAnomalous: true,
+      trailing7DayAvg: {
+        amount: 1,
+        approximate: true,
+      },
+    });
+    expect(result.totals.last30Days.approximate).toBe(true);
+  });
+});
+
+describe('production cache and empty payload', () => {
+  it('writes a structured fresh payload and serves it from memory', async () => {
+    vi.mocked(getAllSpendDays).mockResolvedValue([
+      { day: TODAY, money: actual(2) },
+    ]);
+    const first = await readUsageHistory({ days: 30 });
+    const second = await readUsageHistory({ days: 30 });
+    expect(first.stale).toBe(false);
+    expect(second.stale).toBe(false);
+    expect(second.totals.today).toEqual(actual(2));
+
+    await vi.waitFor(async () => {
+      const raw = JSON.parse(
+        await readFile(
+          path.join(mocks.electronAppGetPath(), 'cache', 'usage-history.json'),
+          'utf8',
+        ),
+      );
+      expect(raw).toMatchObject({
+        version: 3,
+        optsKey: 'user=user-a|days=30',
+        payload: {
+          totals: {
+            today: actual(2),
+          },
+        },
+      });
+    });
+  });
+
+  it('returns structured USD zero money on fallback', () => {
+    const empty = emptyUsageHistoryPayload();
+    expect(empty.totals.today).toEqual(zeroUsageMoney());
+    expect(empty.totals.last30DaysEstimatedValue).toEqual(
+      zeroUsageMoney('value-estimate'),
+    );
+  });
+});
