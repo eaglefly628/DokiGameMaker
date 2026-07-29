@@ -42,6 +42,7 @@ import {
 
 import { createLogger } from './logger';
 import { ENDPOINT_MANIFEST_BASE_URL } from '../shared/endpoints';
+import { CURRENT_CINDY_REGION } from '../shared/brandRegion';
 
 const log = createLogger('clientEndpoints');
 
@@ -86,6 +87,11 @@ export interface ResolveEndpointSourceInput {
   };
   /** 仓库根(dev 下 app.getAppPath() = apps/desktop,向上两级)。 */
   repoRoot: string;
+  /**
+   * ZeroCraft 本地优先:packaged 下随包端点清单的绝对路径。存在则 packaged 直接读
+   * 本地文件(离线自托管,不连任何 CDN);为空则维持原「packaged 恒 CDN」行为。
+   */
+  bundledManifestPath?: string;
 }
 
 /**
@@ -94,7 +100,13 @@ export interface ResolveEndpointSourceInput {
  * XDT_ENDPOINTS_CDN='1' 切回完整 CDN 链路。
  */
 export function resolveEndpointSource(input: ResolveEndpointSourceInput): EndpointSource {
-  if (input.isPackaged) return { kind: 'cdn' };
+  if (input.isPackaged) {
+    // ZeroCraft 本地优先:随包端点清单存在 → 读本地文件(离线自托管,不连任何 CDN);
+    // 缺失 → 回退原「packaged 恒 CDN」行为(便于将来接自建 manifest CDN)。
+    return input.bundledManifestPath
+      ? { kind: 'file', filePath: input.bundledManifestPath }
+      : { kind: 'cdn' };
+  }
   if (input.env.XDT_ENDPOINTS_CDN === '1') return { kind: 'cdn' };
   const override = input.env.XDT_ENDPOINT_MANIFEST_FILE?.trim();
   const filePath = override
@@ -311,6 +323,22 @@ let resolvedEndpoints: ClientEndpointMap | null = null;
  * --endpoints-cdn 时同 packaged)。返回 true = 可以继续启动;false = 用户在
  * 错误框选择退出(app.exit 已调用,调用方必须立即 return,不再继续启动流程)。
  */
+/**
+ * ZeroCraft 本地优先:packaged 下随包端点清单的绝对路径。forge 的 extraResource 把
+ * config/endpoint*.json 拷进 Contents/Resources/;按构建区域选对应文件,存在才返回。
+ * 缺失(旧包 / 未随包)则返回 undefined → resolveEndpointSource 回退 CDN。
+ */
+function bundledManifestPathForPackaged(): string | undefined {
+  const fileByRegion: { [region: string]: string } = {
+    cn: 'endpoint.json',
+    global: 'endpoint.global.json',
+    dev: 'endpoint.dev.json',
+  };
+  const name = fileByRegion[CURRENT_CINDY_REGION] ?? 'endpoint.global.json';
+  const manifestPath = path.join(process.resourcesPath, name);
+  return fs.existsSync(manifestPath) ? manifestPath : undefined;
+}
+
 export async function initClientEndpoints(): Promise<boolean> {
   const source = resolveEndpointSource({
     isPackaged: app.isPackaged,
@@ -318,8 +346,9 @@ export async function initClientEndpoints(): Promise<boolean> {
       XDT_ENDPOINTS_CDN: process.env.XDT_ENDPOINTS_CDN,
       XDT_ENDPOINT_MANIFEST_FILE: process.env.XDT_ENDPOINT_MANIFEST_FILE,
     },
-    // dev 下 app.getAppPath() = apps/desktop;packaged 不走 file 分支,该值无消费。
+    // dev 下 app.getAppPath() = apps/desktop;packaged file 分支改读随包清单。
     repoRoot: path.resolve(app.getAppPath(), '..', '..'),
+    bundledManifestPath: app.isPackaged ? bundledManifestPathForPackaged() : undefined,
   });
   const sourceLabel =
     source.kind === 'cdn'

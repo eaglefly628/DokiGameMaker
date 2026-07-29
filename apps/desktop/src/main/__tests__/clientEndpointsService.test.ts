@@ -84,6 +84,11 @@ describe('resolveEndpointSource(清单来源三选一)', () => {
       },
       { kind: 'cdn' },
     ],
+    [
+      'packaged + 随包清单 → 读本地文件(ZeroCraft 离线自托管)',
+      { isPackaged: true, env: {}, bundledManifestPath: path.join('/res', 'endpoint.global.json') },
+      { kind: 'file', filePath: path.join('/res', 'endpoint.global.json') },
+    ],
     ['dev 默认读仓内 cn 正本', { isPackaged: false, env: {} }, { kind: 'file', filePath: DEFAULT_FILE }],
     [
       'dev + XDT_ENDPOINTS_CDN=1 走 CDN',
