@@ -108,6 +108,20 @@ export function LoginPage() {
     }
   };
 
+  // ── ZeroCraft: 自动跳过登录，直接进本地模式 ──────────────────────────────
+  // 当前没有自建登录后端（auth 指 localhost），登录必失败；产品自带「本地模式」逃生入口
+  // (openLocalMode)，这里在登录页就绪后自动触发一次，用户无需手点。以后接自己的登录
+  // 系统时移除本段即可（下方 error 步的手动「跳过登录」footer 仍作兜底）。
+  const autoLocalTried = useRef(false);
+  useEffect(() => {
+    if (autoLocalTried.current) return;
+    if (isLoading || localModePending) return;
+    if (!window.electronAPI?.authEnterLocal) return;
+    autoLocalTried.current = true;
+    void openLocalMode();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, localModePending]);
+
   // 企业 SSO 入口子视图:在 identifier 步骤内输入组织标识(本地展示态,不进 main)。
   // 需先于 bottomReserve 计算声明——协议行只在 identifier 主视图渲染,sso-org 子视图隐藏。
   const [ssoOrgMode, setSsoOrgMode] = useState(false);
