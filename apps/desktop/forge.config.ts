@@ -762,6 +762,14 @@ function extraResourcesForTarget(targetPlatform: string): string[] {
     path.resolve(__dirname, '..', '..', 'config', 'endpoint.global.json'),
   ];
 
+  // ZeroCraft 本地优先:把随包 agent 二进制(claude-code/codex)打进 Resources/<dir>/<platform>/,
+  // 让运行时 prepare() 离线命中、跳过 CDN 下载(见 agent-binaries/index.ts 的随包短路)。
+  // 目录由 ensure-agent-binaries 在 build:mac 前生成;不存在则跳过(不硬报错)。
+  for (const binDir of ['claude-code-bin', 'codex-bin']) {
+    const abs = path.resolve(__dirname, '..', binDir);
+    if (fs.existsSync(abs)) base.push(abs);
+  }
+
   if (targetPlatform === 'win32') {
     base.unshift(`resources/${UPDATER_EXE}`);
   }

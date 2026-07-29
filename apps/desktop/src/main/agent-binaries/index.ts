@@ -203,6 +203,36 @@ export async function prepare(
     return { ready: false, error: `${kind} dev binary not found for ${getPlatformKey()}`, downloaded: false };
   }
 
+  // ── ZeroCraft: packaged 随包二进制短路（离线自托管，命中即用，跳过 CDN 下载）──
+  // forge extraResource 把 apps/<devBinDir>/<platform>/ 打进 .app 的 Resources/<devBinDir>/。
+  // 命中即用——Claude Code / Codex 离线即可用，不连任何 CDN，也不需要 Cindy 账号。
+  {
+    const bundledPath = path.join(
+      process.resourcesPath,
+      cfg.devBinDir,
+      getPlatformKey(),
+      cfg.binaryName,
+    );
+    try {
+      fs.accessSync(bundledPath);
+      if (process.platform !== 'win32') {
+        try {
+          fs.chmodSync(bundledPath, 0o755);
+        } catch {
+          /* ignore chmod 失败（只读挂载等），accessSync 已确认存在即用 */
+        }
+      }
+      console.log(`[agent-binaries/${kind}] bundled binary hit (offline): ${bundledPath}`);
+      lastReadyPath.set(kind, bundledPath);
+      if (broadcastProgress) {
+        broadcastBinaryDownloadProgress({ progress: 100, step, totalSteps, vendor: cfg.vendorTag });
+      }
+      return { ready: true, path: bundledPath, downloaded: false };
+    } catch {
+      // 未随包（旧包 / 未 bundle）→ 落到下面的 Linux fallback / CDN 下载逻辑。
+    }
+  }
+
   // ── packaged Linux runtime: 私有安装 / 旧缓存 / PC 已装 / 官方下载 ───────
   // Linux release manifest 明确不发布 Claude/Codex 资产。这里直接走 runtime
   // fallback，不能先调 base.prepare()/manifest：离线首装会让 peek + prepare
