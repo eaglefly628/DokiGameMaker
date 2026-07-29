@@ -37,30 +37,33 @@ pnpm install          # 会自动下载 darwin-arm64 的 Electron 二进制并�
 
 ## 三、打包安装包（本地 ad-hoc 签名，无需 Apple 开发者账号）
 
-### 方式 A —— 最省事：ZIP（默认已可用）
+> 已内置一键脚本（自动先补齐 ripgrep/claude-code/codex 二进制，再构建）：
+
+### 方式 A —— 一条命令（推荐，产出可运行的 App）
 
 ```bash
-pnpm build
-# 产物：apps/desktop/out/make/zip/darwin/arm64/*.zip（解开即 ZeroCraft.app）
+pnpm build:mac
+# 产物：apps/desktop/out/make/zip/darwin/arm64/*.zip（解开即 ZeroCraft.app，双击可跑）
 ```
+`build:mac` = 先 `ensure-agent-binaries`（补齐随包 CLI）→ 再 `pnpm build`（electron-forge make）。
+**零额外依赖**，最稳。
 
-### 方式 B —— DMG 安装包（推荐分发用）
-
-DMG 依赖 `@electron-forge/maker-dmg`（内含 macOS 原生 `appdmg`，故未放进
-lockfile；在 Mac 上按需安装即可，forge 已配置好、装了就自动出 dmg）：
+### 方式 B —— 要 .dmg 安装包（先一次性开启 dmg maker）
 
 ```bash
-pnpm --filter desktop add -D @electron-forge/maker-dmg
-pnpm build
-# 产物：apps/desktop/out/make/**/ZeroCraft.dmg（卷名/文件名 = ZeroCraft）
+pnpm mac:enable-dmg     # 只需一次：装 @electron-forge/maker-dmg（内含 macOS 原生 appdmg，仅 Mac 能装）
+pnpm build:mac
+# 产物额外多出：apps/desktop/out/make/**/ZeroCraft.dmg（卷名/文件名 = ZeroCraft）
 ```
+> `mac:enable-dmg` 会给 apps/desktop/package.json 加一条本地 devDependency（本机工作副本，
+> 不必提交）。没装 dmg maker 时 `build:mac` 会自动跳过 .dmg、只出 .zip（forge 里有 try/catch 守卫）。
 
-### 方式 C —— 官方发布脚本（ad-hoc 降级，产物更规整）
+### 方式 C —— release 规整产物（release/artifacts 目录，dmg+zip）
 
 ```bash
-pnpm release:package --no-sign
+pnpm pack:mac           # = package-desktop.mjs --platform=darwin --arch=arm64 --no-sign
 # 产物：apps/desktop/release/artifacts/<region>/unversioned/darwin-arm64/*.dmg / *.zip
-# --no-sign / --allow-unsigned：无 Apple 签名凭据时降级为 ad-hoc 本地签名（脚本内置支持）
+# 需要 .dmg 同样先跑一次 pnpm mac:enable-dmg；--no-sign 无 Apple 凭据时 ad-hoc 降级（脚本内置）
 ```
 
 ## 四、首次打开（未公证的 Gatekeeper 放行）

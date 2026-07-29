@@ -116,7 +116,10 @@
     "test:guard": "node scripts/test-workspaces.mjs --tier guard",
     "ci:scheduler-guard": "node scripts/scheduler-ci-guard.mjs",
     "pctx": "node packages/project-context/dist/cli.js",
-    "pctx:build": "pnpm --filter project-context build"
+    "pctx:build": "pnpm --filter project-context build",
+    "build:mac": "node scripts/ensure-agent-binaries.mjs && pnpm build",
+    "pack:mac": "node scripts/ensure-agent-binaries.mjs && node scripts/ensure-deps.mjs && node apps/desktop/scripts/package-desktop.mjs --platform=darwin --arch=arm64 --no-sign",
+    "mac:enable-dmg": "pnpm --filter desktop add -D @electron-forge/maker-dmg@^7.11.1"
   },
   "dependencies": {
     "gray-matter": "^4.0.3"
