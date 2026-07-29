@@ -755,6 +755,11 @@ function extraResourcesForTarget(targetPlatform: string): string[] {
     'resources/THIRD-PARTY-NOTICES.txt',
     // 非开源 / source-available / 商业条款组件单列,避免与开源包数量混淆。
     'resources/THIRD-PARTY-RESTRICTED.txt',
+    // ZeroCraft 本地优先:随包端点清单(cn/global 各一份),让 packaged 离线读本地
+    // 文件而非拉 CDN。config/ 在仓根,用绝对路径;electron-packager 按 basename
+    // 拷到 Resources/,运行期由 clientEndpointsService.bundledManifestPathForPackaged 读取。
+    path.resolve(__dirname, '..', '..', 'config', 'endpoint.json'),
+    path.resolve(__dirname, '..', '..', 'config', 'endpoint.global.json'),
   ];
 
   if (targetPlatform === 'win32') {
