@@ -59,20 +59,66 @@ ZeroCraft Game Maker = **可视化制作工具（Editor / Maker）** + **内置�
 
 ---
 
-## Phase 3 —— 引擎整合发布（规划中）
+## Phase 3 —— 与 Apollo 的整合（三层口径 · 2026-07-31 裁决）
 
-**目标**：将 Apollo 引擎（阿波罗引擎）的逻辑与数据迁移、整合进工具，形成一体化发布产物。
+> **口径变更**：早期版本写的是「把 Apollo 塞进来当 runtime」。经双方调查后改为
+> **三层分开推进**。核心红线两条：**引用不拷贝、门禁不旁路**。
+> Apollo 仓（`eaglefly628/ApolloGame`，主干 `claude/mainbranch`）**保持独立**，
+> 其分支纪律、推送门禁、多 session 并行、验收体系原样保留。
 
-**关键工作**：
+### 第一层：驾驶舱（立即可用，成本≈0）
 
-1. **逻辑整合**：把 Apollo 引擎的运行时逻辑接入到制作工具的预览 / 导出流程中。
-2. **数据整合**：统一制作工具的工程数据格式与 Apollo 引擎的数据格式（或建立转换层）。
-3. **一体化打包**：编辑器 + 引擎作为同一套产物发布，供 ZeroCraft 游戏使用。
+ZeroCraft 当「驾驶舱」读 Apollo 仓，**不搬运任何代码**。双方机制是插头对插座：
 
-**待决策项（需要确认）**：
-- Apollo 引擎当前的形态（独立仓库 / 私有代码 / 数据文件？）
-- 引擎与编辑器之间的数据契约（Schema）如何定义。
-- 发布形态（纯前端静态站点 / Electron 桌面端 / 两者皆有？）
+| ZeroCraft 机制 | 对上 Apollo 的 | 落地动作 |
+| --- | --- | --- |
+| `workingDir` 指向任意目录 | Apollo 本地克隆 | 打开目录即可，无需配置 |
+| 自动扫描 `.claude/skills` | Apollo 的 `check-ui` / `resource-manager` | 零配置生效 |
+| Orca Lead/Worker 多 agent 编排 | Apollo 的 Lead/PE/GD 角色体系 | 充当「主动调用 + check」的马达 |
+| Pre-run Hook（`exit 0` 放行 / `exit 2` 跳过 / 其它 fail-closed 拦截，见 `apps/desktop/src/main/scheduler-host/pre-run-hook.ts`） | Apollo 的 `scripts/scoped-gate.mjs --run`（退出码=门禁结果） | 一条命令挂上，Apollo 的门禁直接继承 |
+
+**边界**：ZeroCraft 是 Electron 桌面端，只在本机跑；云端 session 不受益于其 GUI，
+两边并行不冲突，状态统一汇到各自仓库。
+
+### 第二层：积木层（引用，不搬家）
+
+Apollo 的引擎本体 / tier1-4 能力库 / UI starters / sample 游戏，经 `workingDir`
+天然可读。**现阶段明确不做 vendored 拷贝**（会立刻产生两份真相）。
+待真正要做「编辑器 + 引擎一体打包」的产品形态时，再评估 git submodule 挂法。
+
+### 第三层：接口层（唯一需要新做的，很薄）
+
+给 ZeroCraft 侧 agent 提供一份**机读的 Apollo 接入点清单**：手册总目录在哪、
+板/门禁命令怎么调、能力目录怎么查、门禁判据是什么。因 Apollo 本身即按
+「状态在工件里、机器可读」设计，此层预计只是 1-2 份文档 + 一张入口清单。
+
+### 🔴 前置阻断项：项目自动化的任意命令执行
+
+接入 Apollo 目录**之前必须先处置**，否则「谁能写 Apollo 仓 = 谁能在本机定时执行任意命令」。
+
+已核实的事实（勿凭记忆重判）：
+
+- `.cindy/automations/schedules.json` 从**被打开的项目目录**读取，被当作
+  **强制配置**同步进调度器 —— 源码注释原话：*"Project schedules are mandatory
+  project-lead configuration… **Users cannot reject them**"*
+  （`apps/desktop/src/main/scheduler-host/project-automation-loader.ts`）。
+- 其 `preRunHook.command` 经 `spawn(command, { shell: true })` 由系统 shell 执行
+  （POSIX `/bin/sh`），校验函数仅检查「非空字符串」，**无白名单**
+  （`pre-run-hook.ts` / `hook-runtimes.ts`）。
+- 即使不用 `preRunHook`，`prompt` + `cronExpr` 本身即「定时唤起一个 agent 会话」。
+- `loader.reconcileAll()` 在调度器启动（应用开机）时**无条件**遍历所有已知
+  workingDir 同步（`scheduler-host/index.ts`）。
+- ⚠️ **本产品当前没有「关闭项目自动化」的设置开关**（仅 Android automation 有
+  `isAndroidAutomationEnabled`，项目自动化没有对应物）。
+
+因此可选处置只有两条：
+
+1. **Apollo 侧守卫**：把 `.cindy/**` 纳入「只归主程改」清单 + CI 拦截，
+   使普通 session 无法经该文件取得本机执行权。
+2. **ZeroCraft 侧加闸**（我们自有 fork，可改）：新增项目自动化开关（默认关），
+   或恢复「首次/变更需用户显式同意」语义。
+
+**建议采用 1 + 2 并行**：Apollo 侧守卫防投毒源头，ZeroCraft 侧加闸做纵深防御。
 
 ---
 
