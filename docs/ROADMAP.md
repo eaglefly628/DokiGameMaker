@@ -208,6 +208,9 @@ ZeroCraft 当「驾驶舱」读 Apollo 仓，**不搬运任何代码**。双方�
 | 2026-08-01 | 第二层改为 vendored 搬入 `packages/apollo-engine`（引擎+Studio+手册+美术管线工具，759 文件） | owner 拍板：引擎是本产品运行时，须能独立编译发布；以 `SYNC.json` 锚定上游 commit 防漂移 |
 | 2026-08-01 | 引擎接线完成并纳入门禁；新增项目自动化总开关（默认关）堵住任意命令执行 | 引擎 308 文件/2520 测试全绿、tsc 0 error；安全闸含 7 条回归测试 |
 | 2026-08-01 | 搬入首个内容游戏 `game-i`（owner 指定） | 42 源文件 + 104 美术资源；游戏属内容快照，直接拷贝不留指针 |
+| 2026-08-01 | 确立三条长期工作线（上游移植 / 引擎改造 / 做游戏）与 11 张 Claude Code 角色卡（`.claude/agents/`） | 角色按「域边界 + 必读 + 铁律 + 验收命令」定义，跨界一律开单不自己伸手 |
+| 2026-08-01 | 外壳线补同步锚点 `UPSTREAM.json`（对齐引擎侧 `SYNC.json`），规程见 `docs/dev-rules/upstream-sync.md` | 此前上游 commit 只写在 README/ROADMAP 散文里，无机读锚点，无法可靠计算增量 |
+| 2026-08-01 | 规则去 Cindy 化改为按 `docs/dev-rules/rule-migration-plan.md` 的 KEEP/REWRITE/DROP 三分表分阶段执行 | 判定以代码为准不以文档为准；Apache-2.0 归属（LICENSE/NOTICE/legal）永不删改 |
 
 ---
 

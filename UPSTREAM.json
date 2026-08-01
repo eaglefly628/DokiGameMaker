@@ -1,0 +1,43 @@
+{
+  "_note": "ZeroCraft 桌面外壳的上游同步锚点（对应引擎侧 packages/apollo-engine/SYNC.json）。任何一次从上游 Cindy 移植增量，都必须更新本文件。作业规程见 docs/dev-rules/upstream-sync.md，角色卡见 .claude/agents/upstream-cindy-porter.md。",
+  "upstream": {
+    "name": "Cindy",
+    "repo": "https://github.com/makecindy/cindy",
+    "license": "Apache-2.0",
+    "copyright": "心动网络股份有限公司 (X.D. Network Inc.)",
+    "branch": "main",
+    "commit": "8bb72510",
+    "_commitProvenance": "记录自本仓 README.md 与 docs/ROADMAP.md（Phase 2 导入基座）。为短 SHA，尚未对上游仓库核验过完整 SHA 与日期——下一次移植时补全。"
+  },
+  "syncedAt": "2026-07-28",
+  "scope": {
+    "included": [
+      "apps/desktop",
+      "apps/mobile",
+      "packages/*（@cindy/* 全部客户端能力包）",
+      "cindy-protocol/（已 vendored 为普通文件，去 submodule）",
+      "config/",
+      "scripts/",
+      "tools/",
+      "i18n/",
+      "docs/dev-rules, docs/product-rules, docs/design-rules"
+    ],
+    "excluded": [
+      "上游 CI 中依赖 submodule 的工作流（本仓换为 zerocraft-ci）",
+      "上游公司内部流程文档与内部把关人流程"
+    ]
+  },
+  "forkChangesThatMustSurvive": [
+    { "what": "品牌名 ZeroCraft", "where": "packages/maker-shared/src/branding.ts (BRAND_NAME)" },
+    { "what": "端点自托管 localhost", "where": "config/endpoint.json, config/endpoint.global.json" },
+    { "what": "禁用 TapDB 遥测", "where": "apps/desktop/src/renderer/index.tsx" },
+    { "what": "自动跳过登录 / 本地优先", "where": "登录链路" },
+    { "what": "项目自动化默认关 + 三重 fail-closed", "where": "apps/desktop/src/main/project-automation-settings-store.ts, scheduler-host/project-automation-loader.ts" },
+    { "what": "macOS MakerDMG", "where": "apps/desktop/forge.config.ts" },
+    { "what": "CI 精简为 zerocraft-ci", "where": ".github/workflows/ci.yml" },
+    { "what": "cindy-protocol 去 submodule", "where": "cindy-protocol/" },
+    { "what": "随包 agent 二进制离线路径", "where": "agent-binaries 相关" },
+    { "what": "内部标识符刻意不改（反向约束：移植时也不要顺手改名）", "where": "packages/maker-shared/src/brandIdentity.ts" }
+  ],
+  "attribution": "Apache-2.0 归属保留在 LICENSE / NOTICE / docs/legal/notices/。去 Cindy 化改的是规则与品牌，不是版权归属——这三处不得删改。"
+}

@@ -1,6 +1,10 @@
 # 开发规则
 
-这里存放 Cindy 客户端仓的工程约束、实现规则、开发流程和验证方法。
+这里存放 ZeroCraft Game Maker 的工程约束、实现规则、开发流程和验证方法。
+
+> 本目录整套规则继承自上游 Cindy，正在分阶段改造为 ZeroCraft 自有规则。
+> 每份文档的处置（保留 / 改写 / 删除）以 [`rule-migration-plan.md`](rule-migration-plan.md)
+> 的三分表为准。引擎与游戏侧的规则不在本目录，在 `packages/apollo-engine/docs/`。
 
 ## 收录标准
 
@@ -13,6 +17,10 @@
 
 ## 当前文档
 
+- [`upstream-sync.md`](upstream-sync.md)：两条上游移植线（外壳 ← Cindy、引擎 ← Apollo）
+  的同步锚点纪律与「不能被回退」清单。
+- [`rule-migration-plan.md`](rule-migration-plan.md)：规则去 Cindy 化的 KEEP／REWRITE／DROP
+  三分表与判定纪律，本目录改造进度的真相来源。
 - [`repo-map.md`](repo-map.md)：仓库地图——apps、packages 与顶层目录的定位导航。
 - [`environment-setup.md`](environment-setup.md)：公共开发环境、依赖安装与 submodule
   准备。

@@ -111,7 +111,10 @@ nul
 # Agent 工具私有目录整体忽略；共享说明只通过 AGENTS.md / CLAUDE.md 提交。
 .agents/
 .learnings/
-.claude/
+# 上游默认整体忽略 .claude/。本仓例外：`.claude/agents/` 的角色卡是共享的团队规则
+# （见 AGENTS.md §2 角色路由表），必须入仓；其余 .claude 私有状态仍然忽略。
+.claude/*
+!.claude/agents/
 CLAUDE.local.md
 .codex/
 .cursor/
