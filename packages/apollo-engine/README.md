@@ -56,6 +56,37 @@ Studio 侧对应面板：`ArtLedgerPanel`（账本）、`AssetBrowser`（浏览�
 [`assets.md`](./docs/playbooks/assets.md)、[`character-card.md`](./docs/playbooks/character-card.md)、
 [`3d.md`](./docs/playbooks/3d.md)。
 
+## 本地运行（VS Code / 终端）
+
+```bash
+# 仓库根执行；首次先 pnpm install
+pnpm dev:engine        # 起引擎预览 → http://localhost:5180
+```
+
+打开后是一个极简选择页，点 **▶ Game I** 即进入游戏；左上角「⟵ 返回」卸载并回到选择页。
+改任意引擎/游戏源码即热更新。
+
+**入口**：`index.html` → `src/dev-preview.ts`。
+
+> 为什么不用上游的 launcher：上游 `src/launcher/game-runner.tsx` 里有一张指向**全部 15 个
+> 游戏**的静态 import 表，而本仓只 vendored 了其中少数（见 `SYNC.json`），整表搬进来会留
+> 一堆解析不到的路径。`dev-preview.ts` 只挂**已搬入且导出 `mount` 的游戏**，契约
+> （`mount(container) => cleanup`）与上游 game-runner 完全一致，不另造机制。
+
+**加一个游戏到预览页**：把游戏搬进 `src/games/`（见下方「搬一个游戏进来」）后，在
+`src/dev-preview.ts` 的 `GAMES` 数组里加一行即可。
+
+其它常用命令：
+
+```bash
+pnpm --filter @zerocraft/apollo-engine test        # 引擎全部测试
+pnpm --filter @zerocraft/apollo-engine typecheck   # tsc --noEmit
+pnpm --filter @zerocraft/apollo-engine ledger:audit # 美术账本审计
+```
+
+⚠️ 三处别名配置必须同形，任一漂移都会出现「tsc 过但运行/测试挂」：
+`tsconfig.json` 的 `paths`、`vitest.config.ts` 与 `vite.config.ts` 的 `resolve.alias`。
+
 ## 门禁
 
 `tools/scoped-gate.mjs` 是分级推送门禁，**退出码即门禁结果**，判词 token
