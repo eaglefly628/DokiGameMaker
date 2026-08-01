@@ -1,0 +1,8 @@
+{
+  // 打开本工程时 VS Code 会提示安装这些扩展（可忽略，不装也能跑）。
+  "recommendations": [
+    // TypeScript 项目基础：格式化与 lint。
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
+  ]
+}

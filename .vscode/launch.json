@@ -1,0 +1,96 @@
+{
+  // ZeroCraft Game Maker · VS Code 运行配置
+  //
+  // 用法：左侧「运行和调试」(Run and Debug) 面板 → 顶部下拉选一项 → 点绿色 ▶（或按 F5）。
+  //
+  // 说明：这里用 node-terminal 类型 —— 它就是「在 VS Code 集成终端里跑一条命令」，
+  // 比手敲命令少一步，输出、报错、Ctrl+C 停止都和终端完全一样。
+  // 首次使用前需在终端跑一次 `pnpm install`（只需一次）。
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // 引擎预览：起 Vite dev server，就绪后自动开浏览器到选择页，点 ▶ Game I 进游戏。
+      // 改引擎/游戏源码会热更新，不用重启。
+      "name": "🎮 引擎预览（跑 game-i）",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm dev:engine",
+      "cwd": "${workspaceFolder}",
+      // Vite 打印出监听地址后自动开浏览器（省掉手动敲 localhost:5180）。
+      "serverReadyAction": {
+        "pattern": "Local:\\s+(https?://\\S+)",
+        "uriFormat": "%s",
+        "action": "openExternally"
+      }
+    },
+    {
+      // ZeroCraft 桌面端（Electron 客户端本体）。
+      // 刻意用 `--filter desktop dev` 而不是 `pnpm dev:desktop`：后者会先跑
+      // ensure-deps.mjs，在依赖有漂移时**自动触发安装**；这条直接起，不装东西。
+      // 若报缺依赖，再单独跑一次 `pnpm install --filter "desktop..."`。
+      "name": "🖥 ZeroCraft 桌面端（不触发安装）",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter desktop dev",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      // 与上一条的区别：走完整 dev:desktop 链路，会自检并按需补装依赖、补运行时资源
+      // （agent 二进制等）。第一次跑或换机器时用这条。
+      "name": "🖥 ZeroCraft 桌面端（含依赖自检·首次用这条）",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm dev:desktop",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "🧪 引擎全部测试",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter @zerocraft/apollo-engine test",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      // 监听模式：改一个文件只重跑受影响的测试，适合边改边看。
+      "name": "🧪 引擎测试（watch）",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter @zerocraft/apollo-engine exec vitest",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "🔍 引擎类型检查",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter @zerocraft/apollo-engine typecheck",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      // 美术管线门禁：账本缺漏/孤儿资源审计。退出码即结果（0 通过）。
+      "name": "🎨 美术账本审计",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter @zerocraft/apollo-engine ledger:audit",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      // 全仓单元测试门禁（提交前应跑的那道）。耗时数分钟。
+      "name": "✅ 全仓门禁（pnpm test:unit）",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm test:unit",
+      "cwd": "${workspaceFolder}"
+    }
+  ],
+  "compounds": [
+    {
+      // 一次起两个：桌面端 + 引擎预览，方便左右对照着看整套。
+      "name": "🚀 全套（桌面端 + 引擎预览）",
+      "configurations": [
+        "🖥 ZeroCraft 桌面端（不触发安装）",
+        "🎮 引擎预览（跑 game-i）"
+      ],
+      "stopAll": true
+    }
+  ]
+}

@@ -77,7 +77,12 @@ docs/superpowers/
 
 # ── IDE / 本地知识工具 ───────────────────────────────────────
 .idea/
-.vscode/
+# .vscode 整体仍忽略（settings.json 等含个人偏好/本地路径），但**共享的运行配置**
+# 例外放行:launch.json / tasks.json 是「怎么把本项目跑起来」的团队知识,应随仓分发。
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/extensions.json
 .vs/
 .fleet/
 .zed/

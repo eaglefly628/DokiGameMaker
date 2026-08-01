@@ -1,0 +1,70 @@
+{
+  // ZeroCraft Game Maker · VS Code 任务
+  //
+  // 用法：菜单 Terminal → Run Task…（或 Cmd+Shift+P → "Run Task"）→ 选一项。
+  // 与 launch.json 的区别：launch.json 在「运行和调试」面板里选，tasks 在菜单里选；
+  // 两边都留了同样的入口，用顺手的那个即可。
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "安装依赖（首次 / 拉到新依赖后）",
+      "type": "shell",
+      "command": "pnpm install",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "🎮 引擎预览（跑 game-i）",
+      "type": "shell",
+      "command": "pnpm dev:engine",
+      // 长驻服务：不要等它「结束」，起来就算成功。
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "🖥 ZeroCraft 桌面端（不触发安装）",
+      "type": "shell",
+      "command": "pnpm --filter desktop dev",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "🧪 引擎全部测试",
+      "type": "shell",
+      "command": "pnpm --filter @zerocraft/apollo-engine test",
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "🔍 引擎类型检查",
+      "type": "shell",
+      "command": "pnpm --filter @zerocraft/apollo-engine typecheck",
+      "problemMatcher": ["$tsc"],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "🔍 桌面端类型检查",
+      "type": "shell",
+      "command": "pnpm --filter desktop typecheck",
+      "problemMatcher": ["$tsc"],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "🎨 美术账本审计",
+      "type": "shell",
+      "command": "pnpm --filter @zerocraft/apollo-engine ledger:audit",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "✅ 全仓门禁（提交前跑）",
+      "type": "shell",
+      "command": "pnpm test:unit",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    }
+  ]
+}
