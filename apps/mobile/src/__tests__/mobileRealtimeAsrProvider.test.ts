@@ -1,4 +1,5 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { BRAND_NAME } from '@cindy/maker-shared/branding';
 import { DEFAULT_MOBILE_VOICE_LITELLM_BASE_URL } from '@/config/env';
 import { i18n } from '@/i18n';
 
@@ -880,7 +881,7 @@ describe('mobileRealtimeAsrProvider', () => {
       reason: 'Received bad response code from server: 403.',
     });
 
-    await expect(started).rejects.toThrow('Cindy 语音会话已失效或没有权限（WebSocket 403）。请确认登录状态后重试。');
+    await expect(started).rejects.toThrow(`${BRAND_NAME} 语音会话已失效或没有权限（WebSocket 403）。请确认登录状态后重试。`);
   });
 
   it('redacts the synced voice key from Volcengine websocket errors', async () => {

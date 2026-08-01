@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { BRAND_NAME } from '@cindy/maker-shared/branding';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { i18n } from '@/i18n';
@@ -379,7 +380,8 @@ describe('mobile home desktop-first surface', () => {
     // 文案已 i18n 化,断言改查 zh-CN catalog(单一事实源);源码只保留结构/交互契约。
     const t = i18n.getFixedT('zh-CN');
     // 步骤三的路径和开关名必须与桌面端设置页一致,避免用户按指引找不到开关。
-    expect(t('deviceLink.connectStep1')).toBe('在电脑上安装并打开 Cindy');
+    // 品牌显示名随 BRAND_NAME 单点走(rebrand 后此处不必再改),不写死字面量。
+    expect(t('deviceLink.connectStep1')).toBe(`在电脑上安装并打开 ${BRAND_NAME}`);
     expect(t('deviceLink.connectStep2')).toBe('用与手机相同的账号登录');
     expect(t('deviceLink.connectStep3')).toContain('「设置 → 远程连接」');
     expect(t('deviceLink.connectStep3')).toContain('允许同账号设备控制本机');
@@ -389,7 +391,7 @@ describe('mobile home desktop-first surface', () => {
     expect(guideSource).toContain('home.remoteGuide.retryAccess');
     expect(guideSource).toContain('<Lock');
     // 未来形态预告:云端 Cindy 上线后手机版可脱离电脑直接使用。
-    expect(t('deviceLink.cloudTeaserTitle')).toBe('云端 Cindy 筹备中');
+    expect(t('deviceLink.cloudTeaserTitle')).toBe(`云端 ${BRAND_NAME} 筹备中`);
     expect(t('deviceLink.cloudTeaserCopy')).toBe('上线后无需电脑，手机版即可直接使用。');
   });
 });

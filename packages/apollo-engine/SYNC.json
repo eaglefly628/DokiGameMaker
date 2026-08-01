@@ -26,7 +26,10 @@
     "docs/rules",
     "docs/game-design/game-f-tutorial.html",
     "assets/curated/search-aliases.json",
-    "tools"
+    "tools",
+    "assets/FreeArtLib/monster/animals/elephant_old.png (PNG 解码器测试夹具)",
+    "public/games/game-c/art/art-ledger.json (ArtLedgerPanel 渲染测试夹具)",
+    "vitest.config.ts (宿主侧路径别名)"
   ],
   "excluded": {
     "src/games（game-e/f 以外）": "游戏内容——按需单独搬运，见 README「搬一个游戏进来」",
@@ -39,6 +42,8 @@
   "notes": {
     "studio 对样例游戏的依赖": "src/studio 的生产代码 import game-e/game-f 的蓝图与资源清单（AssetLibrary/StudioInspector/assets-model）。故一并搬入这两个样例（76 文件，无美术资源）。后续可解耦为可插拔样例注册表。",
     "引用自检": "2251 条内部引用已全量校验，零断链（唯二报警为检查器 artifact：Vite ?raw 后缀、注释内示例）。",
-    "尚未接线": "依赖（three/cannon-es/react-dom）未安装、宿主 Vite alias 未配、上游测试未纳入本仓 runner。已在 scripts/test-workspaces.config.mjs 显式登记为未接入，不谎报通过。"
+    "接线状态": "2026-08-01 已接线：依赖安装完成、路径别名配于包内 vitest.config.ts；289 测试文件 / 2416 测试通过、1 跳过，tsc 0 error；已在 scripts/test-workspaces.config.mjs 改为 requiredUnitWorkspace 纳入门禁必跑。",
+    "vendor patch（同步时需重新施加）": "src/assets/asset-index.test.ts：真实 assets/index.json 自检改为 it.skipIf(!existsSync(...))——该 19MB/2.9万项索引及其 6373 个美术文件未搬入。同文件另 28 条解析器逻辑测试不受影响。",
+    "测试排除": "vitest.config.ts 排除 src/assets/shelf-3d.test.ts（整文件为「公用 3D 素材货架是否在册」的美术库内容守卫，非引擎代码）；沿用上游快/慢双车道，game-f 仅 APOLLO_DEEP=1 跑。"
   }
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import {
   parseAssetIndex,
   pendingAssets,
@@ -295,7 +295,12 @@ describe('asset-index — filledSrc（skinKey/id → URL·背景皮肤槽解析�
 });
 
 describe('asset-index — 真实 assets/index.json 自检', () => {
-  it('仓库里的 index.json 合法可解析', () => {
+  // [ZeroCraft vendor patch] 本条自检针对**上游仓的真实美术库索引**（~2.9 万项 / 19MB）。
+  // 该索引与其所索引的 6373 个美术文件属于「具体游戏的美术资源」，未随引擎 vendored
+  // 进本仓（见 SYNC.json excluded）。故文件缺失时跳过——而不是删掉本条、也不是伪造一份
+  // 索引来假装通过。本 describe 之外的 28 条解析器逻辑测试不依赖真实文件，照常运行。
+  // 若将来把美术库搬进来，本条自动恢复执行，无需改代码。
+  it.skipIf(!existsSync('assets/index.json'))('仓库里的 index.json 合法可解析', () => {
     // 运行时读取（不走静态 import）：index.json 已 ~2.9 万项/19MB，静态 import 会让 tsc
     // 推断巨型字面量类型而极慢/卡死。fs 读取把它移出类型图，校验等价、tsc 飞快。
     const realIndex = JSON.parse(readFileSync('assets/index.json', 'utf8'));

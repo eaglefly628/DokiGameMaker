@@ -1,0 +1,1706 @@
+{
+ "version": 1,
+ "game": "game-c",
+ "mode": "authored-inventory",
+ "count": 36,
+ "instances": 36,
+ "rows": [
+  {
+   "no": "art-001",
+   "skinKey": "game-c/scene/backdrop",
+   "desc": "室内环境背幕（豪华包间·夜景落地窗·皮沙发陈设·无桌·3D 长方桌单独渲其上）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "url",
+    "component": "ThreeRenderer",
+    "field": "setBackgroundTexture",
+    "resolver": "renderer.setBackgroundTexture",
+    "servedPath": "/games/game-c/art/scene/backdrop.svg"
+   },
+   "query": "cinematic interior of a luxurious executive lounge / private card room WITHOUT any table, seen at a slightly downward angle: floor-to-ceiling windows with a night city skyline, warm ambient cove lighting, leather sofas and tub chairs around the empty center, table lamps, framed art, opulent noir mood; the center is left open for a separate 3D table; full-screen background, opaque, high resolution, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, no watermark",
+   "placeholder": {
+    "current": "素坯：声明式 SVG（theme STORY_BACKDROP）·真图就绪 setBackgroundTexture 热替换",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/scene/backdrop"
+    ]
+   },
+   "spec": {
+    "w": 2048,
+    "h": 1152,
+    "transparent": false,
+    "usage": "albedo"
+   },
+   "context": "game-c《STORY-POKER V2》室内环境背幕（豪华包间·夜景落地窗·皮沙发陈设·无桌·3D 长方桌单独渲其上）·消费=renderer.setBackgroundTexture（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "source": "upload",
+    "localId": "gen/art-001-up",
+    "servedPath": "/games/game-c/art/gen/art-001-up.png"
+   },
+   "provenance": {
+    "model": "user-upload",
+    "prompt": "cinematic interior of a luxurious executive lounge / private card room WITHOUT any table, seen at a slightly downward angle: floor-to-ceiling windows with a night city skyline, warm ambient cove lighting, leather sofas and tub chairs around the empty center, table lamps, framed art, opulent noir mood; the center is left open for a separate 3D table; full-screen background, opaque, high resolution, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, no watermark",
+    "date": "",
+    "license": "用户上传"
+   },
+   "prompt": "室内环境背幕·包间+夜景窗+沙发·无桌",
+   "orig": {
+    "status": "placeholder",
+    "gen": {
+     "provider": "procedural",
+     "model": "scripts/game-c-art-gen.mjs",
+     "prompt": null,
+     "servedPath": "/games/game-c/art/scene/backdrop.svg",
+     "localId": "game-c/scene/backdrop"
+    },
+    "indexEntry": null
+   },
+   "history": [
+    {
+     "action": "upload",
+     "assetId": "gen/art-001-up"
+    }
+   ]
+  },
+  {
+   "no": "art-002",
+   "skinKey": "game-c/table/felt-albedo",
+   "desc": "呢面 albedo（长方桌面整幅贴图·可换材质·主美术槽）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Material3D",
+    "field": "map",
+    "resolver": "build3d table-felt Material3D.map",
+    "servedPath": "/games/game-c/art/table/felt-albedo.svg"
+   },
+   "query": "green casino poker felt cloth, rectangular table top, flat even texture with fine woven nap, subtle warm light pool at center, seamless, high resolution, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, no watermark",
+   "placeholder": {
+    "current": "素坯：plane 纯 tint(FELT)·真图就绪整幅铺（clean UV·易换）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/table/felt-albedo"
+    ]
+   },
+   "spec": {
+    "w": 2048,
+    "h": 1024,
+    "transparent": false,
+    "usage": "albedo"
+   },
+   "context": "game-c《STORY-POKER V2》呢面 albedo（长方桌面整幅贴图·可换材质·主美术槽）·消费=build3d table-felt Material3D.map（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "source": "upload",
+    "localId": "gen/art-002-up",
+    "servedPath": "/games/game-c/art/gen/art-002-up.png"
+   },
+   "provenance": {
+    "model": "user-upload",
+    "prompt": "green casino poker felt cloth, rectangular table top, flat even texture with fine woven nap, subtle warm light pool at center, seamless, high resolution, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, no watermark",
+    "date": "",
+    "license": "用户上传"
+   },
+   "prompt": "呢面 albedo·长方桌面整幅贴图",
+   "history": [
+    {
+     "action": "regen",
+     "at": "2026-07-23T04:52:52.891Z",
+     "prevQuery": "green casino poker felt cloth, rectangular table top, flat even texture with fine woven nap, subtle warm light pool at center, seamless, high resolution, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, no watermark",
+     "newQuery": "green casino poker felt cloth, rectangular table top, flat even texture with fine woven nap, subtle warm light pool at center, seamless, high resolution, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, no watermark"
+    },
+    {
+     "action": "upload",
+     "assetId": "gen/art-002-up"
+    }
+   ],
+   "orig": {
+    "status": "placeholder",
+    "gen": null,
+    "indexEntry": null
+   }
+  },
+  {
+   "no": "art-003",
+   "skinKey": "game-c/table/felt-normal",
+   "desc": "呢面法线（长方桌面·织纹·可选）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Material3D",
+    "field": "normalMap",
+    "resolver": "build3d table-felt Material3D.normalMap",
+    "servedPath": "/games/game-c/art/table/felt-normal.svg"
+   },
+   "query": "poker felt cloth weave normal map, rectangular, tangent-space, subtle fabric nap, high resolution, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, no watermark",
+   "placeholder": {
+    "current": "素坯：无（纯色底）·真图就绪覆盖",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/table/felt-normal"
+    ]
+   },
+   "spec": {
+    "w": 2048,
+    "h": 1024,
+    "transparent": false,
+    "usage": "normal"
+   },
+   "context": "game-c《STORY-POKER V2》呢面法线（长方桌面·织纹·可选）·消费=build3d table-felt Material3D.normalMap（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/table/felt-normal.svg",
+    "localId": "game-c/table/felt-normal"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "呢面法线·织纹·线性"
+  },
+  {
+   "no": "art-004",
+   "skinKey": "game-c/table/rail-albedo",
+   "desc": "桌边木纹 albedo（长方木框·glossy·跟老版差不多）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Material3D",
+    "field": "map",
+    "resolver": "build3d table-body Material3D.map",
+    "servedPath": "/games/game-c/art/table/rail-albedo.svg"
+   },
+   "query": "polished dark walnut wood grain, rectangular poker table rail / frame, glossy lacquered sheen, warm highlights, high resolution, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, no watermark",
+   "placeholder": {
+    "current": "素坯：wood preset + 程序木纹(scratches)·真图就绪覆盖",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/table/rail-albedo"
+    ]
+   },
+   "spec": {
+    "w": 2048,
+    "h": 512,
+    "transparent": false,
+    "usage": "albedo"
+   },
+   "context": "game-c《STORY-POKER V2》桌边木纹 albedo（长方木框·glossy·跟老版差不多）·消费=build3d table-body Material3D.map（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/table/rail-albedo.svg",
+    "localId": "game-c/table/rail-albedo"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "桌边木纹 albedo·胡桃木·光泽"
+  },
+  {
+   "no": "art-005",
+   "skinKey": "game-c/table/rail-normal",
+   "desc": "桌边木纹法线（木纹起伏·可选）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Material3D",
+    "field": "normalMap",
+    "resolver": "build3d table-body Material3D.normalMap",
+    "servedPath": "/games/game-c/art/table/rail-normal.svg"
+   },
+   "query": "dark walnut wood grain normal map, rectangular frame, tangent-space, high resolution, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, no watermark",
+   "placeholder": {
+    "current": "素坯：程序木纹回退·真图就绪覆盖",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/table/rail-normal"
+    ]
+   },
+   "spec": {
+    "w": 2048,
+    "h": 512,
+    "transparent": false,
+    "usage": "normal"
+   },
+   "context": "game-c《STORY-POKER V2》桌边木纹法线（木纹起伏·可选）·消费=build3d table-body Material3D.normalMap（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/table/rail-normal.svg",
+    "localId": "game-c/table/rail-normal"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "桌边木纹法线·线性"
+  },
+  {
+   "no": "art-006",
+   "skinKey": "chip/1-white",
+   "desc": "筹码·1（白·顶+侧面）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Chip3D/Material3D",
+    "field": "map",
+    "resolver": "3D 筹码柱贴图·面额 1",
+    "servedPath": "/games/game-c/art/chips/1-white.svg"
+   },
+   "query": "casino poker chip denomination 1, white body with a unified gold rim and dark-violet inlay pattern, top and edge, premium, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "CC0 现货已 vendor",
+    "source": "vendored",
+    "count": 1,
+    "instances": [
+     "chip/1-white"
+    ]
+   },
+   "spec": {
+    "w": 256,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》筹码·1（白·顶+侧面）·消费=3D 筹码柱贴图·面额 1（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "provider": "vendored",
+    "model": "scripts/gen-chips.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/chips/1-white.svg",
+    "localId": "chip/1-white"
+   },
+   "provenance": {
+    "generator": "vendored",
+    "prompt": null,
+    "model": "scripts/gen-chips.mjs",
+    "license": "CC0-1.0",
+    "source": "assets/index.json → scripts/vendor-asset.mjs",
+    "mock": false,
+    "note": "货架现货已 vendor·可后续换夜金定制"
+   },
+   "prompt": "筹码 1·白（现货·可换夜金定制）"
+  },
+  {
+   "no": "art-007",
+   "skinKey": "chip/5-red",
+   "desc": "筹码·5（红·顶+侧面）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Chip3D/Material3D",
+    "field": "map",
+    "resolver": "3D 筹码柱贴图·面额 5",
+    "servedPath": "/games/game-c/art/chips/5-red.svg"
+   },
+   "query": "casino poker chip denomination 5, red body with a unified gold rim and dark-violet inlay pattern, top and edge, premium, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "CC0 现货已 vendor",
+    "source": "vendored",
+    "count": 1,
+    "instances": [
+     "chip/5-red"
+    ]
+   },
+   "spec": {
+    "w": 256,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》筹码·5（红·顶+侧面）·消费=3D 筹码柱贴图·面额 5（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "provider": "vendored",
+    "model": "scripts/gen-chips.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/chips/5-red.svg",
+    "localId": "chip/5-red"
+   },
+   "provenance": {
+    "generator": "vendored",
+    "prompt": null,
+    "model": "scripts/gen-chips.mjs",
+    "license": "CC0-1.0",
+    "source": "assets/index.json → scripts/vendor-asset.mjs",
+    "mock": false,
+    "note": "货架现货已 vendor·可后续换夜金定制"
+   },
+   "prompt": "筹码 5·红（现货·可换夜金定制）"
+  },
+  {
+   "no": "art-008",
+   "skinKey": "chip/10-blue",
+   "desc": "筹码·10（蓝·顶+侧面）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Chip3D/Material3D",
+    "field": "map",
+    "resolver": "3D 筹码柱贴图·面额 10",
+    "servedPath": "/games/game-c/art/chips/10-blue.svg"
+   },
+   "query": "casino poker chip denomination 10, blue body with a unified gold rim and dark-violet inlay pattern, top and edge, premium, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "CC0 现货已 vendor",
+    "source": "vendored",
+    "count": 1,
+    "instances": [
+     "chip/10-blue"
+    ]
+   },
+   "spec": {
+    "w": 256,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》筹码·10（蓝·顶+侧面）·消费=3D 筹码柱贴图·面额 10（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "provider": "vendored",
+    "model": "scripts/gen-chips.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/chips/10-blue.svg",
+    "localId": "chip/10-blue"
+   },
+   "provenance": {
+    "generator": "vendored",
+    "prompt": null,
+    "model": "scripts/gen-chips.mjs",
+    "license": "CC0-1.0",
+    "source": "assets/index.json → scripts/vendor-asset.mjs",
+    "mock": false,
+    "note": "货架现货已 vendor·可后续换夜金定制"
+   },
+   "prompt": "筹码 10·蓝（现货·可换夜金定制）"
+  },
+  {
+   "no": "art-009",
+   "skinKey": "chip/25-green",
+   "desc": "筹码·25（绿·顶+侧面）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Chip3D/Material3D",
+    "field": "map",
+    "resolver": "3D 筹码柱贴图·面额 25",
+    "servedPath": "/games/game-c/art/chips/25-green.svg"
+   },
+   "query": "casino poker chip denomination 25, green body with a unified gold rim and dark-violet inlay pattern, top and edge, premium, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "CC0 现货已 vendor",
+    "source": "vendored",
+    "count": 1,
+    "instances": [
+     "chip/25-green"
+    ]
+   },
+   "spec": {
+    "w": 256,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》筹码·25（绿·顶+侧面）·消费=3D 筹码柱贴图·面额 25（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "provider": "vendored",
+    "model": "scripts/gen-chips.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/chips/25-green.svg",
+    "localId": "chip/25-green"
+   },
+   "provenance": {
+    "generator": "vendored",
+    "prompt": null,
+    "model": "scripts/gen-chips.mjs",
+    "license": "CC0-1.0",
+    "source": "assets/index.json → scripts/vendor-asset.mjs",
+    "mock": false,
+    "note": "货架现货已 vendor·可后续换夜金定制"
+   },
+   "prompt": "筹码 25·绿（现货·可换夜金定制）"
+  },
+  {
+   "no": "art-010",
+   "skinKey": "chip/50-orange",
+   "desc": "筹码·50（橙·顶+侧面）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Chip3D/Material3D",
+    "field": "map",
+    "resolver": "3D 筹码柱贴图·面额 50",
+    "servedPath": "/games/game-c/art/chips/50-orange.svg"
+   },
+   "query": "casino poker chip denomination 50, orange body with a unified gold rim and dark-violet inlay pattern, top and edge, premium, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "CC0 现货已 vendor",
+    "source": "vendored",
+    "count": 1,
+    "instances": [
+     "chip/50-orange"
+    ]
+   },
+   "spec": {
+    "w": 256,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》筹码·50（橙·顶+侧面）·消费=3D 筹码柱贴图·面额 50（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "provider": "vendored",
+    "model": "scripts/gen-chips.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/chips/50-orange.svg",
+    "localId": "chip/50-orange"
+   },
+   "provenance": {
+    "generator": "vendored",
+    "prompt": null,
+    "model": "scripts/gen-chips.mjs",
+    "license": "CC0-1.0",
+    "source": "assets/index.json → scripts/vendor-asset.mjs",
+    "mock": false,
+    "note": "货架现货已 vendor·可后续换夜金定制"
+   },
+   "prompt": "筹码 50·橙（现货·可换夜金定制）"
+  },
+  {
+   "no": "art-011",
+   "skinKey": "chip/100-black",
+   "desc": "筹码·100（黑·顶+侧面）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Chip3D/Material3D",
+    "field": "map",
+    "resolver": "3D 筹码柱贴图·面额 100",
+    "servedPath": "/games/game-c/art/chips/100-black.svg"
+   },
+   "query": "casino poker chip denomination 100, black body with a unified gold rim and dark-violet inlay pattern, top and edge, premium, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "CC0 现货已 vendor",
+    "source": "vendored",
+    "count": 1,
+    "instances": [
+     "chip/100-black"
+    ]
+   },
+   "spec": {
+    "w": 256,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》筹码·100（黑·顶+侧面）·消费=3D 筹码柱贴图·面额 100（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "provider": "vendored",
+    "model": "scripts/gen-chips.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/chips/100-black.svg",
+    "localId": "chip/100-black"
+   },
+   "provenance": {
+    "generator": "vendored",
+    "prompt": null,
+    "model": "scripts/gen-chips.mjs",
+    "license": "CC0-1.0",
+    "source": "assets/index.json → scripts/vendor-asset.mjs",
+    "mock": false,
+    "note": "货架现货已 vendor·可后续换夜金定制"
+   },
+   "prompt": "筹码 100·黑（现货·可换夜金定制）"
+  },
+  {
+   "no": "art-012",
+   "skinKey": "chip/500-purple",
+   "desc": "筹码·500（紫·顶+侧面）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Chip3D/Material3D",
+    "field": "map",
+    "resolver": "3D 筹码柱贴图·面额 500",
+    "servedPath": "/games/game-c/art/chips/500-purple.svg"
+   },
+   "query": "casino poker chip denomination 500, purple body with a unified gold rim and dark-violet inlay pattern, top and edge, premium, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "CC0 现货已 vendor",
+    "source": "vendored",
+    "count": 1,
+    "instances": [
+     "chip/500-purple"
+    ]
+   },
+   "spec": {
+    "w": 256,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》筹码·500（紫·顶+侧面）·消费=3D 筹码柱贴图·面额 500（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "provider": "vendored",
+    "model": "scripts/gen-chips.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/chips/500-purple.svg",
+    "localId": "chip/500-purple"
+   },
+   "provenance": {
+    "generator": "vendored",
+    "prompt": null,
+    "model": "scripts/gen-chips.mjs",
+    "license": "CC0-1.0",
+    "source": "assets/index.json → scripts/vendor-asset.mjs",
+    "mock": false,
+    "note": "货架现货已 vendor·可后续换夜金定制"
+   },
+   "prompt": "筹码 500·紫（现货·可换夜金定制）"
+  },
+  {
+   "no": "art-013",
+   "skinKey": "chip/1000-yellow",
+   "desc": "筹码·1000（黄·顶+侧面）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Chip3D/Material3D",
+    "field": "map",
+    "resolver": "3D 筹码柱贴图·面额 1000",
+    "servedPath": "/games/game-c/art/chips/1000-yellow.svg"
+   },
+   "query": "casino poker chip denomination 1000, yellow body with a unified gold rim and dark-violet inlay pattern, top and edge, premium, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "CC0 现货已 vendor",
+    "source": "vendored",
+    "count": 1,
+    "instances": [
+     "chip/1000-yellow"
+    ]
+   },
+   "spec": {
+    "w": 256,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》筹码·1000（黄·顶+侧面）·消费=3D 筹码柱贴图·面额 1000（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "provider": "vendored",
+    "model": "scripts/gen-chips.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/chips/1000-yellow.svg",
+    "localId": "chip/1000-yellow"
+   },
+   "provenance": {
+    "generator": "vendored",
+    "prompt": null,
+    "model": "scripts/gen-chips.mjs",
+    "license": "CC0-1.0",
+    "source": "assets/index.json → scripts/vendor-asset.mjs",
+    "mock": false,
+    "note": "货架现货已 vendor·可后续换夜金定制"
+   },
+   "prompt": "筹码 1000·黄（现货·可换夜金定制）"
+  },
+  {
+   "no": "art-014",
+   "skinKey": "chip/5000-gray",
+   "desc": "筹码·5000（灰·顶+侧面）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Chip3D/Material3D",
+    "field": "map",
+    "resolver": "3D 筹码柱贴图·面额 5000",
+    "servedPath": "/games/game-c/art/chips/5000-gray.svg"
+   },
+   "query": "casino poker chip denomination 5000, gray body with a unified gold rim and dark-violet inlay pattern, top and edge, premium, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "CC0 现货已 vendor",
+    "source": "vendored",
+    "count": 1,
+    "instances": [
+     "chip/5000-gray"
+    ]
+   },
+   "spec": {
+    "w": 256,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》筹码·5000（灰·顶+侧面）·消费=3D 筹码柱贴图·面额 5000（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "provider": "vendored",
+    "model": "scripts/gen-chips.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/chips/5000-gray.svg",
+    "localId": "chip/5000-gray"
+   },
+   "provenance": {
+    "generator": "vendored",
+    "prompt": null,
+    "model": "scripts/gen-chips.mjs",
+    "license": "CC0-1.0",
+    "source": "assets/index.json → scripts/vendor-asset.mjs",
+    "mock": false,
+    "note": "货架现货已 vendor·可后续换夜金定制"
+   },
+   "prompt": "筹码 5000·灰（现货·可换夜金定制）"
+  },
+  {
+   "no": "art-015",
+   "skinKey": "game-c/ui/btn-fold",
+   "desc": "弃牌 按钮皮（哑光深皮金边）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "skin",
+    "component": "theme.buttonSkins/Button",
+    "field": "skin",
+    "resolver": "buttonSkins 或 node Button.skin·skin",
+    "servedPath": "/games/game-c/art/ui/btn-fold.svg"
+   },
+   "query": "matte dark leather UI button plate with thin gold rim, neutral, 9-slice, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：Panel BTN_DARK+金边",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/ui/btn-fold"
+    ]
+   },
+   "spec": {
+    "w": 280,
+    "h": 88,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》弃牌 按钮皮（哑光深皮金边）·消费=buttonSkins 或 node Button.skin·skin（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/ui/btn-fold.svg",
+    "localId": "game-c/ui/btn-fold"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "弃牌按钮皮·哑光深皮金边"
+  },
+  {
+   "no": "art-016",
+   "skinKey": "game-c/ui/btn-call",
+   "desc": "跟注/过牌 按钮皮（主操作）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "skin",
+    "component": "theme.buttonSkins/Button",
+    "field": "skin",
+    "resolver": "buttonSkins 或 node Button.skin·skin",
+    "servedPath": "/games/game-c/art/ui/btn-call.svg"
+   },
+   "query": "matte dark leather UI button plate with gold rim, primary action, warm sheen, 9-slice, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：Panel BTN_DARK+金边",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/ui/btn-call"
+    ]
+   },
+   "spec": {
+    "w": 280,
+    "h": 88,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》跟注/过牌 按钮皮（主操作）·消费=buttonSkins 或 node Button.skin·skin（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/ui/btn-call.svg",
+    "localId": "game-c/ui/btn-call"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "跟注按钮皮·金边主操作"
+  },
+  {
+   "no": "art-017",
+   "skinKey": "game-c/ui/btn-raise",
+   "desc": "加注 按钮皮（紫辉进攻）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "skin",
+    "component": "theme.buttonSkins/Button",
+    "field": "skin",
+    "resolver": "buttonSkins 或 node Button.skin·skin",
+    "servedPath": "/games/game-c/art/ui/btn-raise.svg"
+   },
+   "query": "matte dark UI button plate with violet glow rim, aggressive, 9-slice, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：Panel BTN_DARK+金边+press3d",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/ui/btn-raise"
+    ]
+   },
+   "spec": {
+    "w": 280,
+    "h": 88,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》加注 按钮皮（紫辉进攻）·消费=buttonSkins 或 node Button.skin·skin（art-bible §3·render-only 不进 sim hash）",
+   "status": "replaced",
+   "gen": {
+    "source": "upload",
+    "localId": "gen/art-017-up",
+    "servedPath": "/games/game-c/art/gen/art-017-up.png"
+   },
+   "provenance": {
+    "model": "user-upload",
+    "prompt": "matte dark UI button plate with violet glow rim, aggressive, 9-slice, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+    "date": "",
+    "license": "用户上传"
+   },
+   "prompt": "加注按钮皮·紫辉",
+   "orig": {
+    "status": "placeholder",
+    "gen": {
+     "provider": "procedural",
+     "model": "scripts/game-c-art-gen.mjs",
+     "prompt": null,
+     "servedPath": "/games/game-c/art/ui/btn-raise.svg",
+     "localId": "game-c/ui/btn-raise"
+    },
+    "indexEntry": null
+   },
+   "history": [
+    {
+     "action": "upload",
+     "assetId": "gen/art-017-up"
+    }
+   ]
+  },
+  {
+   "no": "art-018",
+   "skinKey": "game-c/ui/btn-allin",
+   "desc": "All-in 按钮皮（红渐变警示）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "skin",
+    "component": "theme.buttonSkins/Button",
+    "field": "skin",
+    "resolver": "buttonSkins 或 node Button.skin·skin",
+    "servedPath": "/games/game-c/art/ui/btn-allin.svg"
+   },
+   "query": "glowing crimson-to-maroon UI button plate, all-in warning, bright edge, 9-slice, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：Panel BTN_ALLIN",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/ui/btn-allin"
+    ]
+   },
+   "spec": {
+    "w": 200,
+    "h": 72,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》All-in 按钮皮（红渐变警示）·消费=buttonSkins 或 node Button.skin·skin（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/ui/btn-allin.svg",
+    "localId": "game-c/ui/btn-allin"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "All-in 按钮皮·红渐变"
+  },
+  {
+   "no": "art-019",
+   "skinKey": "game-c/ui/btn-hero",
+   "desc": "主键皮（开始/确认/再来·hero）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "skin",
+    "component": "theme.buttonSkins/Button",
+    "field": "skin",
+    "resolver": "buttonSkins 或 node Button.skin·skin",
+    "servedPath": "/games/game-c/art/ui/btn-hero.svg"
+   },
+   "query": "premium gold gilded primary CTA button plate, ornate, 9-slice, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：Button kind:hero（金渐变）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/ui/btn-hero"
+    ]
+   },
+   "spec": {
+    "w": 560,
+    "h": 96,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》主键皮（开始/确认/再来·hero）·消费=buttonSkins 或 node Button.skin·skin（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/ui/btn-hero.svg",
+    "localId": "game-c/ui/btn-hero"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "hero 主键皮·鎏金 CTA"
+  },
+  {
+   "no": "art-020",
+   "skinKey": "game-c/ui/btn-ghost",
+   "desc": "次键皮（继续/设置/返回·ghost）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "skin",
+    "component": "theme.buttonSkins/Button",
+    "field": "skin",
+    "resolver": "buttonSkins 或 node Button.skin·skin",
+    "servedPath": "/games/game-c/art/ui/btn-ghost.svg"
+   },
+   "query": "subtle dark ghost button plate with faint violet outline, 9-slice, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：Button kind:ghost",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/ui/btn-ghost"
+    ]
+   },
+   "spec": {
+    "w": 560,
+    "h": 96,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》次键皮（继续/设置/返回·ghost）·消费=buttonSkins 或 node Button.skin·skin（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/ui/btn-ghost.svg",
+    "localId": "game-c/ui/btn-ghost"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "ghost 次键皮·暗紫描边"
+  },
+  {
+   "no": "art-021",
+   "skinKey": "game-c/ui/step",
+   "desc": "加注步进 −/+ 键皮",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "skin",
+    "component": "theme.buttonSkins/Button",
+    "field": "skin",
+    "resolver": "buttonSkins 或 node Button.skin·skin",
+    "servedPath": "/games/game-c/art/ui/step.svg"
+   },
+   "query": "small round dark stepper button with violet rim, plus/minus, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：Button kind:ghost 小圆",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/ui/step"
+    ]
+   },
+   "spec": {
+    "w": 96,
+    "h": 96,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》加注步进 −/+ 键皮·消费=buttonSkins 或 node Button.skin·skin（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/ui/step.svg",
+    "localId": "game-c/ui/step"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "步进 −/+ 键皮·圆形暗紫"
+  },
+  {
+   "no": "art-022",
+   "skinKey": "game-c/ui/panel-frame",
+   "desc": "面板/席卡框（9-slice·紫金边）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "skin",
+    "component": "Panel",
+    "field": "bgTexture/frame",
+    "resolver": "Panel 9-slice 框皮（席卡/顶带/底池）",
+    "servedPath": "/games/game-c/art/ui/panel-frame.svg"
+   },
+   "query": "ornate dark violet panel frame with gold trim, 9-slice border, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：Panel 渐变+edge 令牌（数据·可不出图）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/ui/panel-frame"
+    ]
+   },
+   "spec": {
+    "w": 320,
+    "h": 200,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》面板/席卡框（9-slice·紫金边）·消费=Panel 9-slice 框皮（席卡/顶带/底池）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/ui/panel-frame.svg",
+    "localId": "game-c/ui/panel-frame"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "面板/席卡框·紫金 9-slice"
+  },
+  {
+   "no": "art-023",
+   "skinKey": "game-c/ui/avatar-frame",
+   "desc": "头像框（对手/主角·金环）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Avatar",
+    "field": "frame",
+    "resolver": "头像外金环框（叠在 Avatar 外）",
+    "servedPath": "/games/game-c/art/ui/avatar-frame.svg"
+   },
+   "query": "circular gold ornate avatar frame ring, luxury, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：Avatar 圆（bg3+line 边·无框）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/ui/avatar-frame"
+    ]
+   },
+   "spec": {
+    "w": 128,
+    "h": 128,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》头像框（对手/主角·金环）·消费=头像外金环框（叠在 Avatar 外）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/ui/avatar-frame.svg",
+    "localId": "game-c/ui/avatar-frame"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "头像金环框"
+  },
+  {
+   "no": "art-024",
+   "skinKey": "game-c/ui/dealer-D",
+   "desc": "庄家钮 D",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Decal3D/Sprite",
+    "field": "tex",
+    "resolver": "庄家位圆片",
+    "servedPath": "/games/game-c/art/ui/dealer.svg"
+   },
+   "query": "round dealer button token letter D, ivory disc with gold rim, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：Badge D（LayoutNode）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/ui/dealer-D"
+    ]
+   },
+   "spec": {
+    "w": 128,
+    "h": 128,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》庄家钮 D·消费=庄家位圆片（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/ui/dealer.svg",
+    "localId": "game-c/ui/dealer-D"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "庄家钮 D·象牙+金边"
+  },
+  {
+   "no": "art-025",
+   "skinKey": "game-c/fx/win-burst",
+   "desc": "特效·胜利爆花（收池/赢家）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Vfx3D/Billboard3D",
+    "field": "tex",
+    "resolver": "VFX 贴图·win burst（待接 Vfx3D/Billboard3D 槽）",
+    "servedPath": "/games/game-c/art/fx/win-burst.svg"
+   },
+   "query": "golden particle burst and light rays sprite sheet, celebratory, radial, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "无（待接 VFX 槽）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/fx/win-burst"
+    ]
+   },
+   "spec": {
+    "w": 512,
+    "h": 512,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》特效·胜利爆花（收池/赢家）·消费=VFX 贴图·win burst（待接 Vfx3D/Billboard3D 槽）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/fx/win-burst.svg",
+    "localId": "game-c/fx/win-burst"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "胜利爆花·金色粒子光芒"
+  },
+  {
+   "no": "art-026",
+   "skinKey": "game-c/fx/allin-flash",
+   "desc": "特效·All-in 冲击闪",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Vfx3D/Billboard3D",
+    "field": "tex",
+    "resolver": "VFX 贴图·all-in flash（待接 Vfx3D/Billboard3D 槽）",
+    "servedPath": "/games/game-c/art/fx/allin-flash.svg"
+   },
+   "query": "crimson shockwave ring and flash sprite, dramatic, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "无（待接 VFX 槽）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/fx/allin-flash"
+    ]
+   },
+   "spec": {
+    "w": 512,
+    "h": 512,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》特效·All-in 冲击闪·消费=VFX 贴图·all-in flash（待接 Vfx3D/Billboard3D 槽）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/fx/allin-flash.svg",
+    "localId": "game-c/fx/allin-flash"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "All-in 冲击闪·红色波纹"
+  },
+  {
+   "no": "art-027",
+   "skinKey": "game-c/fx/chip-spark",
+   "desc": "特效·筹码抛掷火花",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Vfx3D/Billboard3D",
+    "field": "tex",
+    "resolver": "VFX 贴图·chip toss spark（待接 Vfx3D/Billboard3D 槽）",
+    "servedPath": "/games/game-c/art/fx/chip-spark.svg"
+   },
+   "query": "small gold spark and dust puff sprite for chip impact, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "无（待接 VFX 槽）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/fx/chip-spark"
+    ]
+   },
+   "spec": {
+    "w": 256,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》特效·筹码抛掷火花·消费=VFX 贴图·chip toss spark（待接 Vfx3D/Billboard3D 槽）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/fx/chip-spark.svg",
+    "localId": "game-c/fx/chip-spark"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "筹码抛掷火花·金色微尘"
+  },
+  {
+   "no": "art-028",
+   "skinKey": "game-c/fx/deal-glow",
+   "desc": "特效·发牌/翻牌流光",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Vfx3D/Billboard3D",
+    "field": "tex",
+    "resolver": "VFX 贴图·card deal glow（待接 Vfx3D/Billboard3D 槽）",
+    "servedPath": "/games/game-c/art/fx/deal-glow.svg"
+   },
+   "query": "soft violet-gold streak glow sprite for card reveal, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "无（待接 VFX 槽）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/fx/deal-glow"
+    ]
+   },
+   "spec": {
+    "w": 512,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》特效·发牌/翻牌流光·消费=VFX 贴图·card deal glow（待接 Vfx3D/Billboard3D 槽）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/fx/deal-glow.svg",
+    "localId": "game-c/fx/deal-glow"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "发牌/翻牌流光·紫金拖尾"
+  },
+  {
+   "no": "art-029",
+   "skinKey": "game-c/fx/winner-ring",
+   "desc": "特效·赢家光环（座位高亮）",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Vfx3D/Billboard3D",
+    "field": "tex",
+    "resolver": "VFX 贴图·winner ring（待接 Vfx3D/Billboard3D 槽）",
+    "servedPath": "/games/game-c/art/fx/winner-ring.svg"
+   },
+   "query": "glowing gold laurel ring halo sprite, seat highlight, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：Panel fx glow（程序·可留）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/fx/winner-ring"
+    ]
+   },
+   "spec": {
+    "w": 512,
+    "h": 512,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》特效·赢家光环（座位高亮）·消费=VFX 贴图·winner ring（待接 Vfx3D/Billboard3D 槽）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/fx/winner-ring.svg",
+    "localId": "game-c/fx/winner-ring"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "赢家光环·金桂环"
+  },
+  {
+   "no": "art-030",
+   "skinKey": "game-c/fx/pot-shine",
+   "desc": "特效·底池金光",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "index",
+    "component": "Vfx3D/Billboard3D",
+    "field": "tex",
+    "resolver": "VFX 贴图·pot shine（待接 Vfx3D/Billboard3D 槽）",
+    "servedPath": "/games/game-c/art/fx/pot-shine.svg"
+   },
+   "query": "soft golden glow and coin shimmer sprite over the pot, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "无（待接 VFX 槽）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/fx/pot-shine"
+    ]
+   },
+   "spec": {
+    "w": 512,
+    "h": 256,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》特效·底池金光·消费=VFX 贴图·pot shine（待接 Vfx3D/Billboard3D 槽）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/fx/pot-shine.svg",
+    "localId": "game-c/fx/pot-shine"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "底池金光·硬币微闪"
+  },
+  {
+   "no": "art-031",
+   "skinKey": "game-c/icon/wear-earrings",
+   "desc": "衣柜图标·耳环",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "url",
+    "component": "Image",
+    "field": "src",
+    "resolver": "衣柜件图标·earrings（替代 emoji）",
+    "servedPath": "/games/game-c/art/icons/wear-earrings.svg"
+   },
+   "query": "elegant icon of diamond earrings, gold-outlined, dark violet backdrop, tasteful boudoir item, game inventory icon, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：emoji（耳环）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/icon/wear-earrings"
+    ]
+   },
+   "spec": {
+    "w": 128,
+    "h": 128,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》衣柜图标·耳环·消费=衣柜件图标·earrings（替代 emoji）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/icons/wear-earrings.svg",
+    "localId": "game-c/icon/wear-earrings"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "衣柜件图标·耳环·金描边"
+  },
+  {
+   "no": "art-032",
+   "skinKey": "game-c/icon/wear-gloves",
+   "desc": "衣柜图标·手套",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "url",
+    "component": "Image",
+    "field": "src",
+    "resolver": "衣柜件图标·gloves（替代 emoji）",
+    "servedPath": "/games/game-c/art/icons/wear-gloves.svg"
+   },
+   "query": "elegant icon of silk opera gloves, gold-outlined, dark violet backdrop, tasteful boudoir item, game inventory icon, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：emoji（手套）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/icon/wear-gloves"
+    ]
+   },
+   "spec": {
+    "w": 128,
+    "h": 128,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》衣柜图标·手套·消费=衣柜件图标·gloves（替代 emoji）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/icons/wear-gloves.svg",
+    "localId": "game-c/icon/wear-gloves"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "衣柜件图标·手套·金描边"
+  },
+  {
+   "no": "art-033",
+   "skinKey": "game-c/icon/wear-socks",
+   "desc": "衣柜图标·袜",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "url",
+    "component": "Image",
+    "field": "src",
+    "resolver": "衣柜件图标·socks（替代 emoji）",
+    "servedPath": "/games/game-c/art/icons/wear-socks.svg"
+   },
+   "query": "elegant icon of stockings, gold-outlined, dark violet backdrop, tasteful boudoir item, game inventory icon, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：emoji（袜）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/icon/wear-socks"
+    ]
+   },
+   "spec": {
+    "w": 128,
+    "h": 128,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》衣柜图标·袜·消费=衣柜件图标·socks（替代 emoji）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/icons/wear-socks.svg",
+    "localId": "game-c/icon/wear-socks"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "衣柜件图标·袜·金描边"
+  },
+  {
+   "no": "art-034",
+   "skinKey": "game-c/icon/wear-top",
+   "desc": "衣柜图标·上装",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "url",
+    "component": "Image",
+    "field": "src",
+    "resolver": "衣柜件图标·top（替代 emoji）",
+    "servedPath": "/games/game-c/art/icons/wear-top.svg"
+   },
+   "query": "elegant icon of qipao top, gold-outlined, dark violet backdrop, tasteful boudoir item, game inventory icon, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：emoji（上装）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/icon/wear-top"
+    ]
+   },
+   "spec": {
+    "w": 128,
+    "h": 128,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》衣柜图标·上装·消费=衣柜件图标·top（替代 emoji）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/icons/wear-top.svg",
+    "localId": "game-c/icon/wear-top"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "衣柜件图标·上装·金描边"
+  },
+  {
+   "no": "art-035",
+   "skinKey": "game-c/icon/wear-skirt",
+   "desc": "衣柜图标·裙",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "url",
+    "component": "Image",
+    "field": "src",
+    "resolver": "衣柜件图标·skirt（替代 emoji）",
+    "servedPath": "/games/game-c/art/icons/wear-skirt.svg"
+   },
+   "query": "elegant icon of silk skirt, gold-outlined, dark violet backdrop, tasteful boudoir item, game inventory icon, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：emoji（裙）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/icon/wear-skirt"
+    ]
+   },
+   "spec": {
+    "w": 128,
+    "h": 128,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》衣柜图标·裙·消费=衣柜件图标·skirt（替代 emoji）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/icons/wear-skirt.svg",
+    "localId": "game-c/icon/wear-skirt"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "衣柜件图标·裙·金描边"
+  },
+  {
+   "no": "art-036",
+   "skinKey": "game-c/icon/wear-lingerie",
+   "desc": "衣柜图标·内衣",
+   "kind": "texture",
+   "ref": {
+    "mechanism": "url",
+    "component": "Image",
+    "field": "src",
+    "resolver": "衣柜件图标·lingerie（替代 emoji）",
+    "servedPath": "/games/game-c/art/icons/wear-lingerie.svg"
+   },
+   "query": "elegant icon of lace lingerie (tasteful, non-explicit), gold-outlined, dark violet backdrop, tasteful boudoir item, game inventory icon, luxury night poker parlor, violet-and-gold noir, cinematic rim light, moody purple palette (#7d5570 velvet, #d8b878 gold, #c9a9dd violet glow, #d0483e danger), painterly premium mobile-game art, refined tasteful, isolated subject, transparent background, no watermark",
+   "placeholder": {
+    "current": "素坯：emoji（内衣）",
+    "source": "procedural-placeholder",
+    "count": 1,
+    "instances": [
+     "game-c/icon/wear-lingerie"
+    ]
+   },
+   "spec": {
+    "w": 128,
+    "h": 128,
+    "transparent": true
+   },
+   "context": "game-c《STORY-POKER V2》衣柜图标·内衣·消费=衣柜件图标·lingerie（替代 emoji）（art-bible §3·render-only 不进 sim hash）",
+   "status": "placeholder",
+   "gen": {
+    "provider": "procedural",
+    "model": "scripts/game-c-art-gen.mjs",
+    "prompt": null,
+    "servedPath": "/games/game-c/art/icons/wear-lingerie.svg",
+    "localId": "game-c/icon/wear-lingerie"
+   },
+   "provenance": {
+    "generator": "procedural-noir",
+    "prompt": null,
+    "model": "scripts/game-c-art-gen.mjs",
+    "license": "CC0",
+    "source": "scripts/game-c-art-gen.mjs（夜金 SVG 程序占位）",
+    "mock": false,
+    "note": "夜金 SVG 程序占位·真图到位同 id 热替换（照 §1 统一风格）"
+   },
+   "prompt": "衣柜件图标·内衣·金描边"
+  }
+ ]
+}

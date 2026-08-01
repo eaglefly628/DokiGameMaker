@@ -24,6 +24,7 @@ import type { FeishuIM } from '@cindy/im';
 import { dialogueWorkspaceRootDir } from '../localDb/dialogueWorkspace';
 import { getAgentIslandService } from '../agent-island/service.js';
 import { getDesktopNotificationsEnabled } from '../notificationService.js';
+import { isProjectAutomationEnabled } from '../project-automation-settings-store.js';
 import {
   applyPendingAgentSwitchForDirectSend,
   broadcastSessionCreated,
@@ -132,6 +133,9 @@ export async function startScheduler(deps: StartSchedulerDeps): Promise<Schedule
     storage,
     getDb: deps.getDb,
     logger: deps.logger,
+    // 项目自动化总开关(默认关)。每次调用现读设置,用户在设置里改完即时生效,
+    // 不需要重启调度器。见 main/project-automation-settings-store.ts 的安全说明。
+    isEnabled: () => isProjectAutomationEnabled(),
   });
   // archived 兜底要 scheduler.pause/update，runner 反向持有 scheduler
   promptRunner.attachScheduler(scheduler);
