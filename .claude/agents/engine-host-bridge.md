@@ -46,10 +46,18 @@ model: inherit
 
 ## 当前已知接线状态（2026-08-01，动手前先复核别凭记忆）
 
-- Apollo 引擎依赖已装、包内 `vitest.config.ts` 配齐路径别名，已作为
-  `requiredUnitWorkspace` 纳入根门禁必跑。
-- **宿主侧（`apps/desktop` 的 Vite/Vitest）是否也配了同一套别名，需要你复核**——
-  包内配置不等于宿主构建可用。
+- 引擎依赖已装，已作为 `requiredUnitWorkspace` 纳入根门禁必跑（`pnpm test:unit`）。
+- **路径别名现在有三处，必须同形**：`tsconfig.json` 的 `paths`、`vitest.config.ts`、
+  `vite.config.ts`。引擎内有 750+ 处 `@engine/*` 之类的别名 import，**三处任意一处漂移
+  就会出现「tsc 过但运行/测试挂」**。八个别名：`@engine` / `@skills` / `@atom-skills` /
+  `@assets` / `@services` / `@renderer` / `@ui` / `@net`。
+  → **你如果给桌面宿主再配一套别名，那就是第四处，同样要进这条同步纪律。**
+- **`pnpm dev:engine` 是引擎包自己的 Vite 预览（端口 5180），不是桌面宿主接线。**
+  它证明的是「引擎源码能在浏览器里跑起来」，**不**证明 `apps/desktop` 的构建链路能吃下
+  引擎包。**桌面宿主侧的别名 / 打包 / 面板注册仍是待办，归你。**
+- 上游 `src/launcher` 刻意未搬（理由：静态 import 表指向 15 个游戏，本仓只有少数）。
+  桌面壳要跑游戏时，参考 `src/dev-preview.ts` 消费的同一契约：
+  游戏导出 `mount(container) => cleanup`。
 
 ## 验收
 

@@ -55,7 +55,23 @@ Assembly JSON 蓝图。尺子：**「最弱的 LLM 能否产出同样的数据�
 ```bash
 node packages/apollo-engine/tools/game-skill-audit.mjs <game>   # 红旗体检
 pnpm --filter @zerocraft/apollo-engine test
+pnpm dev:engine        # 本地预览 → http://localhost:5180，点进去实跑
 ```
+
+## 🖥 本地预览（2026-08-01 起可用）
+
+`pnpm dev:engine` 起一个最小预览页：列出**已搬入且导出 `mount(container) => cleanup`**
+的游戏，点击启动、左上角返回时卸载。契约与上游 game-runner 相同，没另造机制。
+
+- **把你的游戏加进预览** = 在 `src/dev-preview.ts` 的 `GAMES` 数组里加一行
+  （前提：已在 `src/games/` 且导出了 `mount`）。
+- 当前清单只有 `game-i`。`game-e` / `game-f` 虽已搬入，但它们是 Studio 消费的数据夹具，
+  自身不导出 `mount`，故不在预览里——**别以为是坏了**。
+- 上游 `src/launcher` 刻意没搬：它有一张指向全部 15 个游戏的静态 import 表，本仓只
+  vendored 了少数，整表搬入会留一堆解析不到的路径。
+
+`game-i` 同时是**引擎的活范例**（UI 展示台 + 3D 实验场 + 商店 / 卡牌 / 音效 / 输入实验
+等），开工前先逛一圈，比读文档快。
 
 ## 交付纪律
 

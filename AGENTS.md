@@ -114,6 +114,12 @@
 - 首次安装、修复依赖或准备新 worktree 时，必须先读
   `docs/dev-rules/environment-setup.md`。
 - 启动、调试或验证 Desktop 时，必须先读 `docs/dev-rules/desktop-development.md`。
+- **要在浏览器里实跑引擎/游戏**：`pnpm dev:engine` 起引擎包自带的 Vite 预览
+  （端口 5180 固定、`strictPort`），当前可跑 `game-i`。它是**引擎包自己的**预览，
+  不代表桌面宿主已接线。加游戏 = 在 `packages/apollo-engine/src/dev-preview.ts` 的
+  `GAMES` 里加一行（前提是它导出 `mount(container) => cleanup`）。
+  ⚠️ 引擎的路径别名有**三处必须同形**：`tsconfig.json` 的 `paths`、`vitest.config.ts`、
+  `vite.config.ts`——任意一处漂移会出现「tsc 过但运行/测试挂」。
 - 开发、调试或验证 Mobile 时，必须先读 `docs/dev-rules/mobile-development.md`。
   修改 `apps/mobile` 的原生配置、原生依赖、config plugin 或原生模块（`app.json`、
   `app.config.js`、`eas.json`、`apps/mobile/package.json`、`plugins/`、`modules/` 等会

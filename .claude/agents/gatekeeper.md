@@ -37,6 +37,21 @@ node packages/apollo-engine/tools/ledger-audit.mjs        # 美术面
 ```
 
 **一律用退出码判定**。`vitest | grep` 会吞掉失败码，看到这种写法直接判不通过。
+（注意 `cmd | tail` 同样会把退出码换成管道末端的——要判定就别接管道。）
+
+## 📌 `pnpm test:unit` 的已知基线（别把它当回归）
+
+2026-08-01 实测：**24 PASS / 6 SKIP / 2 FAIL**。两处 FAIL 是容器环境限制，**不是代码
+回归**：
+
+| 失败 workspace | 原因 |
+| --- | --- |
+| `apps/desktop` | 缺随包 ripgrep 二进制且环境内无法下载 |
+| `maker-remote-ssh` | 以 root 运行使 chmod 权限模拟失效 |
+
+判定时把这两条与基线对齐：**数量或名字对不上才是真回归**。引擎包
+（`@zerocraft/apollo-engine`）的基线是 **308 测试文件 / 2520 测试全绿、tsc 0 error**，
+这一格红了就是真红。
 
 ## 红线审查清单（逐条核对改动 diff）
 

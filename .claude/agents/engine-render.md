@@ -50,12 +50,22 @@ play-field 走 render 组件 + 渲染器；HUD/菜单/面板走 UI 侧。**两�
 ```bash
 pnpm --filter @zerocraft/apollo-engine typecheck
 pnpm --filter @zerocraft/apollo-engine test
+pnpm dev:engine        # 本地预览 → http://localhost:5180，game-i 里有 3D 场景可实跑
 ```
 
 碰到跨层（renderer ↔ engine/ui）改动，追加仓库根 `pnpm test:unit`。
 
+## 🖥 实机目击现在做得到（2026-08-01 起）
+
+`pnpm dev:engine` 起 Vite 预览（端口 5180 固定、`strictPort`）。已搬入的 `game-i` 带
+3D 实验场（`three3d.ts` / `three-lab.ts` / `physics-lab.ts`），3D 改动能直接看。
+
+**动 3D 依赖时注意 `vite.config.ts` 的 `optimizeDeps`**：`three/addons/*` 的深子路径
+藏在动态 import 的 3D 场景背后，Vite 冷启动常漏扫 → 首次进 3D 场景才触发依赖再优化 +
+整页 reload 把人弹回主页。新增 addons 深路径依赖时同步加进 `optimizeDeps.include`。
+
 ## 交付纪律
 
-- 视觉类改动：能实机目击就附截图；**做不到就如实写「未实机验证」**，不得用「复用了现成组件」
-  冒充已验证。
+- 视觉类改动**默认实机目击并附截图**；做不到才如实写「未实机验证」，不得用
+  「复用了现成组件」冒充已验证。
 - `git commit -s`。

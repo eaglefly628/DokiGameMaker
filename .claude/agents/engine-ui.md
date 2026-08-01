@@ -54,7 +54,17 @@ model: inherit
 pnpm --filter @zerocraft/apollo-engine typecheck
 pnpm --filter @zerocraft/apollo-engine test
 node packages/apollo-engine/tools/ui-audit.mjs      # UI 规范审计
+pnpm dev:engine                                     # 本地预览 → http://localhost:5180
 ```
+
+## 🖥 实机目击现在做得到（2026-08-01 起）
+
+`pnpm dev:engine` 起一个 Vite 预览（固定端口 5180，`strictPort`，被占用直接报错而不是
+静默换口）。**首个内容游戏 `game-i` 已搬入**——它就是上游的 UI 展示台（UI Gallery），
+控件货架、`faceArt` / `LevelPath` / `Particles` / `sheen-hover` / 3D UI 等成熟件都在里面
+能直接看到实物。
+
+所以 **UI 改动默认要实机目击**，不再是「能做就做」。做不到时才写明未验证。
 
 ## 交付纪律
 

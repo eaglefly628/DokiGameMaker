@@ -55,6 +55,12 @@ pnpm --filter @zerocraft/apollo-engine typecheck
 pnpm --filter @zerocraft/apollo-engine test
 ```
 
+⚠️ **Studio 面板目前没有实机预览入口**。`pnpm dev:engine`（端口 5180）挂的是
+`src/dev-preview.ts`，只列「已搬入且导出 `mount(container) => cleanup`」的**游戏**，
+不挂 Studio 面板。所以你这一层的验证暂时只能靠单测（`design-studio.test.tsx` 等 React
+渲染测试）。**要一个能看得见的 Studio，本身就是一件待办**——需要时提给 owner，
+别默默当成已有。
+
 ## 交付纪律
 
 - 面板改动尽量附截图；做不到就写明未实机验证。

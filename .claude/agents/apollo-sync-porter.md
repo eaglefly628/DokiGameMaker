@@ -47,7 +47,26 @@ git -C <apollo克隆> diff <SYNC.commit>..origin/claude/mainbranch -- \
    「本仓改造」在 git 历史里可分离。这是将来还能继续同步的前提。
 5. **搬完做引用自检**：上一次是 2251 条包内引用全量静态校验、零断链。断链就是没搬完。
 
+## 游戏的搬运语义与引擎不同
+
+**游戏是内容快照，不是活依赖**：直接拷贝、**不留指针**，与引擎面的 `SYNC.json` 锚点
+语义不同（方法见包内 README「搬一个游戏进来」）。已搬入：
+
+| 游戏 | 缘由 |
+| --- | --- |
+| `game-e` / `game-f` | 随 Studio——`AssetLibrary` / `StudioInspector` / `assets-model` 直接 import 其蓝图与资源清单，非可选 |
+| `game-i` | 2026-08-01 owner 指定，首个内容游戏（42 源文件 + 104 美术资源 676K + 设计文档），同时是引擎的 UI 展示台与 3D 实验场 |
+
+其余游戏未搬。搬新游戏时要同步更新 `SYNC.json` 的 `included` / `excluded` 两处
+（`excluded` 里那条 `src/games（game-e/f/i 以外）` 的括号内容要跟着改）。
+
 ## 已知问题（你顺手能修的）
+
+**`SYNC.json` 的 `notes.接线状态` 数字已过期**：写的是「289 测试文件 / 2416 测试」，
+而同文件 `notes["game-i 搬运（2026-08-01）"]` 写的是搬入后的 **308 / 2520**。同一份
+文件里两个数字打架——按本仓「数字不许手抄」的口径，这类计数最好直接不写在文档里，
+或每次同步顺手校正。
+
 
 vendored 的 `docs/rules/*.md` 里保留了不少**上游专有路径**，在本仓是死链：
 `docs/design/data-driven-manifesto.md`、`docs/design/ui-playbook.md`、`docs/llm-onboarding.md`、

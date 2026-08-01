@@ -61,6 +61,11 @@ node packages/apollo-engine/tools/asset-reconcile.mjs
 pnpm --filter @zerocraft/apollo-engine test
 ```
 
+**已知基线（2026-08-01）**：`game-i` 的 104 个美术资源（676K，`art/index.json` 计 103
+条目）已随游戏搬入，`ledger-audit` 实测 `LEDGER-AUDIT: PASS`、退出码 0。
+这条退出码语义可以直接挂到 ZeroCraft 的 Pre-run Hook 上当门禁
+（`exit 0` 放行 / `exit 2` 跳过 / 其它 fail-closed 拦截）。
+
 ## 交付纪律
 
 - 报告写清：新增/替换了哪些资源、账本审计前后的差异、有没有遗留待评审项。
