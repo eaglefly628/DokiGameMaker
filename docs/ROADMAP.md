@@ -113,15 +113,33 @@ ZeroCraft 当「驾驶舱」读 Apollo 仓，**不搬运任何代码**。双方�
 `assets-model` 直接 import 它们的蓝图与资源清单，后续可解耦为可插拔样例注册表。
 游戏按需单独搬，方法见包内 README「搬一个游戏进来」。
 
-**已验证**：2251 条包内引用全量静态校验，**零断链**。
+**已验证**：包内引用全量静态校验，**零断链**。
 
-**接线待办**（vendored ≠ 已接入；当前状态已如实登记在
-`scripts/test-workspaces.config.mjs`，**不谎报通过**）：
+#### 内容游戏搬运进度
 
-1. 安装引擎依赖（`three` / `cannon-es` / `react` / `react-dom`）；
-2. 宿主 Vite / Vitest 配置引擎路径别名（`@engine` / `@skills` / `@atom-skills` /
-   `@assets` / `@services` / `@renderer` / `@ui` / `@net`）；
-3. 把上游引擎测试纳入本仓 runner，届时把登记改为 `requiredUnitWorkspace`。
+| 游戏 | 状态 | 说明 |
+| --- | --- | --- |
+| `game-e` / `game-f` | 已在（随 Studio） | Studio 生产代码依赖其蓝图与资源清单，非可选 |
+| **`game-i`** | **已搬入（2026-08-01，owner 指定）** | 42 源文件 + 104 美术资源（676K，103 条目索引）+ 设计文档；依赖全部落在已搬入的引擎核心，零缺口 |
+| 其余（a/b/c/d/g/q/t/x/z/101/102/103） | 未搬 | 按需单独搬，方法见包内 README |
+
+搬入 game-i 后引擎包：**308 个测试文件 / 2520 测试全绿、tsc 0 error**；
+美术账本工具实测可用（`node tools/ledger-audit.mjs` → `LEDGER-AUDIT: PASS`，退出码 0，
+可直接挂到 ZeroCraft 的 Pre-run Hook 上当门禁）。
+
+**✅ 接线已完成（2026-08-01）**：
+
+1. 引擎依赖已装（`three` / `cannon-es` / `react` / `react-dom` / `happy-dom`）；
+2. 路径别名已配于包内 `vitest.config.ts`（8 个：`@engine` / `@skills` /
+   `@atom-skills` / `@assets` / `@services` / `@renderer` / `@ui` / `@net`），
+   与 `tsconfig.json` 的 `paths` 同形——两者必须同步，否则 tsc 过而 vitest 挂；
+3. 已在 `scripts/test-workspaces.config.mjs` 登记为 `requiredUnitWorkspace`，
+   纳入 `pnpm test:unit` 必跑（门禁已确认 `PASS packages/apollo-engine unit`）。
+
+两处「上游美术库内容守卫」按不适用处理并写明理由（美术库未随引擎搬入）：
+`src/assets/shelf-3d.test.ts` 整文件排除；`asset-index.test.ts` 的真实索引自检
+改 `it.skipIf`（同文件另 28 条解析器逻辑测试照常运行）。两处均登记在 `SYNC.json`
+的 vendor patch / 测试排除条目，**上游同步时需重新施加**。
 
 ### 第三层：接口层（唯一需要新做的，很薄）
 
@@ -188,6 +206,8 @@ ZeroCraft 当「驾驶舱」读 Apollo 仓，**不搬运任何代码**。双方�
 | 2026-07-28 | 云端能力暂不保留，走本地优先；简化不删代码 | owner 决策 |
 | 2026-07-31 | Phase 3 改为三层口径；核实并记录项目自动化任意命令执行风险 | 纠正「可在设置里关闭项目自动化」——该开关不存在 |
 | 2026-08-01 | 第二层改为 vendored 搬入 `packages/apollo-engine`（引擎+Studio+手册+美术管线工具，759 文件） | owner 拍板：引擎是本产品运行时，须能独立编译发布；以 `SYNC.json` 锚定上游 commit 防漂移 |
+| 2026-08-01 | 引擎接线完成并纳入门禁；新增项目自动化总开关（默认关）堵住任意命令执行 | 引擎 308 文件/2520 测试全绿、tsc 0 error；安全闸含 7 条回归测试 |
+| 2026-08-01 | 搬入首个内容游戏 `game-i`（owner 指定） | 42 源文件 + 104 美术资源；游戏属内容快照，直接拷贝不留指针 |
 
 ---
 
