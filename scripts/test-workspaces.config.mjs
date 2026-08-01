@@ -101,6 +101,14 @@ export default {
       },
     },
     requiredUnitWorkspace('mobile', 'apps/mobile'),
+    // Apollo 引擎为 vendored 内核（见 packages/apollo-engine/SYNC.json）:自带 600+ 测试,
+    // 但尚未接入本仓构建链(依赖 three/cannon-es 未安装、Vite alias 未接线)。接线完成后
+    // 改为 requiredUnitWorkspace 并纳入门禁——在那之前**不谎报通过**,显式标记未接入。
+    noCollectableWorkspace(
+      '@zerocraft/apollo-engine',
+      'packages/apollo-engine',
+      'Vendored Apollo engine; upstream tests not yet wired into this repo\'s runner (deps + Vite aliases pending). See packages/apollo-engine/SYNC.json.',
+    ),
     requiredUnitWorkspace('@cindy/anthropic-compat-proxy', 'packages/anthropic-compat-proxy'),
     requiredUnitWorkspace('@cindy/anthropic-responses-bridge', 'packages/anthropic-responses-bridge'),
     requiredUnitWorkspace('@cindy/responses-chat-bridge', 'packages/responses-chat-bridge'),

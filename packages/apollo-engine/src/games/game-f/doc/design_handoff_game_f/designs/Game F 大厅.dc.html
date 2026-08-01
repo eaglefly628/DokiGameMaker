@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Rajdhani:wght@500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Zhi+Mang+Xing&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #15110c; }
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-thumb { background: rgba(120,90,50,.4); border-radius: 9px; }
+  @keyframes f-sheen { 0% { background-position: -130% 0; } 100% { background-position: 230% 0; } }
+  @keyframes f-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes f-pulse { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+</style>
+</helmet>
+
+<div style="{{ pageStyle }}">
+  <div style="{{ frameStyle }}">
+
+    <!-- ===== TOP BAR ===== -->
+    <div style="{{ topbar }}">
+      <div style="display:flex; align-items:center; gap:13px;">
+        <div style="{{ avatarSeal }}">赵</div>
+        <div style="display:flex; flex-direction:column; line-height:1.25;">
+          <span style="font-family:var(--fh); font-weight:700; font-size:18px; color:var(--ink); letter-spacing:.01em;">醉卧沙场_07</span>
+          <span style="font-size:11px; color:var(--ink-dim);">主武将 · <span style="font-family:var(--fd); color:var(--gold); font-size:14px;">赵云</span> 「江夏太守」</span>
+        </div>
+        <div style="{{ rankBadge }}"><span style="font-size:14px;">⚔</span><span style="font-family:var(--fh); font-weight:700; font-size:13px; color:var(--ink);">黄金 III</span><span style="font-family:var(--fn); font-size:11px; color:var(--gold);">1240</span></div>
+      </div>
+      <div style="flex:1;"></div>
+      <div style="display:flex; align-items:center; gap:9px;">
+        <button onClick="{{ skinOnyx }}" style="{{ segOnyx }}">玄铁</button>
+        <button onClick="{{ skinBrocade }}" style="{{ segBrocade }}">锦霞</button>
+        <div style="width:1px; height:22px; background:var(--panel-border); margin:0 2px;"></div>
+        <div style="{{ coin }}"><span style="font-size:14px;">🪙</span><span style="font-family:var(--fn); font-size:13px; color:var(--ink);">1.2k</span></div>
+        <div style="{{ coin }}"><span style="font-size:14px;">🎟</span><span style="font-family:var(--fn); font-size:13px; color:var(--ink);">30</span></div>
+        <div style="{{ coin }}"><span style="font-size:14px;">💎</span><span style="font-family:var(--fn); font-size:13px; color:#3a86b0;">88</span></div>
+        <div style="{{ iconBtn }}">⚙</div>
+      </div>
+    </div>
+
+    <!-- ===== NAV ===== -->
+    <div style="{{ navRow }}">
+      <button onClick="{{ navTo }}" data-s="home" style="{{ navHome }}">大厅</button>
+      <button onClick="{{ navTo }}" data-s="party" style="{{ navParty }}">组队</button>
+      <button onClick="{{ navTo }}" data-s="decks" style="{{ navDecks }}">牌组</button>
+      <button onClick="{{ navTo }}" data-s="collection" style="{{ navColl }}">收藏</button>
+      <button onClick="{{ navTo }}" data-s="market" style="{{ navMarket }}">商城/市场</button>
+      <button onClick="{{ navTo }}" data-s="ladder" style="{{ navLadder }}">天梯</button>
+    </div>
+
+    <!-- ===== CONTENT ===== -->
+    <div style="{{ contentWrap }}">
+
+      <!-- S1 HOME -->
+      <div style="{{ scrHome }}">
+        <div style="flex:1; display:flex; flex-direction:column; gap:14px; min-width:0;">
+          <div style="{{ heroMap }}">
+            <div style="{{ island1 }}"></div><div style="{{ island2 }}"></div><div style="{{ island3 }}"></div>
+            <div style="position:absolute; top:18px; left:22px; display:flex; flex-direction:column; gap:3px;">
+              <span style="font-family:var(--fd); font-size:30px; color:#fff; text-shadow:0 2px 10px rgba(0,0,0,.6);">九州征伐</span>
+              <span style="font-size:12px; color:rgba(255,255,255,.82);">本周战役 · 赛季剩 12 天</span>
+            </div>
+            <div style="position:absolute; top:20px; right:22px; display:flex; gap:7px;">
+              <div style="{{ fleetTag }}"><span style="width:7px;height:7px;border-radius:50%;background:#46c98a;"></span>蜀</div>
+              <div style="{{ fleetTag }}"><span style="width:7px;height:7px;border-radius:50%;background:#5b8fe0;"></span>魏</div>
+              <div style="{{ fleetTag }}"><span style="width:7px;height:7px;border-radius:50%;background:#e0635a;"></span>吴</div>
+            </div>
+            <div style="position:absolute; left:0; right:0; bottom:24px; display:flex; flex-direction:column; align-items:center; gap:13px;">
+              <button style="{{ ctaMain }}">
+                <span style="position:absolute; inset:0; border-radius:inherit; background:linear-gradient(110deg,transparent 36%,rgba(255,255,255,.4) 50%,transparent 64%); background-size:230% 100%; animation:f-sheen 3s ease-in-out infinite; pointer-events:none;"></span>
+                <span style="position:relative; font-family:var(--fd); font-size:32px; letter-spacing:.06em;">⚓ 渡海攻岛</span>
+                <span style="position:relative; font-size:10px; letter-spacing:.26em; opacity:.85;">QUICK MATCH</span>
+              </button>
+              <div style="display:flex; gap:11px;">
+                <button style="{{ ctaSub }}">邀好友组队</button>
+                <button style="{{ ctaSub }}">单人 · AI 补位</button>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; gap:12px;">
+            <div style="{{ quickCard }}"><span style="font-size:22px;">⚔️</span><div><div style="font-size:11px; color:var(--ink-dim);">我的牌组</div><div style="font-family:var(--fh); font-weight:700; font-size:15px; color:var(--ink);">虎豹铁骑 ▸</div></div></div>
+            <div style="{{ quickCard }}"><span style="font-size:22px;">🎁</span><div><div style="font-size:11px; color:var(--ink-dim);">每日宝箱</div><div style="font-family:var(--fh); font-weight:700; font-size:15px; color:var(--gold);">可领取 ●</div></div></div>
+            <div style="{{ quickCard }}"><span style="font-size:22px;">🏪</span><div><div style="font-size:11px; color:var(--ink-dim);">商城上新</div><div style="font-family:var(--fh); font-weight:700; font-size:15px; color:var(--ink);">战国风云 🔴</div></div></div>
+          </div>
+        </div>
+        <!-- friends rail -->
+        <div style="{{ friendRail }}">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+            <span style="font-family:var(--fh); font-weight:700; font-size:14px; color:var(--ink); letter-spacing:.04em;">好友</span>
+            <span style="font-size:11px; color:var(--ink-dim);">在线 5</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:7px;">
+            <sc-for list="{{ friends }}" as="f" hint-placeholder-count="6">
+              <div style="{{ f.row }}">
+                <span style="{{ f.dot }}"></span>
+                <div style="flex:1; min-width:0;">
+                  <div style="font-family:var(--fh); font-weight:600; font-size:13px; color:var(--ink);">{{ f.name }}</div>
+                  <div style="font-size:10px; color:var(--ink-dim);">{{ f.tag }}</div>
+                </div>
+                <span style="{{ f.statusStyle }}">{{ f.status }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <button style="{{ addFriend }}">+ 添加好友</button>
+        </div>
+      </div>
+
+      <!-- S2 PARTY -->
+      <div style="{{ scrParty }}">
+        <div style="{{ sheet }}">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:18px; flex-wrap:wrap;">
+            <span style="font-family:var(--fd); font-size:26px; color:var(--ink);">攻岛组队</span>
+            <span style="{{ pill }}">战役 · 九州征伐</span>
+            <span style="{{ pill }}">终盘 Boss · 轮换</span>
+            <span style="{{ pill }}">规则 · 贡献度 → 岛主</span>
+          </div>
+          <div style="display:flex; gap:16px;">
+            <sc-for list="{{ seats }}" as="s" hint-placeholder-count="3">
+              <div style="{{ s.card }}">
+                <div style="{{ s.badge }}">{{ s.badgeText }}</div>
+                <div style="{{ s.av }}">{{ s.avText }}</div>
+                <div style="font-family:var(--fh); font-weight:700; font-size:17px; color:var(--ink); margin-top:10px;">{{ s.name }}</div>
+                <div style="font-size:12px; color:var(--ink-dim); margin-top:3px;">{{ s.sub }}</div>
+                <div style="{{ s.statusStyle }}">{{ s.statusText }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex; gap:14px; flex-wrap:wrap; margin-top:20px; align-items:center;">
+            <span style="font-size:12px; color:var(--ink-dim);">选势力</span>
+            <div style="display:flex; gap:7px;">
+              <span style="{{ facShu }}">蜀</span><span style="{{ facWei }}">魏</span><span style="{{ facWu }}">吴</span>
+            </div>
+            <span style="font-size:12px; color:var(--ink-dim); margin-left:8px;">牌组</span>
+            <span style="{{ selectChip }}">虎豹铁骑 ▾</span>
+            <span style="font-size:12px; color:var(--ink-dim); margin-left:8px;">岛屿</span>
+            <span style="{{ selectChip }}">九州 ▾</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:14px; margin-top:24px;">
+            <span style="{{ chatChip }}">队内聊天 ▸</span>
+            <div style="flex:1;"></div>
+            <button style="{{ btnGhost }}">准备 ✅</button>
+            <button style="{{ ctaWide }}">开始(全员就绪)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- S4 DECKS -->
+      <div style="{{ scrDecks }}">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap;">
+          <span style="font-family:var(--fd); font-size:24px; color:var(--ink);">我的牌组</span>
+          <span style="font-size:12px; color:var(--ink-dim);">8 套</span>
+          <div style="flex:1;"></div>
+          <span style="{{ chip2 }}">+ 新建</span>
+          <span style="{{ chip2 }}">流派 ▾</span>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+          <sc-for list="{{ deckFilters }}" as="d" hint-placeholder-count="6"><span style="{{ d.style }}">{{ d.label }}</span></sc-for>
+        </div>
+        <div style="display:flex; gap:18px;">
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:13px; flex:1;">
+            <sc-for list="{{ decks }}" as="d" hint-placeholder-count="6">
+              <div style="{{ d.card }}">
+                <div style="display:flex; align-items:center; justify-content:space-between;"><span style="font-family:var(--fh); font-weight:700; font-size:16px; color:var(--ink);">{{ d.name }}</span><span style="font-size:18px;">{{ d.icon }}</span></div>
+                <div style="{{ d.facTag }}">{{ d.style2 }}</div>
+                <div style="font-size:11px; color:var(--ink-dim); margin-top:8px;">钥匙:{{ d.key }}</div>
+                <div style="{{ d.compStyle }}">{{ d.complete }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="{{ deckPreview }}">
+            <div style="font-family:var(--fd); font-size:22px; color:var(--ink);">虎豹铁骑</div>
+            <div style="font-size:12px; color:var(--ink-dim); margin-top:2px;">魏 · 速攻 · 围绕「魏·骑兵连携」</div>
+            <div style="display:flex; gap:7px; flex-wrap:wrap; margin:14px 0;">
+              <sc-for list="{{ deckSlots }}" as="c" hint-placeholder-count="8"><div style="{{ c.style }}">{{ c.label }}</div></sc-for>
+            </div>
+            <div style="font-size:12px; color:var(--ink-dim); line-height:1.7;">克 → 经济流 · 被克 → 控制流<br>预估强度 <span style="color:var(--gold);">★★★☆</span></div>
+            <div style="display:flex; gap:9px; margin-top:14px;">
+              <button style="{{ btnGhost }}">编辑</button>
+              <button style="{{ ctaWide }}">设为出战</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S5 COLLECTION -->
+      <div style="{{ scrColl }}">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
+          <span style="font-family:var(--fd); font-size:24px; color:var(--ink);">卡牌收藏</span>
+          <div style="flex:1;"></div>
+          <span style="{{ chip2 }}">势力 ▾</span><span style="{{ chip2 }}">职业 ▾</span><span style="{{ chip2 }}">稀有度 ▾</span><span style="{{ chip2 }}">🔍 搜索</span>
+        </div>
+        <div style="display:flex; gap:18px;">
+          <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:12px; flex:1;">
+            <sc-for list="{{ collection }}" as="c" hint-placeholder-count="10">
+              <div style="{{ c.card }}">
+                <div style="{{ c.art }}"><span style="{{ c.glyphStyle }}">{{ c.glyph }}</span></div>
+                <div style="font-family:var(--fb); font-weight:700; font-size:12px; color:var(--ink); text-align:center; margin-top:6px;">{{ c.name }}</div>
+                <div style="{{ c.ownStyle }}">{{ c.own }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="{{ cardDetail }}">
+            <div style="{{ detailArt }}"><span style="font-family:var(--fd); font-size:54px; color:#fff;">虎</span></div>
+            <div style="font-family:var(--fh); font-weight:700; font-size:18px; color:var(--ink); margin-top:12px;">虎豹骑令</div>
+            <div style="display:flex; gap:6px; margin-top:7px;"><span style="{{ rarBlue }}">稀有</span><span style="{{ facWei2 }}">魏</span><span style="font-size:11px; color:var(--ink-dim); align-self:center;">拥有 ×3</span></div>
+            <div style="font-size:12.5px; color:var(--ink); line-height:1.6; margin-top:12px;">每有 1 名魏·骑兵,全体骑兵 +攻击。</div>
+            <div style="font-size:11px; color:var(--ink-dim); margin-top:8px;">附魔:普通 → 多彩 +30% · 可叠「星球·魏」</div>
+            <div style="display:flex; gap:9px; margin-top:14px;">
+              <button style="{{ btnGhost }}">附魔</button><button style="{{ btnGhost }}">分解</button><button style="{{ ctaWide }}">上架交易</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S6 MARKET -->
+      <div style="{{ scrMarket }}">
+        <div style="display:flex; gap:8px; margin-bottom:16px;">
+          <span style="{{ mtabOn }}">交易市场</span><span style="{{ mtab }}">抽卡</span><span style="{{ mtab }}">直购礼包</span>
+          <div style="flex:1;"></div>
+          <span style="font-size:12px; color:var(--ink-dim); align-self:center;">TCG 封闭市场 · 非 crypto</span>
+        </div>
+        <div style="display:flex; gap:16px;">
+          <div style="{{ sheet }}; flex:1;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;"><span style="{{ chip2 }}">🔍 搜索卡牌</span><span style="{{ chip2 }}">我的挂单 2</span><span style="{{ chip2 }}">求购 1</span></div>
+            <div style="{{ tableHead }}"><span style="flex:2;">卡名</span><span style="flex:1;">最低售价</span><span style="flex:1;">求购价</span><span style="flex:1;">成交均价</span><span style="width:36px;">走势</span><span style="width:60px;"></span></div>
+            <sc-for list="{{ market }}" as="m" hint-placeholder-count="5">
+              <div style="{{ m.row }}">
+                <span style="flex:2; display:flex; align-items:center; gap:8px;"><span style="{{ m.gem }}"></span><span style="font-family:var(--fb); font-weight:700; font-size:13px; color:var(--ink);">{{ m.name }}</span></span>
+                <span style="flex:1; font-family:var(--fn); font-size:12px; color:var(--ink);">💎{{ m.ask }}</span>
+                <span style="flex:1; font-family:var(--fn); font-size:12px; color:var(--ink-dim);">💎{{ m.bid }}</span>
+                <span style="flex:1; font-family:var(--fn); font-size:12px; color:var(--ink-dim);">💎{{ m.avg }}</span>
+                <span style="width:36px; {{ m.trendStyle }}">{{ m.trend }}</span>
+                <button style="{{ buySm }}">购买</button>
+              </div>
+            </sc-for>
+            <div style="display:flex; gap:9px; margin-top:16px;"><button style="{{ btnGhost }}">挂单出售</button><button style="{{ btnGhost }}">发起求购</button><button style="{{ btnGhost }}">成交记录</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S7 LADDER -->
+      <div style="{{ scrLadder }}">
+        <div style="display:flex; gap:16px;">
+          <div style="width:300px; flex:none; display:flex; flex-direction:column; gap:14px;">
+            <div style="{{ rankCard }}">
+              <span style="font-size:46px;">⚔️</span>
+              <div style="font-family:var(--fd); font-size:30px; color:var(--ink); margin-top:6px;">黄金 III</div>
+              <div style="font-family:var(--fn); font-size:14px; color:var(--gold); margin-top:2px;">1240 LP</div>
+              <div style="width:100%; height:8px; border-radius:99px; background:rgba(120,90,50,.2); overflow:hidden; margin-top:12px;"><div style="width:62%; height:100%; background:var(--gold-grad); border-radius:99px;"></div></div>
+              <div style="font-size:11px; color:var(--ink-dim); margin-top:7px;">距 黄金 II 还需 60 LP</div>
+            </div>
+            <div style="{{ sheet }}">
+              <div style="font-family:var(--fh); font-weight:700; font-size:14px; color:var(--ink); margin-bottom:11px;">近 10 局</div>
+              <div style="display:flex; gap:5px; flex-wrap:wrap;">
+                <sc-for list="{{ recents }}" as="r" hint-placeholder-count="10"><div style="{{ r.style }}">{{ r.place }}</div></sc-for>
+              </div>
+              <div style="font-size:11px; color:var(--ink-dim); margin-top:10px;">岛主 ×3 · 平均名次 2.4</div>
+            </div>
+          </div>
+          <div style="{{ sheet }}; flex:1;">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;"><span style="font-family:var(--fd); font-size:22px; color:var(--ink);">天梯榜</span><span style="{{ chip2 }}">全服</span><span style="{{ chip2 }}">好友</span></div>
+            <sc-for list="{{ ladder }}" as="l" hint-placeholder-count="8">
+              <div style="{{ l.row }}">
+                <span style="{{ l.rankStyle }}">{{ l.rank }}</span>
+                <div style="{{ l.av }}">{{ l.avText }}</div>
+                <div style="flex:1; min-width:0;"><div style="font-family:var(--fh); font-weight:700; font-size:14px; color:var(--ink);">{{ l.name }}</div><div style="font-size:10px; color:var(--ink-dim);">{{ l.deckTag }}</div></div>
+                <span style="font-family:var(--fn); font-size:13px; color:var(--gold);">{{ l.lp }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- invite toast -->
+    <div style="{{ toast }}">
+      <div style="{{ toastAv }}">周</div>
+      <div style="flex:1;"><div style="font-family:var(--fh); font-weight:700; font-size:13px; color:var(--ink);">周瑜 邀请你攻岛</div><div style="font-size:11px; color:var(--ink-dim);">九州征伐 · 3 人队</div></div>
+      <button style="{{ toastYes }}">接受</button>
+      <button style="{{ toastNo }}">✕</button>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { screen: 'home', skin: 'onyx' };
+
+  themes() {
+    return {
+      onyx: {
+        '--ink': '#e7edf3', '--ink-dim': '#7e8c9b',
+        '--gold': '#e8cd82', '--gold-grad': 'linear-gradient(180deg,#f5e6ad,#c69a44)',
+        '--paper': 'radial-gradient(120% 120% at 50% -8%, #1d2d42 0%, #0f1b29 55%, #070e17 100%)',
+        '--panel': 'radial-gradient(130% 95% at 22% 10%, rgba(82,120,158,.30), transparent 56%), linear-gradient(165deg,#1a2a3c,#0f1c2a)',
+        '--panel-border': '#3a516e', '--hairline': 'rgba(232,205,138,.24)',
+        '--chip': 'rgba(255,255,255,.05)', '--track': 'rgba(0,0,0,.5)',
+        '--frame-edge': '#2a3a4e',
+        '--chamfer': 'polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px)',
+        '--fd': "'Zhi Mang Xing', cursive", '--fh': "'Rajdhani', sans-serif", '--fb': "'Noto Sans SC', sans-serif", '--fn': "'Silkscreen', monospace",
+      },
+      brocade: {
+        '--ink': '#5a3f44', '--ink-dim': '#a98b8f',
+        '--gold': '#cf9a3f', '--gold-grad': 'linear-gradient(180deg,#f3e2a4,#cf9a3f)',
+        '--paper': 'radial-gradient(120% 120% at 50% -10%, #fdf4ee 0%, #f3e2dc 60%, #ecd6cf 100%)',
+        '--panel': 'radial-gradient(130% 95% at 22% 10%, rgba(216,170,120,.20), transparent 56%), linear-gradient(165deg,#fffaf3,#f8e7d6)',
+        '--panel-border': '#e0c290', '--hairline': 'rgba(207,154,63,.5)',
+        '--chip': 'rgba(255,255,255,.55)', '--track': 'rgba(150,110,90,.18)',
+        '--frame-edge': '#6b4a2e',
+        '--chamfer': 'polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px)',
+        '--fd': "'Ma Shan Zheng', cursive", '--fh': "'Cormorant Garamond', serif", '--fb': "'Noto Serif SC', serif", '--fn': "'Silkscreen', monospace",
+      },
+    };
+  }
+
+  renderVals() {
+    const T = this.themes()[this.state.skin];
+    const FAC = { shu: '#2f8f6b', wei: '#3a6abf', wu: '#c0473b', qun: '#6a6f7b' };
+    const RAR = { white: '#b9bec8', green: '#5bbf7a', blue: '#3a9bff', purple: '#bf6bff', orange: '#f0972f' };
+    const screen = this.state.screen;
+    const show = (s) => ({ display: screen === s ? 'flex' : 'none' });
+
+    const pageStyle = Object.assign({}, T, { minHeight: '100vh', background: '#15110c', padding: '22px', display: 'flex', justifyContent: 'center', fontFamily: "'Noto Sans SC', sans-serif" });
+    const frameStyle = { position: 'relative', width: '1340px', minHeight: '820px', borderRadius: '16px', overflow: 'hidden', background: 'var(--paper)', border: '3px solid var(--frame-edge)', boxShadow: '0 30px 80px rgba(0,0,0,.6), inset 0 0 0 1px var(--hairline)', display: 'flex', flexDirection: 'column' };
+
+    const topbar = { display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 24px', background: 'linear-gradient(180deg,rgba(94,63,38,.16),transparent)', borderBottom: '1px solid var(--panel-border)' };
+    const avatarSeal = { width: '44px', height: '44px', flex: 'none', clipPath: 'polygon(8% 4%,96% 0,100% 92%,4% 100%)', background: 'linear-gradient(150deg,#3f9e74,#2f8f6b)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontFamily: 'var(--fd)', fontSize: '24px', boxShadow: '0 0 12px rgba(47,143,107,.5)' };
+    const rankBadge = { display: 'flex', alignItems: 'center', gap: '7px', marginLeft: '6px', padding: '6px 13px', borderRadius: '99px', background: 'var(--chip)', border: '1px solid var(--panel-border)' };
+    const coin = { display: 'flex', alignItems: 'center', gap: '5px', padding: '6px 11px', borderRadius: '9px', background: 'var(--chip)', border: '1px solid var(--panel-border)' };
+    const iconBtn = { width: '34px', height: '34px', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--chip)', border: '1px solid var(--panel-border)', color: 'var(--ink-dim)', fontSize: '16px', cursor: 'pointer' };
+
+    const navRow = { display: 'flex', gap: '4px', padding: '10px 22px 0' };
+    const navItem = (on) => ({ position: 'relative', padding: '10px 20px', cursor: 'pointer', border: 'none', background: on ? 'var(--panel)' : 'transparent', borderRadius: '11px 11px 0 0', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '15px', letterSpacing: '.03em', color: on ? 'var(--ink)' : 'var(--ink-dim)', borderBottom: on ? '2px solid var(--gold)' : '2px solid transparent', transition: 'all .15s' });
+
+    const contentWrap = { flex: 1, padding: '18px 24px 24px', display: 'flex', minHeight: 0 };
+
+    // S1 home
+    const heroMap = { position: 'relative', flex: 1, minHeight: '420px', borderRadius: '14px', overflow: 'hidden', background: 'linear-gradient(180deg,#3b6a8c 0%,#5a86a4 45%,#86a9bf 100%)', border: '1px solid var(--panel-border)', boxShadow: 'inset 0 0 0 1px var(--hairline), inset 0 0 80px rgba(20,40,60,.4)' };
+    const isle = (l, t, w, h, op) => ({ position: 'absolute', left: l, top: t, width: w, height: h, background: 'radial-gradient(56% 50% at 42% 36%, rgba(156,172,116,' + op + '), rgba(98,118,76,' + (op * 0.55).toFixed(2) + ') 56%, rgba(64,84,56,0) 80%), radial-gradient(44% 40% at 62% 74%, rgba(36,50,32,.42), rgba(36,50,32,0) 72%)', borderRadius: '52% 48% 56% 44% / 60% 52% 48% 40%', filter: 'blur(2.5px)' });
+    const island1 = isle('15%', '28%', '152px', '98px', 0.6);
+    const island2 = isle('50%', '16%', '112px', '74px', 0.48);
+    const island3 = isle('64%', '44%', '172px', '106px', 0.64);
+    const fleetTag = { display: 'flex', alignItems: 'center', gap: '6px', padding: '5px 11px', borderRadius: '99px', background: 'rgba(20,30,40,.5)', color: '#fff', fontSize: '12px', fontFamily: 'var(--fh)', fontWeight: 700, backdropFilter: 'blur(3px)' };
+    const ctaMain = { position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', padding: '14px 52px', cursor: 'pointer', clipPath: 'var(--chamfer)', border: 'none', background: 'linear-gradient(180deg,#e7b052,#bb7f2c)', color: '#2a1a08', boxShadow: '0 10px 28px rgba(120,80,20,.5), inset 0 1px 0 rgba(255,255,255,.4)' };
+    const ctaSub = { padding: '10px 22px', borderRadius: '11px', cursor: 'pointer', background: 'rgba(255,255,255,.16)', border: '1px solid rgba(255,255,255,.4)', color: '#fff', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '14px', backdropFilter: 'blur(4px)' };
+    const quickCard = { flex: 1, display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 16px', borderRadius: '12px', clipPath: 'var(--chamfer)', background: 'var(--panel)', border: '1px solid var(--panel-border)', boxShadow: 'inset 0 0 0 1px var(--hairline)' };
+
+    const friendRail = { width: '256px', flex: 'none', marginLeft: '14px', padding: '16px', borderRadius: '14px', background: 'var(--panel)', border: '1px solid var(--panel-border)', boxShadow: 'inset 0 0 0 1px var(--hairline)', display: 'flex', flexDirection: 'column' };
+    const fst = { lobby: ['大厅', '#b8893f'], in_party: ['组队中', '#3a6abf'], in_game: ['对战中', '#c0473b'], offline: ['离线', '#a89878'] };
+    const friends = [
+      ['一刀两断233', '张飞', '关张·铁骑', 'in_game'], ['东风快递员', '周瑜', '吴·火攻', 'lobby'], ['羽扇纶巾er', '孔明', '谋士·控制', 'in_party'],
+      ['苟到最后丶', '司马懿', '魏·后期', 'offline'], ['家奴本奴', '吕布', '群·单核', 'offline'], ['老当益壮射爆', '黄忠', '蜀·射手', 'lobby'],
+    ].map(([name, general, tag, st]) => ({
+      name, tag: '主将·' + general + ' · ' + tag, status: fst[st][0],
+      row: { display: 'flex', alignItems: 'center', gap: '9px', padding: '8px 10px', borderRadius: '10px', background: st === 'offline' ? 'transparent' : 'var(--chip)', border: '1px solid var(--panel-border)', opacity: st === 'offline' ? .5 : 1 },
+      dot: { width: '8px', height: '8px', borderRadius: '50%', flex: 'none', background: fst[st][1], boxShadow: st !== 'offline' ? '0 0 6px ' + fst[st][1] : 'none' },
+      statusStyle: { fontSize: '10px', fontFamily: 'var(--fh)', fontWeight: 700, color: fst[st][1] },
+    }));
+    const addFriend = { marginTop: '12px', padding: '10px', borderRadius: '10px', cursor: 'pointer', background: 'transparent', border: '1px dashed var(--panel-border)', color: 'var(--ink-dim)', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '13px' };
+
+    // S2 party
+    const sheet = { background: 'var(--panel)', borderRadius: '14px', border: '1px solid var(--panel-border)', boxShadow: 'inset 0 0 0 1px var(--hairline)', padding: '22px 24px', width: '100%' };
+    const pill = { padding: '4px 12px', borderRadius: '99px', background: 'var(--chip)', border: '1px solid var(--panel-border)', fontSize: '12px', color: 'var(--ink-dim)' };
+    const seats = [
+      { kind: 'me', name: '赵云(我)', sub: '势力 蜀 · 牌组 虎豹', av: '赵', badge: '房主', fac: 'shu', ready: true },
+      { kind: 'empty', name: '空席', sub: '邀好友 / 匹配 / AI', av: '+', badge: '招募', fac: null, ready: false },
+      { kind: 'ai', name: 'AI · 曹', sub: '势力 魏 · 自动', av: '🤖', badge: 'AI 补位', fac: 'wei', ready: true },
+    ].map((s) => {
+      const c = s.fac ? FAC[s.fac] : '#a89878';
+      return {
+        name: s.name, sub: s.sub, avText: s.av, badgeText: s.badge,
+        card: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '22px 16px', borderRadius: '14px', clipPath: 'var(--chamfer)', background: s.kind === 'empty' ? 'transparent' : 'var(--chip)', border: s.kind === 'empty' ? '2px dashed var(--panel-border)' : '1px solid ' + c, boxShadow: s.kind === 'empty' ? 'none' : 'inset 0 0 0 1px var(--hairline), 0 4px 14px rgba(0,0,0,.1)', position: 'relative' },
+        badge: { position: 'absolute', top: '12px', left: '12px', fontSize: '10px', padding: '2px 9px', borderRadius: '99px', background: c, color: '#fff', fontFamily: 'var(--fh)', fontWeight: 700 },
+        av: { width: '64px', height: '64px', clipPath: 'polygon(8% 4%,96% 0,100% 92%,4% 100%)', background: s.kind === 'empty' ? 'var(--track)' : 'linear-gradient(150deg,' + c + 'dd,' + c + '99)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontFamily: 'var(--fd)', fontSize: '30px', marginTop: '8px' },
+        statusText: s.ready ? '✅ 已准备' : '等待中…',
+        statusStyle: { marginTop: '12px', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '13px', color: s.ready ? '#2f8f6b' : 'var(--ink-dim)' },
+      };
+    });
+    const facChip = (k, on) => ({ padding: '6px 15px', borderRadius: '10px', fontFamily: 'var(--fd)', fontSize: '17px', cursor: 'pointer', background: on ? FAC[k] : 'var(--chip)', color: on ? '#fff' : 'var(--ink-dim)', border: '1px solid ' + (on ? FAC[k] : 'var(--panel-border)') });
+    const selectChip = { padding: '7px 15px', borderRadius: '10px', background: 'var(--chip)', border: '1px solid var(--panel-border)', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '13px', color: 'var(--ink)', cursor: 'pointer' };
+    const chatChip = Object.assign({}, selectChip, { color: 'var(--ink-dim)' });
+    const btnGhost = { padding: '11px 22px', borderRadius: '11px', cursor: 'pointer', background: 'var(--chip)', border: '1px solid var(--panel-border)', color: 'var(--ink)', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '14px' };
+    const ctaWide = { padding: '11px 28px', borderRadius: '11px', clipPath: 'var(--chamfer)', cursor: 'pointer', border: 'none', background: 'var(--gold-grad)', color: '#2a1a08', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '15px', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.4), 0 5px 14px rgba(120,80,20,.3)' };
+
+    // S4 decks
+    const chip2 = { padding: '6px 13px', borderRadius: '9px', background: 'var(--chip)', border: '1px solid var(--panel-border)', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '13px', color: 'var(--ink-dim)', cursor: 'pointer' };
+    const deckFilters = ['全部', '速攻', '连携', '控制', '单核', '经济'].map((label, i) => ({ label, style: { padding: '5px 13px', borderRadius: '99px', fontSize: '12px', fontFamily: 'var(--fh)', fontWeight: 700, cursor: 'pointer', background: i === 0 ? 'var(--gold-grad)' : 'var(--chip)', color: i === 0 ? '#2a1a08' : 'var(--ink-dim)', border: '1px solid ' + (i === 0 ? 'transparent' : 'var(--panel-border)') } }));
+    const decks = [
+      ['虎豹铁骑', '⚔️', 'wei', '魏·速攻', '虎豹骑令', '5/5', 1], ['桃园结义', '🛡️', 'shu', '蜀·连携', '桃园三义', '4/5', 0],
+      ['白衣渡江', '🗡️', 'wu', '吴·斩首', '白衣', '🔒 缺稀有', 2], ['八阵奇谋', '☰', 'shu', '蜀·控制', '八阵图', '5/5', 1],
+      ['江东水师', '🌊', 'wu', '吴·火攻', '东南风', '3/5', 0], ['群雄逐鹿', '🐎', 'qun', '群·单核', '吕布令', '5/5', 1],
+    ].map(([name, icon, fac, style2, key, complete, status]) => ({
+      name, icon, style2, key, complete,
+      card: { padding: '14px', borderRadius: '12px', clipPath: 'var(--chamfer)', background: 'var(--chip)', border: '1px solid ' + (status === 2 ? 'var(--panel-border)' : FAC[fac]), boxShadow: 'inset 0 0 0 1px var(--hairline)', cursor: 'pointer', opacity: status === 2 ? .62 : 1 },
+      facTag: { display: 'inline-block', marginTop: '8px', fontSize: '11px', padding: '2px 9px', borderRadius: '99px', background: FAC[fac] + '22', color: FAC[fac], fontWeight: 700 },
+      compStyle: { marginTop: '8px', fontFamily: 'var(--fn)', fontSize: '11px', color: status === 1 ? '#2f8f6b' : (status === 2 ? 'var(--ink-dim)' : '#c0473b') },
+    }));
+    const deckPreview = { width: '300px', flex: 'none', padding: '20px', borderRadius: '14px', clipPath: 'var(--chamfer)', background: 'var(--panel)', border: '1px solid var(--gold)', boxShadow: 'inset 0 0 0 1px var(--hairline)' };
+    const deckSlots = ['虎豹骑令', '速攻令', '募兵', '铁骑突阵', '星球·魏', '', '', ''].map((label) => ({ label, style: { width: '64px', height: '64px', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontFamily: 'var(--fb)', fontWeight: 700, fontSize: '11px', padding: '4px', background: label ? 'var(--chip)' : 'transparent', border: label ? '1px solid var(--gold)' : '1px dashed var(--panel-border)', color: label ? 'var(--ink)' : 'var(--ink-dim)' } }));
+
+    // S5 collection
+    const collCards = [
+      ['虎豹骑令', '令', 'blue', '×3'], ['桃园三义', '义', 'purple', '×1'], ['东南风', '风', 'green', '×2'], ['八阵图', '阵', 'purple', '×1'], ['白衣', '衣', 'orange', '🔒'],
+      ['招降令', '降', 'green', '×4'], ['募兵', '兵', 'white', '×9'], ['速攻令', '速', 'blue', '×2'], ['铁骑突阵', '骑', 'blue', '×3'], ['星球·魏', '星', 'orange', '×1'],
+    ].map(([name, glyph, rar, own]) => {
+      const c = RAR[rar]; const locked = own === '🔒';
+      return {
+        name, glyph, own,
+        card: { padding: '8px', borderRadius: '10px', background: 'var(--chip)', border: '1px solid var(--panel-border)', boxShadow: 'inset 0 0 0 1px var(--hairline)', opacity: locked ? .5 : 1, cursor: 'pointer' },
+        art: { height: '70px', borderRadius: '7px', clipPath: 'polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)', background: 'linear-gradient(160deg,' + c + 'cc,' + c + '66)', border: '2px solid ' + c, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 10px ' + c + '55' },
+        glyphStyle: { fontFamily: 'var(--fd)', fontSize: '34px', color: '#fff', textShadow: '0 1px 4px rgba(0,0,0,.4)' },
+        ownStyle: { fontFamily: 'var(--fn)', fontSize: '10px', color: locked ? 'var(--ink-dim)' : c, textAlign: 'center', marginTop: '4px' },
+      };
+    });
+    const cardDetail = { width: '264px', flex: 'none', padding: '20px', borderRadius: '14px', clipPath: 'var(--chamfer)', background: 'var(--panel)', border: '1px solid var(--panel-border)', boxShadow: 'inset 0 0 0 1px var(--hairline)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' };
+    const detailArt = { width: '120px', height: '120px', borderRadius: '12px', clipPath: 'var(--chamfer)', background: 'linear-gradient(160deg,#5b8fe0,#3a6abf)', border: '2px solid #3a9bff', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 18px rgba(58,155,255,.5)' };
+    const rarBlue = { fontSize: '11px', padding: '2px 9px', borderRadius: '99px', background: 'rgba(58,155,255,.16)', color: '#3a9bff', fontWeight: 700 };
+    const facWei2 = { fontSize: '11px', padding: '2px 9px', borderRadius: '99px', background: 'rgba(58,106,191,.16)', color: '#3a6abf', fontWeight: 700 };
+
+    // S6 market
+    const mtab = { padding: '9px 18px', borderRadius: '10px', background: 'var(--chip)', border: '1px solid var(--panel-border)', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '14px', color: 'var(--ink-dim)', cursor: 'pointer' };
+    const mtabOn = Object.assign({}, mtab, { background: 'var(--gold-grad)', color: '#2a1a08', border: 'none' });
+    const tableHead = { display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '11px', letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-dim)', borderBottom: '1px solid var(--panel-border)' };
+    const trendC = { up: '#2f8f6b', down: '#c0473b', flat: '#a89878' };
+    const market = [
+      ['白衣', 'orange', 120, 90, 105, 'up', '↗'], ['虎豹骑令', 'blue', 15, 10, 12, 'flat', '→'],
+      ['八阵图', 'purple', 78, 60, 70, 'up', '↗'], ['东南风', 'green', 22, 18, 20, 'down', '↘'], ['星球·魏', 'orange', 240, 180, 210, 'up', '↗'],
+    ].map(([name, rar, ask, bid, avg, tr, arrow]) => ({
+      name, ask, bid, avg, trend: arrow,
+      row: { display: 'flex', alignItems: 'center', gap: '8px', padding: '11px 12px', borderRadius: '9px', borderBottom: '1px solid var(--panel-border)' },
+      gem: { width: '8px', height: '8px', borderRadius: '2px', background: RAR[rar], boxShadow: '0 0 6px ' + RAR[rar] },
+      trendStyle: { color: trendC[tr], fontWeight: 700, fontSize: '13px' },
+    }));
+    const buySm = { width: '60px', padding: '6px 0', borderRadius: '8px', cursor: 'pointer', border: 'none', background: 'var(--gold-grad)', color: '#2a1a08', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '12px' };
+
+    // S7 ladder
+    const rankCard = { display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 20px', borderRadius: '14px', clipPath: 'var(--chamfer)', background: 'var(--panel)', border: '1px solid var(--gold)', boxShadow: 'inset 0 0 0 1px var(--hairline)' };
+    const recents = ['1', '3', '1', '2', '5', '1', '2', '4', '2', '6'].map((p) => ({ place: p, style: { width: '30px', height: '30px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--fn)', fontSize: '12px', background: p === '1' ? 'var(--gold-grad)' : 'var(--chip)', color: p === '1' ? '#2a1a08' : 'var(--ink)', border: '1px solid var(--panel-border)' } }));
+    const ladder = [
+      ['1', '吕布', '群·单核', 2880, 'qun'], ['2', '孔明', '蜀·控制', 2710, 'shu'], ['3', '司马懿', '魏·后期', 2640, 'wei'],
+      ['4', '周瑜', '吴·火攻', 2510, 'wu'], ['5', '关羽', '蜀·连携', 2380, 'shu'], ['6', '甘宁', '吴·斩首', 2240, 'wu'],
+    ].map(([rank, name, deckTag, lp, fac]) => ({
+      rank, name, deckTag, lp,
+      rankStyle: { width: '26px', fontFamily: 'var(--fn)', fontSize: '14px', color: +rank <= 3 ? 'var(--gold)' : 'var(--ink-dim)', textAlign: 'center' },
+      av: { width: '32px', height: '32px', flex: 'none', borderRadius: '8px', background: 'linear-gradient(150deg,' + FAC[fac] + 'dd,' + FAC[fac] + '99)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontFamily: 'var(--fd)', fontSize: '16px' }, avText: name[0],
+      row: { display: 'flex', alignItems: 'center', gap: '11px', padding: '9px 8px', borderRadius: '9px', borderBottom: '1px solid var(--panel-border)' },
+    }));
+
+    const toast = { position: 'absolute', right: '22px', bottom: '22px', width: '290px', display: 'flex', alignItems: 'center', gap: '11px', padding: '13px 15px', borderRadius: '13px', clipPath: 'var(--chamfer)', background: 'var(--panel)', border: '1px solid var(--gold)', boxShadow: '0 14px 34px rgba(0,0,0,.4), inset 0 0 0 1px var(--hairline)', zIndex: 20 };
+    const toastAv = { width: '38px', height: '38px', flex: 'none', clipPath: 'polygon(8% 4%,96% 0,100% 92%,4% 100%)', background: 'linear-gradient(150deg,#e0635a,#c0473b)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontFamily: 'var(--fd)', fontSize: '19px' };
+    const toastYes = { padding: '8px 14px', borderRadius: '9px', cursor: 'pointer', border: 'none', background: 'var(--gold-grad)', color: '#2a1a08', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '13px' };
+    const toastNo = { width: '30px', height: '30px', borderRadius: '8px', cursor: 'pointer', background: 'var(--chip)', border: '1px solid var(--panel-border)', color: 'var(--ink-dim)' };
+
+    return {
+      pageStyle, frameStyle, topbar, avatarSeal, rankBadge, coin, iconBtn, navRow, contentWrap,
+      skinOnyx: () => this.setState({ skin: 'onyx' }), skinBrocade: () => this.setState({ skin: 'brocade' }),
+      segOnyx: { padding: '6px 12px', borderRadius: '8px', cursor: 'pointer', border: '1px solid ' + (this.state.skin === 'onyx' ? 'var(--gold)' : 'var(--panel-border)'), background: this.state.skin === 'onyx' ? 'var(--gold-grad)' : 'transparent', color: this.state.skin === 'onyx' ? '#2a1a08' : 'var(--ink-dim)', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '12px', whiteSpace: 'nowrap' },
+      segBrocade: { padding: '6px 12px', borderRadius: '8px', cursor: 'pointer', border: '1px solid ' + (this.state.skin === 'brocade' ? 'var(--gold)' : 'var(--panel-border)'), background: this.state.skin === 'brocade' ? 'var(--gold-grad)' : 'transparent', color: this.state.skin === 'brocade' ? '#2a1a08' : 'var(--ink-dim)', fontFamily: 'var(--fh)', fontWeight: 700, fontSize: '12px', whiteSpace: 'nowrap' },
+      navTo: (e) => this.setState({ screen: e.currentTarget.dataset.s }),
+      navHome: navItem(screen === 'home'), navParty: navItem(screen === 'party'), navDecks: navItem(screen === 'decks'), navColl: navItem(screen === 'collection'), navMarket: navItem(screen === 'market'), navLadder: navItem(screen === 'ladder'),
+      scrHome: Object.assign({ flexDirection: 'row', minWidth: 0, width: '100%' }, show('home')),
+      scrParty: Object.assign({ width: '100%' }, show('party')),
+      scrDecks: Object.assign({ flexDirection: 'column', width: '100%' }, show('decks')),
+      scrColl: Object.assign({ flexDirection: 'column', width: '100%' }, show('collection')),
+      scrMarket: Object.assign({ flexDirection: 'column', width: '100%' }, show('market')),
+      scrLadder: Object.assign({ width: '100%' }, show('ladder')),
+      heroMap, island1, island2, island3, fleetTag, ctaMain, ctaSub, quickCard,
+      friendRail, friends, addFriend,
+      sheet, pill, seats, facShu: facChip('shu', true), facWei: facChip('wei', false), facWu: facChip('wu', false), selectChip, chatChip, btnGhost, ctaWide,
+      chip2, deckFilters, decks, deckPreview, deckSlots,
+      collection: collCards, cardDetail, detailArt, rarBlue, facWei2,
+      mtab, mtabOn, tableHead, market, buySm,
+      rankCard, recents, ladder,
+      toast, toastAv, toastYes, toastNo,
+    };
+  }
+}
+</script>
+</body>
+</html>

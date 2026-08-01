@@ -1,0 +1,55 @@
+# 测试与验收线手册（接线图）
+
+> 行业知识见 `wiki/skills/testing.md`（建测试体系/定准则才读）；本手册只回答「在 ZeroCraft 测 X 用哪个基座件」。全员适用，交付前必过。
+
+## 做 X → 用什么
+
+| 要测什么 | 基座件 | 判定 |
+|---|---|---|
+| 纯逻辑 / capability 语义 | vitest（`src/**/*.test.ts`） | 退出码 0 |
+| capability 注册完整性 | `src/assembly/registry-guard.test.ts`（漏注册即红·计数下限防空 glob 假绿） | vitest 内 |
+| 确定性 / 回放 / 性能 | ZeroCraftBench（`src/bench/`·双跑同 hash）·单 manifest 走 `scripts/bench-manifest.mjs` | hash 一致 |
+| 数值平衡 | `scripts/game-d-balance-sim.mjs` · `src/games/game-g/simulate-balance.ts`（N=500 胜率扫描） | 胜率∈目标带 |
+| UI 卫生 | `/check-ui` 技能 + validateLayoutNode | issue 归零 |
+| 真浏览器旅程 | playwright-core e2e（`scripts/studio-*-e2e.mjs` 模式·chromium=/opt/pw-browsers） | 脚本退出码 |
+| 产品线冒烟 | `scripts/*-smoke.py`（library / studio / **steam 发行编排**·后者 `steam-publish-smoke.py` 无真账号用 480 验 VDF/命令/plan · **AI 生成人审门** `art-review-smoke.py` 全链 generate→pending→approve/reject + provenance 硬校验 · **美术替换工作流** `art-replace-smoke.py` 全链 derive→batch(mock)→replace(parseManifest 零 error)+断点续跑+编号稳定·进程内 API·快照恢复零污染） | 退出码 |
+| 游戏体检 | `node scripts/game-skill-audit.mjs <game>` | 零红旗 |
+| 系统调度积木稳定性 | `npx vite-node scripts/system-graph-audit.mjs [capId…]`（悬空定序边/重复 system id/Tarjan 切最小 SCC+破环建议·`src/assembly/system-graph.test.ts` 守硬不变量） | `SYSTEM-GRAPH: PASS` |
+| 共同零件（组件）清单漂移 | `node scripts/component-manifest-guard.mjs`（扫全部 `readonly type:'X'` 对比冻结基线·加/改名/删组件须同提交 `--update`·`scripts/component-manifest-guard.test.mjs` 守门） | `COMPONENT-MANIFEST: PASS` |
+| 3D 截图对拍 | `scripts/shoot-game.mjs`（P3D harness） | 人审（像素断言升级=REQ-3D-像素断言·排队） |
+| 视觉里程碑验收 / 出货 | `docs/playbooks/visual-scorecard.md`（8 维评分卡）→ **落账进流程板** `game-pipeline.mjs scorecard`（任一维 0=S7 红灯） | 全维 ≥2 = premium |
+| 阶段复查（三门制·复查人≠施工人） | `game-pipeline.mjs checklist <SN>` → 对抗核证 → `review --verdict --note --by`（`docs/playbooks/review-gates.md`） | PASS/CONCERNS/FAIL |
+| 上下文预算（防信息膨胀·新 session 读得完） | `node scripts/context-budget-guard.mjs`（requests 池/T0 必读/手册行数各封顶·基线 `scripts/context-budget-baseline.json`·超顶正解=归档不是抬顶） | `CONTEXT-BUDGET: PASS` |
+| S4 玩法正确性（GD×PE 循环·防「绿门不可玩」） | 验收剧本 harness（`scripts/acceptance-run.mjs` + `acceptance.test.mjs`·REQ-ACCEPT） | 全部剧本绿 + ≥3 场景 |
+| **交互可玩性（防「绿门不可玩」渲染层盲区）** | **真浏览器手势目击**：playwright 点/拖**真 DOM 元素** → 断言**可见产出/落点**（非只机读态·非合成注入世界） | 见下红线「可玩性目击」·可见结果达成 + 附截图 |
+
+## 验收剧本（S4 玩法关裁判·REQ-ACCEPT·「绿门不可玩」复盘）
+
+- **schema**：GD 写纯数据剧本 `docs/design/<game>/acceptance/*.scenario.jsonc`＝`{name,game,seed,config?,steps:[{signal,args?,by?}|{tick:N}|{expect:[断言]}]}`；断言闭集只读机读态 `{res|flag|sv|comp}`（不读 DOM）·坏本装载即报错带行位。
+- **runner**：`npx vite-node scripts/acceptance-run.mjs [--game g]`（经薄适配 `src/games/<game>/acceptance-adapter.ts`＝createWorld/applySignal/readWorld 驱动真引擎·失败报告=步号+期望 vs 实际+机读态快照）；全部剧本也进 vitest（`scripts/acceptance.test.mjs`·推送门禁自动咬）。
+- **分工**：剧本＝**GD 域**（懂规则方）；**PE 修码不改剧本**（剧本错=GD 改+记录）；PE 只落薄适配（纯接线零规则）。S4 门要 ≥3 场景 + conformance 绿才过（`game-pipeline.mjs gate <slug> S4`）——无剧本/无 adapter=门红。
+
+## 红线（一体适用）
+
+- **可玩性目击（owner 2026-07-25 拍板·game101「点了没反应」复盘落地·全档位一体适用）**：**headless 全绿（sim 单测 + `validateLayoutNode` + 验收剧本机读态）≠ 能玩**——门禁与验收剧本都**不点真 DOM、不看渲染可见性**（剧本 schema 明写「不读 DOM」），故「逻辑对但渲染盖住 / 产出落点玩家看不见 / 信号没接到视图」这类 bug **全部漏网**。复盘实例：生成器产出用 `caster at:'self'` 落在**生成器自己那格**、被生成器图标盖住 → 点了体力静默扣、屏上无物 = 像坏了没法玩，却 sim 测全绿。**任何可点/可拖的交互特性，宣布「能玩 / done」前必须三步目击**：① 起真浏览器（`?game=<slug>`·`/opt/pw-browsers/chromium`）② 做**真实玩家手势**（点/拖真元素·**非**合成 RawInput 直插世界）③ 断言**可见产出**（新物/反馈出现在玩家**看得见、够得着**的格/位·非只机读态涨了）——三步缺一不算目击，截图进领工声明/复查。别再拿「门禁绿」当「能玩」。
+- **门禁=退出码**：`tsc + vitest + build` 全 0 才推；rebase 带进新提交必须重跑；禁 `vitest | grep` 吞失败码。
+- **快/慢双车道（owner 2026-07-21 提速）**：`npm test`（推送门禁+`scripts/scoped-gate.mjs` 走这条）=快车道·`vite.config.ts` 已排除冻结 game-f + 整局通关巨无霸 + 起进程 CLI 测试（占全量 CPU 近半却每推空转）；`npm run test:deep`（`APOLLO_DEEP=1`）=慢车道跑全 392 文件·**发版前/定期必跑=完整安全网**。缩的是「每次推的负担」非总覆盖。改动全在单游戏时 scoped-gate 只跑该游戏测试（详该脚本头注）。
+- **测试代码三禁**：真实时间等待（墙钟 sleep/setTimeout）、外部 IO 直连、无种子随机——FAIL 级，用信号/mock/种子 PRNG 替代（fake timers 合法）。
+- **复现=seed+tick**：bug 复现优先给种子 + tick 序列/replay 文件（确定性引擎的强项）；文字步骤是降级方案。
+- **缺基线判黄不判绿**：sim 缺目标带、bench 缺 prior、AC 不可测 → CONCERNS / MANUAL CHECK 交 owner；绝不默认过、绝不编造目标值。
+- **存档/回放改动必测边界**：旧版本档载入（save-port migrate 链）+ 损坏档优雅拒绝（`CorruptSaveError` 基座已给）。
+- **冒烟脚本 fail-fast**：前置缺失（无 build/无 manifest）立即非零退出 + 指出补救命令，禁静默跳过造假绿。
+- **凭证探针（TGS 吸收·owner 2026-07-06 批）**：任何「无 key/无环境所以跳过」的回执必须附探针输出（缺哪个 env、调用返回什么）——空口 skip 不采信，视同未测。
+- **红旗棘轮（只降不升·进门禁）**：8 款游戏的裸随机/innerHTML/createElement 计数以 `scripts/audit-baseline.json` 为机读基线，任一超基线 → `scripts/game-skill-audit.mjs` 打 `RATCHET: FAIL` + 退出码 1，`scripts/audit-ratchet.test.mjs` 在 vitest 里守着。降基线是还债仪式（消灭红旗必须同提交改 baseline）；抬基线唯一合法姿势=给该游戏条目挂 `reason:"REQ-xxx"` 缺口单号。
+
+## 验收纪律（Lead / 判官侧）
+
+- 代理自报全绿不算数：**独立复跑 + 对抗性 diff 复核**；UI 里程碑必须真浏览器旅程。
+- **偏差三分法**：diff 偏离 spec → INTENTIONAL（记录准许）/ ERROR（打回）/ OUT OF SCOPE（回改 spec/手册），分类写进工单——不许默默接受"实现替代了图纸"。
+- 靶向回归先行：改 capability 先跑受影响游戏的 smoke+sim 子集定位，全量留给推前门禁。
+- 判词用闭集 token（PASS / CONCERNS / FAIL；工单态 BLOCKED=等外部动作 / NEEDS WORK=可自补），理由带 `file:line` 与实数，禁套话。
+- 新语义无点名测试不关单：工单关账前核对「本条新语义有无点名断言」，缺口列测试名不笼统"补测试"。
+
+## 查不到怎么办
+
+- 新测试形态（soak 长跑、视觉回归、多跑 flakiness 统计等）本手册没有 → `docs/workflow/requests.md` 提缺口等裁决，**绝不自造 harness**。

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《三国征日》· 新手教程</title>
+<style>
+  :root{
+    --paper:#f4ead2; --paper-2:#ecdfbf; --ink:#2e2317; --ink-dim:#6b5638;
+    --seal:#b5331f; --gold:#c9a24e; --jade:#3f7d63; --hair:#d8c49a;
+    --blue:#2f6fb0; --purple:#7a4ea0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:radial-gradient(circle at 50% -10%,#fbf3df,#e7d6b3 70%);
+    color:var(--ink); font-family:"PingFang SC","Microsoft YaHei",serif;
+    line-height:1.6; padding:28px 18px 60px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px;margin:0 auto;}
+  /* 标题 */
+  .hero{text-align:center;border:2px solid var(--ink);border-radius:14px;
+    background:linear-gradient(180deg,#fbf4e0,#efe1c2);padding:22px 18px;position:relative;}
+  .hero::before,.hero::after{content:"❖";position:absolute;top:10px;color:var(--seal);font-size:18px;}
+  .hero::before{left:14px;} .hero::after{right:14px;}
+  .hero h1{font-size:34px;letter-spacing:6px;}
+  .hero .sub{color:var(--ink-dim);margin-top:6px;font-size:15px;}
+  .hero .seal{display:inline-block;margin-top:12px;background:var(--seal);color:#fff;
+    padding:4px 14px;border-radius:4px;font-size:13px;letter-spacing:2px;transform:rotate(-2deg);}
+  /* 灵魂条 */
+  .soul{display:flex;gap:14px;margin:20px 0;flex-wrap:wrap;}
+  .soul .card{flex:1;min-width:240px;border:1.5px solid var(--hair);border-radius:12px;
+    background:var(--paper);padding:14px 16px;}
+  .soul .card b{display:block;font-size:15px;margin-bottom:4px;}
+  .soul .rent b{color:var(--ink-dim);} .soul .joker b{color:var(--seal);}
+  .soul .tag{font-size:12px;color:var(--ink-dim);}
+  /* 区块标题 */
+  .h2{display:flex;align-items:center;gap:10px;margin:30px 0 14px;}
+  .h2 .n{background:var(--ink);color:var(--paper);width:30px;height:30px;border-radius:50%;
+    display:grid;place-items:center;font-weight:700;font-size:15px;flex:none;}
+  .h2 h2{font-size:20px;letter-spacing:1px;}
+  .h2 .hint{color:var(--ink-dim);font-size:13px;margin-left:auto;}
+  /* 流程图 */
+  .flow{border:1.5px solid var(--hair);border-radius:14px;background:var(--paper);padding:18px;}
+  .lane-title{font-weight:700;color:var(--seal);font-size:14px;margin-bottom:10px;letter-spacing:1px;}
+  .chain{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;}
+  .step{flex:1;min-width:150px;border:1.5px solid var(--ink);border-radius:10px;
+    background:linear-gradient(180deg,#fff9ec,#f1e4c6);padding:11px 12px;position:relative;}
+  .step .ico{font-size:22px;}
+  .step .t{font-weight:700;font-size:14.5px;margin:3px 0;}
+  .step .d{font-size:12px;color:var(--ink-dim);line-height:1.45;}
+  .arrow{display:grid;place-items:center;color:var(--seal);font-size:22px;font-weight:700;
+    padding:0 4px;flex:none;}
+  .arrow.down{width:100%;height:26px;}
+  .loopback{text-align:center;color:var(--jade);font-size:13px;margin-top:12px;
+    border-top:1px dashed var(--hair);padding-top:10px;}
+  .loopback b{color:var(--jade);}
+  /* 两环说明 */
+  .rings{display:flex;gap:14px;flex-wrap:wrap;margin-top:4px;}
+  .ring{flex:1;min-width:260px;border:1.5px dashed var(--gold);border-radius:12px;padding:12px 14px;background:#fcf6e6;}
+  .ring h4{font-size:14px;margin-bottom:4px;} .ring.inner h4{color:var(--seal);} .ring.outer h4{color:var(--blue);}
+  .ring p{font-size:12.5px;color:var(--ink-dim);}
+  /* 图例 */
+  .legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;}
+  .leg{border:1px solid var(--hair);border-radius:10px;background:var(--paper);padding:10px 12px;display:flex;gap:10px;}
+  .leg .ic{font-size:20px;flex:none;}
+  .leg b{font-size:13.5px;} .leg .x{font-size:12px;color:var(--ink-dim);}
+  /* 品级 */
+  .rar{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+  .pill{padding:3px 12px;border-radius:20px;font-size:12px;font-weight:700;border:1.5px solid;}
+  .w{color:#8a7d63;border-color:#c8b69a;} .g{color:#3f7d63;border-color:#3f7d63;}
+  .b{color:#2f6fb0;border-color:#2f6fb0;} .p{color:#7a4ea0;border-color:#7a4ea0;}
+  .o{color:#c8761c;border-color:#c8761c;}
+  /* tips */
+  .tips{margin-top:14px;border-left:4px solid var(--seal);background:#fcf3e3;padding:12px 16px;border-radius:0 10px 10px 0;}
+  .tips li{margin:5px 0 5px 18px;font-size:13.5px;}
+  .foot{text-align:center;color:var(--ink-dim);font-size:12px;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>三 国 征 日</h1>
+    <div class="sub">自走棋 × 小丑牌 × 炉石收集 —— 率三国群雄，渡海攻岛，争当岛主</div>
+    <div class="seal">新 手 教 程</div>
+  </div>
+
+  <div class="soul">
+    <div class="card rent"><b>⚔️ 武将是「租来的」</b>
+      <div class="tag">每局从零开始买将、人人阵容平等 —— 公平来自操作与运营，不来自氪金抽将。</div></div>
+    <div class="card joker"><b>🃏 小丑牌牌组才是你的「灵魂」</b>
+      <div class="tag">持久收集的小丑牌 + 附魔，定义你的流派身份，带进每一局 —— 这是你真正在养的东西。</div></div>
+  </div>
+
+  <!-- 总览：两环 -->
+  <div class="h2"><div class="n">①</div><h2>一图看懂：两个循环</h2><div class="hint">局内攻岛 ⟲ 局外养成，互相喂养</div></div>
+  <div class="flow">
+    <div class="rings">
+      <div class="ring inner"><h4>🗾 局内 · 一局攻岛（roguelike）</h4>
+        <p>选好牌组出战 → 备战买将布阵装备 → 自走棋攻打太阁守军、放锦囊、攒贡献度 → 波次推进 → 岛陷落结算。</p></div>
+      <div class="ring outer"><h4>🏯 局外 · 养成（炉石/Balatro）</h4>
+        <p>攻岛赚战功 + Boss 宝箱掉小丑牌 → 进收藏 → 抽卡/附魔/组牌 → 段位涨（岛更凶）→ 赛季轮换 → 再出战更深。</p></div>
+    </div>
+  </div>
+
+  <!-- 局内流程 -->
+  <div class="h2"><div class="n">②</div><h2>局内 · 一局怎么打</h2><div class="hint">金铲铲式自走棋</div></div>
+  <div class="flow">
+    <div class="lane-title">▸ 单局流程</div>
+    <div class="chain">
+      <div class="step"><div class="ico">🎴</div><div class="t">1. 选牌组出战</div><div class="d">从收藏组好的小丑牌牌组 + 选势力（魏/蜀/吴），定本局流派。</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="ico">🛡️</div><div class="t">2. 备战</div><div class="d">花金币买武将上场、布阵；三星合成升星；拖装备到武将；凑势力/职业羁绊。</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="ico">⚔️</div><div class="t">3. 攻岛开战</div><div class="d">自走棋自动战斗 VS 太阁守军；关键时刻主动放锦囊（火烧/定身/空城…）。</div></div>
+    </div>
+    <div class="arrow down">↓</div>
+    <div class="chain">
+      <div class="step"><div class="ico">📈</div><div class="t">4. 攒贡献度</div><div class="d">击杀守军、推进战线 → 累积贡献度（多人局里：贡献最高者当岛主）。</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="ico">🌊</div><div class="t">5. 波次推进</div><div class="d">W1→W6 六波，越深守军越凶（太阁名将 Boss 招牌登场）；攻岛进度条上涨。</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="ico">🗾</div><div class="t">6. 岛陷落 · 结算</div><div class="d">攻岛满 = 天守陷落通关 → 赚战功（软币）+ Boss 宝箱掉小丑牌入收藏。</div></div>
+    </div>
+    <div class="loopback">结算产出 <b>→ 喂给局外养成 →</b> 下次带更强牌组回来打更深的岛</div>
+  </div>
+
+  <!-- 局外流程 -->
+  <div class="h2"><div class="n">③</div><h2>局外 · 养成循环</h2><div class="hint">你的灵魂在这里变强</div></div>
+  <div class="flow">
+    <div class="chain">
+      <div class="step"><div class="ico">🎖️</div><div class="t">战功 + 掉卡</div><div class="d">攻岛按贡献/名次赚战功；Boss 宝箱掉小丑牌进收藏。</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="ico">🎲</div><div class="t">抽卡 / 收藏</div><div class="d">战功抽卡（概率公示，单抽/十连保底）→ 小丑牌入收藏。</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="ico">✨</div><div class="t">附魔 / 组牌</div><div class="d">分解多余卡化尘 → 附魔升流派钥匙牌；用收藏自组 5–8 张牌组。</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="ico">🏆</div><div class="t">段位 / 赛季</div><div class="d">按名次涨段位（高段位的岛守军更凶）；赛季轮换软重置、防强度永固。</div></div>
+    </div>
+  </div>
+
+  <!-- 系统图例 -->
+  <div class="h2"><div class="n">④</div><h2>核心系统速查</h2></div>
+  <div class="legend">
+    <div class="leg"><div class="ic">♟️</div><div><b>自走棋战斗</b><div class="x">买将/布阵/升星/羁绊，自动开打</div></div></div>
+    <div class="leg"><div class="ic">🃏</div><div><b>小丑牌牌组</b><div class="x">持久收集，定义流派，带进每局</div></div></div>
+    <div class="leg"><div class="ic">🗡️</div><div><b>装备系统</b><div class="x">武器/盔甲/名马/饰品，拖拽穿戴、点击拆解</div></div></div>
+    <div class="leg"><div class="ic">📜</div><div><b>锦囊（主动牌）</b><div class="x">火烧连营/定身/空城计/万箭/妙手/疑兵</div></div></div>
+    <div class="leg"><div class="ic">🏯</div><div><b>太阁守军</b><div class="x">谦信/信长/秀吉/家康…名将 Boss 招牌</div></div></div>
+    <div class="leg"><div class="ic">📊</div><div><b>贡献度 / 岛主</b><div class="x">攒贡献攻岛，多人里贡献最高者当岛主</div></div></div>
+  </div>
+  <div class="rar">
+    <span class="pill w">白·普通</span><span class="pill g">绿·优秀</span>
+    <span class="pill b">蓝·精良</span><span class="pill p">紫·史诗</span><span class="pill o">橙·传说（带特效）</span>
+  </div>
+  <div style="font-size:12px;color:var(--ink-dim);margin-top:6px;">装备/小丑牌按品级染色，太阁越深掉得越好。</div>
+
+  <!-- 上手 tips -->
+  <div class="h2"><div class="n">⑤</div><h2>三句话上手</h2></div>
+  <div class="tips"><ul>
+    <li><b>武将临时、牌组永久</b>：别心疼这局的武将，专心运营你的小丑牌牌组。</li>
+    <li><b>羁绊 + 装备 + 锦囊</b>三件套：凑齐势力/职业羁绊、给核心武将堆装备、卡点放锦囊翻盘。</li>
+    <li><b>越打越深</b>：赢一局 → 战功抽卡附魔 → 段位涨 → 打更凶的岛掉更好的橙卡橙装，滚起来。</li>
+  </ul></div>
+
+  <div class="foot">《三国征日》· 渡海征日，争当岛主 —— 新手教程 v1</div>
+
+</div>
+</body>
+</html>

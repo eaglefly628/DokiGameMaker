@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Rajdhani:wght@500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&family=Zhi+Mang+Xing&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #d9dae2; }
+  @keyframes f-shimmer { 0% { background-position: -120% 0; } 100% { background-position: 220% 0; } }
+  @keyframes f-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+</style>
+</helmet>
+
+<div style="{{ rootStyle }}">
+
+  <!-- toolbar -->
+  <div style="display:flex; align-items:center; gap:16px; padding:13px 22px; flex-wrap:wrap;">
+    <div style="font-family:var(--font-heading); font-weight:700; font-size:17px; color:var(--ink); letter-spacing:.03em;">GAME F · 商城</div>
+    <div style="font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim);">Store · 1280×720</div>
+    <div style="flex:1;"></div>
+    <span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim);">皮肤</span>
+    <button onClick="{{ pickOnyx }}" style="{{ segOnyx }}">玄铁</button>
+    <button onClick="{{ pickBrocade }}" style="{{ segBrocade }}">锦霞</button>
+  </div>
+
+  <!-- frame -->
+  <div style="margin:0 22px 26px; width:1280px; height:720px; overflow:hidden;">
+  <div style="width:1920px; height:1080px; transform:scale(0.66667); transform-origin:top left; position:relative; border-radius:var(--radius-lg); overflow:hidden; background:var(--app-bg); box-shadow:0 24px 60px rgba(0,0,0,.4); border:1px solid var(--panel-border);">
+    <div style="position:absolute; inset:0; background:var(--texture); pointer-events:none;"></div>
+
+    <!-- top bar -->
+    <div style="position:relative; height:104px; display:flex; align-items:center; gap:26px; padding:0 34px; background:var(--hud-bg); border-bottom:1px solid var(--panel-border);">
+      <div style="font-family:var(--font-display); font-size:42px; color:var(--ink); line-height:1;">商城</div>
+      <div style="display:flex; gap:8px;">
+        <button onClick="{{ pickGacha }}" style="{{ tabGacha }}">抽卡</button>
+        <button onClick="{{ pickSkin }}" style="{{ tabSkin }}">皮肤</button>
+        <button onClick="{{ pickPass }}" style="{{ tabPass }}">通行证</button>
+        <button onClick="{{ pickDiamond }}" style="{{ tabDiamond }}">钻石</button>
+        <button onClick="{{ pickBundle }}" style="{{ tabBundle }}">礼包</button>
+      </div>
+      <div style="flex:1;"></div>
+      <div style="display:flex; align-items:center; gap:8px; padding:9px 16px; border-radius:var(--btn-radius); background:var(--chip-bg); border:1px solid var(--panel-border);">
+        <span style="font-size:18px;">💎</span><span style="font-family:var(--font-num); font-size:18px; color:#5ec8ff;">2,480</span>
+        <span style="width:1px; height:18px; background:var(--panel-border); margin:0 4px;"></span>
+        <span style="font-size:18px;">🪙</span><span style="font-family:var(--font-num); font-size:18px; color:var(--gold);">52,000</span>
+        <div style="width:30px; height:30px; border-radius:8px; background:var(--accent-grad); color:var(--accent-ink); display:flex; align-items:center; justify-content:center; font-size:20px; margin-left:4px; cursor:pointer;">＋</div>
+      </div>
+    </div>
+
+    <!-- content -->
+    <div style="position:relative; height:976px; padding:30px 34px; overflow:hidden;">
+
+      <!-- ===== 抽卡 ===== -->
+      <div style="{{ dGacha }}">
+        <div style="display:flex; gap:24px;">
+          <!-- featured banner -->
+          <div style="{{ featPanel }}">
+            <div style="{{ cornerTL }}"></div><div style="{{ cornerTR }}"></div><div style="{{ cornerBL }}"></div><div style="{{ cornerBR }}"></div>
+            <div style="position:absolute; inset:0; background:var(--feat-art); display:flex; align-items:center; justify-content:center;">
+              <span style="font-family:var(--font-display); font-size:120px; color:var(--feat-ghost); opacity:.5;">赤壁</span>
+            </div>
+            <div style="position:absolute; left:34px; top:30px;">
+              <div style="display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border-radius:99px; background:var(--accent); color:var(--accent-ink); font-family:var(--font-heading); font-weight:700; font-size:14px; letter-spacing:.06em; white-space:nowrap;">限定 UP · 火烧赤壁</div>
+              <div style="font-family:var(--font-display); font-size:62px; color:#fff; text-shadow:0 3px 14px rgba(0,0,0,.6); margin-top:14px; line-height:1.1; white-space:nowrap;">赤壁名将</div>
+              <div style="display:flex; gap:10px; margin-top:14px;">
+                <div style="{{ upGuan }}">关</div>
+                <div style="{{ upZhou }}">周</div>
+              </div>
+            </div>
+            <!-- bottom controls -->
+            <div style="position:absolute; left:0; right:0; bottom:0; padding:22px 30px; background:linear-gradient(180deg,transparent,rgba(0,0,0,.55)); display:flex; align-items:flex-end; justify-content:space-between;">
+              <div>
+                <div style="display:flex; align-items:center; gap:10px; color:#fff;">
+                  <span style="font-size:12px; opacity:.85;">保底进度</span>
+                  <span style="font-family:var(--font-num); font-size:13px; color:var(--gold);">67 / 100</span>
+                  <span style="font-size:11px; opacity:.7;">距必得橙将</span>
+                </div>
+                <div style="width:300px; height:9px; border-radius:99px; background:rgba(255,255,255,.2); overflow:hidden; margin-top:7px;"><div style="width:67%; height:100%; background:var(--accent-grad); border-radius:99px;"></div></div>
+                <div style="display:inline-flex; align-items:center; gap:6px; margin-top:12px; padding:5px 12px; border-radius:99px; background:rgba(0,0,0,.4); color:#fff; font-size:12px;">⏳ 限时 <span style="font-family:var(--font-num);">06:23:45</span></div>
+              </div>
+              <div style="display:flex; gap:12px;">
+                <button style="{{ buyGhost }}" style-hover="{{ buyGhostHover }}" style-active="{{ btnPress }}">
+                  <span style="font-family:var(--font-heading); font-weight:700; font-size:16px;">单抽</span>
+                  <span style="display:flex; align-items:center; gap:4px; font-family:var(--font-num); font-size:13px; color:#5ec8ff;">💎 280</span>
+                </button>
+                <button style="{{ buyPrimary }}" style-hover="{{ buyHover }}" style-active="{{ btnPress }}">
+                  <span style="position:absolute; top:-9px; right:-9px; background:var(--gold); color:#1a0e06; font-family:var(--font-num); font-size:10px; padding:2px 7px; border-radius:99px;">送1次</span>
+                  <span style="font-family:var(--font-heading); font-weight:700; font-size:16px;">十连抽</span>
+                  <span style="display:flex; align-items:center; gap:4px; font-family:var(--font-num); font-size:13px;">💎 2800</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- side pools -->
+          <div style="width:300px; flex:none; display:flex; flex-direction:column; gap:16px;">
+            <sc-for list="{{ pools }}" as="p" hint-placeholder-count="2">
+              <div style="{{ poolCard }}">
+                <div style="{{ p.thumb }}"><span style="font-family:var(--font-display); font-size:44px; color:var(--feat-ghost);">{{ p.ch }}</span></div>
+                <div style="padding:14px;">
+                  <div style="font-family:var(--font-heading); font-weight:700; font-size:17px; color:var(--ink);">{{ p.name }}</div>
+                  <div style="font-size:12px; color:var(--ink-dim); margin-top:3px;">{{ p.sub }}</div>
+                  <button style="{{ poolBtn }}" style-hover="{{ buyHover }}" style-active="{{ btnPress }}">前往 · 💎 {{ p.price }}</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 皮肤 ===== -->
+      <div style="{{ dSkin }}">
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+          <sc-for list="{{ skinCards }}" as="s" hint-placeholder-count="6">
+            <div style="{{ prodCard }}">
+              <sc-if value="{{ s.tag }}" hint-placeholder-val=""><div style="{{ s.tagStyle }}">{{ s.tag }}</div></sc-if>
+              <div style="{{ s.art }}"><span style="font-family:var(--font-display); font-size:74px; color:#fff; opacity:.92;">{{ s.fch }}</span></div>
+              <div style="padding:15px 16px;">
+                <div style="font-family:var(--font-heading); font-weight:700; font-size:18px; color:var(--ink);">{{ s.name }}</div>
+                <div style="font-size:12px; color:var(--ink-dim); margin-top:3px;">角色皮肤 · 专属特效</div>
+                <button style="{{ buyPrimary }}" style-hover="{{ buyHover }}" style-active="{{ btnPress }}">💎 {{ s.price }}</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- ===== 通行证 ===== -->
+      <div style="{{ dPass }}">
+        <div style="{{ passHeader }}">
+          <div>
+            <div style="font-family:var(--font-display); font-size:46px; color:var(--ink); line-height:1; white-space:nowrap;">赤壁通行证</div>
+            <div style="font-size:13px; color:var(--ink-dim); margin-top:6px;">当前等级 <span style="font-family:var(--font-num); color:var(--accent);">12</span> · 本季剩余 21 天</div>
+          </div>
+          <button style="{{ unlockBtn }}" style-hover="{{ buyHover }}" style-active="{{ btnPress }}">
+            <span style="position:absolute; inset:0; border-radius:inherit; background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%); background-size:230% 100%; animation:f-shimmer 3.2s ease-in-out infinite; pointer-events:none;"></span>
+            <span style="position:relative;">解锁精英 · 💎 980</span>
+          </button>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:22px; overflow:hidden;">
+          <sc-for list="{{ passTiers }}" as="t" hint-placeholder-count="8">
+            <div style="{{ t.col }}">
+              <div style="{{ t.lvBadge }}">{{ t.lv }}</div>
+              <div style="{{ t.free }}">{{ t.fIcon }}</div>
+              <div style="{{ t.elite }}">{{ t.eIcon }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex; gap:24px; margin-top:14px; font-size:12px; color:var(--ink-dim);"><span>● 免费轨道</span><span style="color:var(--accent);">★ 精英轨道</span></div>
+      </div>
+
+      <!-- ===== 钻石 ===== -->
+      <div style="{{ dDiamond }}">
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+          <sc-for list="{{ diamonds }}" as="d" hint-placeholder-count="6">
+            <div style="{{ prodCard }}">
+              <sc-if value="{{ d.tag }}" hint-placeholder-val=""><div style="{{ d.tagStyle }}">{{ d.tag }}</div></sc-if>
+              <div style="padding:24px 18px; display:flex; align-items:center; gap:16px;">
+                <span style="font-size:46px;">💎</span>
+                <div>
+                  <div style="font-family:var(--font-num); font-size:26px; color:var(--ink);">{{ d.amt }}</div>
+                  <div style="font-family:var(--font-num); font-size:13px; color:var(--gold);">{{ d.bonus }}</div>
+                </div>
+              </div>
+              <button style="{{ buyWide }}" style-hover="{{ buyHover }}" style-active="{{ btnPress }}">{{ d.price }}</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- ===== 礼包 ===== -->
+      <div style="{{ dBundle }}">
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+          <sc-for list="{{ bundles }}" as="b" hint-placeholder-count="3">
+            <div style="{{ prodCard }}">
+              <sc-if value="{{ b.tag }}" hint-placeholder-val=""><div style="{{ b.tagStyle }}">{{ b.tag }}</div></sc-if>
+              <div style="{{ b.banner }}"><span style="font-family:var(--font-display); font-size:40px; color:#fff; white-space:nowrap;">{{ b.name }}</span></div>
+              <div style="padding:16px;">
+                <div style="font-size:13px; color:var(--ink); line-height:1.6; min-height:64px;">{{ b.items }}</div>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+                  <span style="font-family:var(--font-num); font-size:13px; color:var(--ink-dim); text-decoration:line-through;">{{ b.orig }}</span>
+                  <span style="font-family:var(--font-num); font-size:22px; color:var(--accent);">{{ b.now }}</span>
+                </div>
+                <button style="{{ buyWide }}" style-hover="{{ buyHover }}" style-active="{{ btnPress }}">立即购买</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { theme: 'onyx', tab: 'gacha' };
+
+  themes() {
+    return {
+      onyx: {
+        '--app-bg': 'radial-gradient(120% 120% at 50% -10%, #1a2230 0%, #0a0d12 55%, #06080b 100%)',
+        '--texture': 'repeating-linear-gradient(45deg, rgba(135,175,215,.05) 0 1px, transparent 1px 9px), repeating-linear-gradient(-45deg, rgba(135,175,215,.04) 0 1px, transparent 1px 9px)',
+        '--hud-bg': 'linear-gradient(180deg,rgba(22,28,37,.95),rgba(14,18,24,.88))',
+        '--panel-grad': 'linear-gradient(180deg,#1c2531,#121821)', '--panel-border': '#33404f', '--hairline': 'rgba(255,214,150,.12)', '--chip-bg': 'rgba(255,255,255,.05)',
+        '--ink': '#e7edf3', '--ink-dim': '#7e8c9b',
+        '--accent': '#ff5d2e', '--accent-grad': 'linear-gradient(180deg,#ff7a45,#ee4515)', '--accent-soft': 'rgba(255,93,46,.18)', '--accent-ink': '#1c0d06',
+        '--gold': '#ffcb3d', '--danger': '#ff404f',
+        '--btn-bg': 'linear-gradient(180deg,#283341,#1a222c)', '--btn-edge': '#3d4b5b', '--btn-text': '#dfe7ef', '--btn-radius': '12px', '--radius-lg': '8px',
+        '--feat-art': 'linear-gradient(135deg,#3a1c14,#1a1320 70%)', '--feat-ghost': 'rgba(255,150,90,.4)',
+        '--font-display': "'Zhi Mang Xing', cursive", '--font-heading': "'Rajdhani', sans-serif", '--font-body': "'Noto Sans SC', sans-serif", '--font-num': "'Silkscreen', monospace",
+      },
+      brocade: {
+        '--app-bg': 'radial-gradient(120% 120% at 50% -10%, #fdf4ee 0%, #f3e2dc 60%, #ecd6cf 100%)',
+        '--texture': 'radial-gradient(circle, rgba(201,148,72,.14) 1px, transparent 1.7px) 0 0 / 26px 26px, repeating-linear-gradient(45deg, rgba(201,148,72,.06) 0 1px, transparent 1px 26px), repeating-linear-gradient(-45deg, rgba(201,148,72,.06) 0 1px, transparent 1px 26px)',
+        '--hud-bg': 'linear-gradient(180deg,rgba(255,250,244,.96),rgba(251,238,229,.9))',
+        '--panel-grad': 'linear-gradient(180deg,#fffdfa,#fbeee4)', '--panel-border': '#e3c896', '--hairline': 'rgba(216,164,78,.4)', '--chip-bg': 'rgba(255,255,255,.55)',
+        '--ink': '#5a3f44', '--ink-dim': '#a98b8f',
+        '--accent': '#d8607b', '--accent-grad': 'linear-gradient(180deg,#e887a0,#cf5070)', '--accent-soft': 'rgba(216,96,123,.16)', '--accent-ink': '#fff',
+        '--gold': '#cf9a3f', '--danger': '#d65668',
+        '--btn-bg': 'linear-gradient(180deg,#fffaf4,#fbece1)', '--btn-edge': '#ecd3b2', '--btn-text': '#6a4a4f', '--btn-radius': '16px', '--radius-lg': '20px',
+        '--feat-art': 'linear-gradient(135deg,#f3d9d0,#e6c9d6 70%)', '--feat-ghost': 'rgba(207,80,112,.4)',
+        '--font-display': "'Ma Shan Zheng', cursive", '--font-heading': "'Cormorant Garamond', serif", '--font-body': "'Noto Serif SC', serif", '--font-num': "'Silkscreen', monospace",
+      },
+    };
+  }
+
+  renderVals() {
+    const TH = this.themes();
+    const T = TH[this.state.theme];
+    const tab = this.state.tab;
+    const OCTA = 'polygon(22% 0,78% 0,100% 22%,100% 78%,78% 100%,22% 100%,0 78%,0 22%)';
+    const dragonSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="none" stroke="#ff7a45" stroke-width="2.2" stroke-linecap="round"><path d="M7 60 L7 16 Q7 7 16 7 L60 7"/><path d="M7 28 L17 20 M7 40 L20 30 M18 7 L26 15 M30 7 L40 16"/></g><path d="M7 7 H22 L7 22 Z" fill="#ff7a45" opacity="0.45"/><circle cx="10" cy="10" r="2.6" fill="#ffcb3d"/></svg>';
+    const phoenixSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="none" stroke="#cf9a3f" stroke-width="1.7" stroke-linecap="round"><path d="M7 58 C7 30 19 9 52 7"/><path d="M12 46 C20 33 33 25 50 20"/><path d="M9 52 C18 38 33 28 54 15"/><path d="M30 14 q7 -6 16 -6 M40 21 q7 -4 15 -1 M21 25 q4 -9 11 -13"/></g><path d="M50 7 q9 0 9 9 q-9 0 -9 -9 Z" fill="#d8607b" opacity="0.55"/><circle cx="9" cy="56" r="2.4" fill="#d8607b"/></svg>';
+    const cornerUri = 'url("data:image/svg+xml,' + encodeURIComponent(this.state.theme === 'onyx' ? dragonSvg : phoenixSvg) + '")';
+
+    const rootStyle = Object.assign({}, T, { background: 'var(--app-bg)', color: 'var(--ink)', fontFamily: 'var(--font-body)', minHeight: '100vh', paddingBottom: '10px' });
+
+    const seg = (on) => ({ padding: '8px 16px', borderRadius: 'var(--btn-radius)', cursor: 'pointer', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '13px', letterSpacing: '.04em', whiteSpace: 'nowrap', border: '1px solid ' + (on ? 'var(--accent)' : 'var(--panel-border)'), background: on ? 'var(--accent-grad)' : 'transparent', color: on ? 'var(--accent-ink)' : 'var(--ink-dim)', boxShadow: on ? 'inset 0 1px 0 rgba(255,255,255,.3)' : 'none', transition: 'all .16s ease' });
+    const tabSeg = (on) => ({ padding: '10px 22px', borderRadius: '99px', cursor: 'pointer', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '16px', whiteSpace: 'nowrap', border: 'none', background: on ? 'var(--accent-grad)' : 'transparent', color: on ? 'var(--accent-ink)' : 'var(--ink-dim)', boxShadow: on ? 'inset 0 1px 0 rgba(255,255,255,.3), 0 4px 12px var(--accent-soft)' : 'none', transition: 'all .16s ease' });
+
+    const cBase = { position: 'absolute', width: '60px', height: '60px', backgroundImage: cornerUri, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', pointerEvents: 'none', zIndex: 3 };
+    const cornerTL = Object.assign({}, cBase, { top: '8px', left: '8px' });
+    const cornerTR = Object.assign({}, cBase, { top: '8px', right: '8px', transform: 'scaleX(-1)' });
+    const cornerBL = Object.assign({}, cBase, { bottom: '8px', left: '8px', transform: 'scaleY(-1)' });
+    const cornerBR = Object.assign({}, cBase, { bottom: '8px', right: '8px', transform: 'scale(-1,-1)' });
+
+    const featPanel = { position: 'relative', flex: 1, height: '560px', borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--accent)', boxShadow: 'inset 0 0 0 1px var(--hairline), 0 16px 40px rgba(0,0,0,.4)' };
+    const upSeal = (c) => ({ width: '50px', height: '50px', clipPath: OCTA, background: c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontSize: '26px', color: '#fff', border: '2px solid rgba(255,255,255,.5)' });
+
+    const btnPress = { transform: 'translateY(1px) scale(.97)', filter: 'brightness(.94)' };
+    const buyHover = { filter: 'brightness(1.1)', transform: 'translateY(-2px)' };
+    const buyGhostHover = { filter: 'brightness(1.1)', transform: 'translateY(-2px)', borderColor: '#fff' };
+    const buyPrimary = { position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', minWidth: '130px', padding: '12px 22px', borderRadius: 'var(--btn-radius)', border: 'none', background: 'var(--accent-grad)', color: 'var(--accent-ink)', cursor: 'pointer', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.32), 0 6px 16px var(--accent-soft)', transition: 'all .16s ease' };
+    const buyGhost = { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', minWidth: '110px', padding: '12px 22px', borderRadius: 'var(--btn-radius)', border: '1px solid rgba(255,255,255,.6)', background: 'rgba(255,255,255,.12)', color: '#fff', cursor: 'pointer', backdropFilter: 'blur(4px)', transition: 'all .16s ease' };
+    const buyWide = { width: '100%', marginTop: '12px', padding: '11px', borderRadius: 'var(--btn-radius)', border: 'none', background: 'var(--accent-grad)', color: 'var(--accent-ink)', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '15px', cursor: 'pointer', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.3)', transition: 'all .16s ease' };
+    const poolBtn = Object.assign({}, buyWide, { fontSize: '14px', padding: '9px' });
+    const unlockBtn = { position: 'relative', overflow: 'hidden', padding: '14px 28px', borderRadius: 'calc(var(--btn-radius) + 4px)', border: 'none', background: 'var(--accent-grad)', color: 'var(--accent-ink)', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '17px', cursor: 'pointer', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.35), 0 8px 20px var(--accent-soft)' };
+
+    const prodCard = { position: 'relative', borderRadius: 'var(--radius-lg)', overflow: 'hidden', background: 'var(--panel-grad)', border: '1px solid var(--panel-border)', boxShadow: 'inset 0 0 0 1px var(--hairline), 0 6px 16px rgba(0,0,0,.18)' };
+    const poolCard = Object.assign({}, prodCard, { flex: 1 });
+    const tagStyle = (c) => ({ position: 'absolute', top: '12px', left: '12px', zIndex: 2, padding: '4px 11px', borderRadius: '99px', background: c, color: '#fff', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '12px', boxShadow: '0 2px 8px rgba(0,0,0,.3)' });
+    const FAC = { '蜀': '#d8504e', '吴': '#3fae6e', '魏': '#3a86d4', '群': '#9b6dd8' };
+
+    const pools = [
+      { ch: '将', name: '常驻 · 名将录', sub: '全橙将 · 保底100', price: '280', thumb: { height: '108px', background: 'linear-gradient(135deg,#243b52,#1a2330)', display: 'flex', alignItems: 'center', justifyContent: 'center' } },
+      { ch: '器', name: '神兵 · 兵器谱', sub: '专属装备皮肤', price: '160', thumb: { height: '108px', background: 'linear-gradient(135deg,#3a2c14,#241a12)', display: 'flex', alignItems: 'center', justifyContent: 'center' } },
+    ];
+    const skinData = [
+      { name: '关羽 · 武圣', fac: '蜀', price: '1280', tag: '限时' }, { name: '诸葛亮 · 卧龙吟', fac: '蜀', price: '1680', tag: '新' },
+      { name: '周瑜 · 火神', fac: '吴', price: '1280', tag: '' }, { name: '吕蒙 · 白衣渡', fac: '吴', price: '880', tag: '7折' },
+      { name: '曹操 · 魏武挥鞭', fac: '魏', price: '1680', tag: '' }, { name: '貂蝉 · 闭月', fac: '群', price: '1980', tag: '典藏' },
+    ];
+    const skinCards = skinData.map((s) => ({ name: s.name, price: s.price, tag: s.tag, fch: s.fac, tagStyle: tagStyle(s.tag === '7折' ? 'var(--danger)' : FAC[s.fac]), art: { height: '170px', background: 'linear-gradient(150deg,' + FAC[s.fac] + 'cc,' + FAC[s.fac] + '66), radial-gradient(circle at 70% 30%, rgba(255,255,255,.18), transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center' } }));
+    const diaData = [
+      { amt: '60', bonus: '', price: '¥6', tag: '首充2倍' }, { amt: '300', bonus: '+30', price: '¥30', tag: '' }, { amt: '680', bonus: '+80', price: '¥68', tag: '热卖' },
+      { amt: '1280', bonus: '+160', price: '¥128', tag: '' }, { amt: '3280', bonus: '+600', price: '¥328', tag: '超值' }, { amt: '6480', bonus: '+1600', price: '¥648', tag: '' },
+    ];
+    const diamonds = diaData.map((d) => ({ amt: d.amt, bonus: d.bonus ? '赠 ' + d.bonus : '', price: d.price, tag: d.tag, tagStyle: tagStyle(d.tag === '首充2倍' ? 'var(--danger)' : 'var(--gold)') }));
+    const bundleData = [
+      { name: '新手豪礼', items: '十连券 ×1 · 金币 ×2000 · 关羽碎片 ×20 · 名将经验 ×5', orig: '¥98', now: '¥30', tag: '限购1', c: '#d8504e' },
+      { name: '赤壁通行证礼包', items: '赤壁通行证 ×1 · 钻石 ×680 · 限定头像框 · 称号「火攻」', orig: '¥128', now: '¥98', tag: '', c: '#3a86d4' },
+      { name: '名将集结', items: '自选橙将 ×1 · 皮肤券 ×2 · 钻石 ×1280 · 强化符文包', orig: '¥328', now: '¥268', tag: '热卖', c: '#9b6dd8' },
+    ];
+    const bundles = bundleData.map((b) => ({ name: b.name, items: b.items, orig: b.orig, now: b.now, tag: b.tag, tagStyle: tagStyle('var(--danger)'), banner: { height: '92px', background: 'linear-gradient(135deg,' + b.c + 'dd,' + b.c + '88)', display: 'flex', alignItems: 'center', justifyContent: 'center' } }));
+
+    const fIcons = ['🪙', '⭐', '🎁', '🪙', '⭐', '🎁', '🪙', '💎'];
+    const eIcons = ['👑', '🗡', '🎴', '👕', '🏆', '🎴', '👑', '💠'];
+    const passTiers = Array.from({ length: 8 }, (_, i) => {
+      const lv = i + 9; const cur = lv === 12;
+      return {
+        lv: String(lv),
+        col: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '9px', padding: '12px 6px', borderRadius: 'var(--radius-lg)', background: cur ? 'var(--accent-soft)' : 'var(--chip-bg)', border: '1px solid ' + (cur ? 'var(--accent)' : 'var(--panel-border)') },
+        lvBadge: { width: '30px', height: '30px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-num)', fontSize: '12px', background: cur ? 'var(--accent)' : 'var(--panel-grad)', color: cur ? 'var(--accent-ink)' : 'var(--ink)', border: '1px solid var(--panel-border)' },
+        fIcon: fIcons[i], eIcon: eIcons[i],
+        free: { width: '58px', height: '58px', borderRadius: 'var(--btn-radius)', background: 'var(--panel-grad)', border: '1px solid var(--panel-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', opacity: lv <= 12 ? 1 : .45 },
+        elite: { width: '58px', height: '58px', borderRadius: 'var(--btn-radius)', background: 'var(--accent-soft)', border: '1px solid var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', boxShadow: 'inset 0 0 0 1px var(--hairline)' },
+      };
+    });
+
+    const passHeader = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 28px', borderRadius: 'var(--radius-lg)', background: 'var(--feat-art)', border: '1px solid var(--accent)', boxShadow: 'inset 0 0 0 1px var(--hairline)' };
+
+    const show = (t) => ({ display: tab === t ? 'block' : 'none' });
+
+    return {
+      rootStyle,
+      pickOnyx: () => this.setState({ theme: 'onyx' }), pickBrocade: () => this.setState({ theme: 'brocade' }),
+      segOnyx: seg(this.state.theme === 'onyx'), segBrocade: seg(this.state.theme === 'brocade'),
+      pickGacha: () => this.setState({ tab: 'gacha' }), pickSkin: () => this.setState({ tab: 'skin' }), pickPass: () => this.setState({ tab: 'pass' }), pickDiamond: () => this.setState({ tab: 'diamond' }), pickBundle: () => this.setState({ tab: 'bundle' }),
+      tabGacha: tabSeg(tab === 'gacha'), tabSkin: tabSeg(tab === 'skin'), tabPass: tabSeg(tab === 'pass'), tabDiamond: tabSeg(tab === 'diamond'), tabBundle: tabSeg(tab === 'bundle'),
+      dGacha: show('gacha'), dSkin: show('skin'), dPass: show('pass'), dDiamond: show('diamond'), dBundle: show('bundle'),
+      cornerTL, cornerTR, cornerBL, cornerBR, featPanel, upGuan: upSeal('#d8504e'), upZhou: upSeal('#3fae6e'),
+      btnPress, buyHover, buyGhostHover, buyPrimary, buyGhost, buyWide, poolBtn, unlockBtn, prodCard, poolCard, passHeader,
+      pools, skinCards, diamonds, bundles, passTiers,
+    };
+  }
+}
+</script>
+</body>
+</html>

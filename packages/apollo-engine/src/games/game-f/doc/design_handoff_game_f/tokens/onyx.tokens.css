@@ -1,0 +1,72 @@
+/* ============================================================
+   ZeroCraft · Game F UI — 玄铁 (Vanguard) 主题 tokens
+   偏男性向 · 暗黑金属硬核
+   用法: 挂在皮肤根容器上 (e.g. <div data-theme="onyx">),
+        子元素一律 var(--token)。两套皮肤 token 同名不同值。
+   ============================================================ */
+[data-theme="onyx"] {
+  /* —— 背景 / 容器 —— */
+  --app-bg: radial-gradient(120% 120% at 50% -10%, #1a2230 0%, #0a0d12 55%, #06080b 100%);
+  --texture: repeating-linear-gradient(45deg, rgba(135,175,215,.05) 0 1px, transparent 1px 9px),
+             repeating-linear-gradient(-45deg, rgba(135,175,215,.04) 0 1px, transparent 1px 9px),
+             repeating-linear-gradient(45deg, rgba(255,93,46,.03) 0 2px, transparent 2px 42px);
+  --hud-bg: linear-gradient(180deg, rgba(22,28,37,.95), rgba(14,18,24,.88));
+  --dock-bg: linear-gradient(180deg, rgba(18,23,31,.7), rgba(10,13,18,.97));
+  --panel-grad: linear-gradient(180deg, #1c2531, #121821);
+  --panel-border: #33404f;
+  --panel-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 6px 16px rgba(0,0,0,.5);
+  --hairline: rgba(255,214,150,.12);           /* 内嵌古金细线 */
+  --chip-bg: rgba(255,255,255,.05);
+  --track: rgba(0,0,0,.5);
+
+  /* —— 文字 —— */
+  --ink: #e7edf3;
+  --ink-dim: #7e8c9b;
+
+  /* —— 主色 / 语义 —— */
+  --accent: #ff5d2e;
+  --accent-grad: linear-gradient(180deg, #ff7a45, #ee4515);
+  --accent-soft: rgba(255,93,46,.18);
+  --accent-ink: #1c0d06;
+  --success: #46d17a;
+  --warning: #ffb24a;
+  --danger:  #ff404f;
+  --info:    #37b6ff;
+  --hp: #46d17a; --mp: #37b6ff; --xp: #c184ff;
+  --gold: #ffcb3d; --gold-chip: rgba(255,203,61,.1);
+  --seal-edge: #caa24e;                          /* 玉印描边古金 */
+
+  /* —— 棋子费用色 —— */
+  --cost1: #97a4b2; --cost2: #37c46e; --cost3: #3a9bff; --cost4: #bf6bff; --cost5: #ffb024;
+  --star: #ffd34a;
+
+  /* —— 形状 —— */
+  --radius: 4px;                                 /* 锐 */
+  --btn-radius: 12px;                            /* 按钮圆角(独立) */
+  --radius-lg: 8px;
+  --slot-clip: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); /* 六边形 */
+  --bar-overlay: repeating-linear-gradient(90deg, rgba(0,0,0,.3) 0 2px, transparent 2px 13px);
+
+  /* —— 按钮 —— */
+  --btn-bg: linear-gradient(180deg, #283341, #1a222c);
+  --btn-edge: #3d4b5b;
+  --btn-text: #dfe7ef;
+  --ready-bg: linear-gradient(180deg, #ff7a45, #e8420f);
+  --ready-text: #1c0d06;
+  --ready-shadow: 0 0 22px rgba(255,93,46,.5), inset 0 1px 0 rgba(255,255,255,.4);
+
+  /* —— 字体(按组件可配置) —— */
+  --font-display: 'Zhi Mang Xing', cursive;      /* 大标题 / 玉印字心 · 狂草 */
+  --font-heading: 'Rajdhani', sans-serif;        /* 标题 / 按钮 */
+  --font-body:    'Noto Sans SC', sans-serif;    /* 正文 */
+  --font-num:     'Silkscreen', monospace;       /* 数字 · 像素 */
+  --font-script:  'Caveat', cursive;             /* 点缀 */
+}
+
+/* 势力 / 所有权色(内容色,两套皮肤通用) */
+:root {
+  --fac-shu: #d8504e;  /* 蜀红 · 玩家A */
+  --fac-wu:  #3fae6e;  /* 吴绿 · 玩家B */
+  --fac-wei: #3a86d4;  /* 魏蓝 · AI敌 */
+  --fac-qun: #9b6dd8;  /* 群紫 */
+}

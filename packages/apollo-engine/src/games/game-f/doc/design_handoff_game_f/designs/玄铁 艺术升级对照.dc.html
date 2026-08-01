@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Rajdhani:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Zhi+Mang+Xing&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e7e8ee; }
+  @keyframes foil { 0% { background-position: -130% 0; } 100% { background-position: 230% 0; } }
+  @keyframes ember { 0%,100% { box-shadow: 0 0 0 1px rgba(202,162,78,.5), 0 6px 18px rgba(0,0,0,.5); } 50% { box-shadow: 0 0 0 1px rgba(240,214,138,.9), 0 0 22px rgba(202,162,78,.45), 0 6px 18px rgba(0,0,0,.5); } }
+  @keyframes inkdrift { 0%,100% { transform: translate(0,0) scale(1); opacity:.5; } 50% { transform: translate(6px,-5px) scale(1.05); opacity:.7; } }
+</style>
+</helmet>
+
+<div style="min-height:100vh; background:#e7e8ee; padding:38px 34px 70px; font-family:'Noto Sans SC',sans-serif;">
+  <div style="max-width:1080px; margin:0 auto;">
+
+    <!-- header -->
+    <div style="margin-bottom:8px;">
+      <div style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#9698a6; font-family:'Rajdhani',sans-serif; font-weight:600;">玄铁 Vanguard · 艺术升级提案</div>
+      <div style="font-family:'Ma Shan Zheng',cursive; font-size:46px; color:#1a1f2b; line-height:1.1; margin-top:6px;">水墨 × 王者荣耀</div>
+      <div style="font-size:14.5px; color:#6c6e7a; margin-top:8px; max-width:680px; line-height:1.55;">按王者那套「色 / 形 / 纹 / 神」四维改造:墨蓝描金的<b>色</b>、切角破型的<b>形</b>、回纹水墨工笔的<b>纹</b>、热边光与錾金的<b>神</b>。先看 3 个代表组件的改造前后,定调后再统一刷全套 20 个。</div>
+    </div>
+
+    <!-- legend -->
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin:18px 0 30px;">
+      <div style="display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:10px; background:#fff; border:1px solid #e0e1e9; font-size:13px; color:#52535e;"><span style="width:14px;height:14px;border-radius:3px;background:linear-gradient(135deg,#1b2c3e,#0c1420);"></span><b style="color:#1a1f2b;">色</b> 墨蓝 + 描金</div>
+      <div style="display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:10px; background:#fff; border:1px solid #e0e1e9; font-size:13px; color:#52535e;"><span style="width:14px;height:14px;background:linear-gradient(135deg,#caa24e,#f0d68a); clip-path:polygon(28% 0,100% 0,100% 72%,72% 100%,0 100%,0 28%);"></span><b style="color:#1a1f2b;">形</b> 切角破型</div>
+      <div style="display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:10px; background:#fff; border:1px solid #e0e1e9; font-size:13px; color:#52535e;"><span style="font-size:15px;">㊞</span><b style="color:#1a1f2b;">纹</b> 回纹 · 水墨 · 印章</div>
+      <div style="display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:10px; background:#fff; border:1px solid #e0e1e9; font-size:13px; color:#52535e;"><span style="width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#f0d68a,#caa24e); box-shadow:0 0 8px #caa24e;"></span><b style="color:#1a1f2b;">神</b> 热边光 · 錾金</div>
+    </div>
+
+    <!-- ===== 1 BUTTON ===== -->
+    <div style="background:#fff; border-radius:18px; border:1px solid #e3e4ec; box-shadow:0 2px 16px rgba(40,40,70,.05); padding:24px 26px; margin-bottom:22px;">
+      <div style="display:flex; align-items:baseline; gap:11px; margin-bottom:18px;"><span style="font-family:'Silkscreen',monospace; font-size:12px; color:#fff; background:#23242e; border-radius:7px; padding:4px 9px;">01</span><div style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:21px; color:#23242e; white-space:nowrap;">按钮 · button</div></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+        <!-- before -->
+        <div style="{{ wellBefore }}">
+          <div style="{{ tagBefore }}">改造前</div>
+          <button style="{{ btnFlat }}">出 征</button>
+          <div style="{{ noteBefore }}">平渐变胶囊 · 1px 描边 · 无质感</div>
+        </div>
+        <!-- after -->
+        <div style="{{ wellAfter }}">
+          <div style="{{ tagAfter }}">改造后</div>
+          <div style="{{ btnFrame }}">
+            <div style="{{ btnInner }}">
+              <span style="{{ goldText }}">出 征</span>
+              <div style="{{ huiwen }}"></div>
+            </div>
+          </div>
+          <div style="{{ noteAfter }}">切角金框 · 墨色填充 · 錾金字 · 回纹饰 · 热边光</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 2 PANEL ===== -->
+    <div style="background:#fff; border-radius:18px; border:1px solid #e3e4ec; box-shadow:0 2px 16px rgba(40,40,70,.05); padding:24px 26px; margin-bottom:22px;">
+      <div style="display:flex; align-items:baseline; gap:11px; margin-bottom:18px;"><span style="font-family:'Silkscreen',monospace; font-size:12px; color:#fff; background:#23242e; border-radius:7px; padding:4px 9px;">02</span><div style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:21px; color:#23242e; white-space:nowrap;">面板 · panel</div></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+        <div style="{{ wellBefore }}">
+          <div style="{{ tagBefore }}">改造前</div>
+          <div style="{{ panelFlat }}">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 15px; border-bottom:1px solid #2c3848;"><span style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:15px; color:#e7edf3;">阵容详情</span><span style="color:#7e8c9b;">✕</span></div>
+            <div style="padding:15px; font-size:13px; line-height:1.6; color:#8b97a6;">平面背板 + 细线分隔,信息清楚但缺氛围与世界观。</div>
+          </div>
+        </div>
+        <div style="{{ wellAfter }}">
+          <div style="{{ tagAfter }}">改造后</div>
+          <div style="{{ panelFrame }}">
+            <div style="{{ panelInk }}">
+              <div style="{{ inkBlot1 }}"></div>
+              <div style="{{ inkBlot2 }}"></div>
+              <div style="{{ sealStamp }}">将</div>
+              <div style="position:relative; padding:15px 16px 16px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <span style="{{ goldTitle }}">阵容详情</span>
+                </div>
+                <div style="{{ huiwenWide }}"></div>
+                <div style="font-size:13px; line-height:1.7; color:#bfcad6; margin-top:13px; max-width:88%;">墨色山影为底,回纹描金压边,朱印点睛 —— 面板像一方青铜重器,而非贴纸。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 3 ITEM CARD ===== -->
+    <div style="background:#fff; border-radius:18px; border:1px solid #e3e4ec; box-shadow:0 2px 16px rgba(40,40,70,.05); padding:24px 26px; margin-bottom:8px;">
+      <div style="display:flex; align-items:baseline; gap:11px; margin-bottom:18px;"><span style="font-family:'Silkscreen',monospace; font-size:12px; color:#fff; background:#23242e; border-radius:7px; padding:4px 9px;">03</span><div style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:21px; color:#23242e; white-space:nowrap;">物品卡 · item-card</div><span style="font-size:12px; color:#9a6a3a; background:#fbf0e4; border:1px solid #f0dcc4; border-radius:6px; padding:3px 9px;">传说 Legendary</span></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+        <div style="{{ wellBefore }}">
+          <div style="{{ tagBefore }}">改造前</div>
+          <div style="{{ cardFlat }}">
+            <div style="height:26px; display:flex; align-items:center; justify-content:center; background:#caa24e; color:#1a1208; font-family:'Silkscreen',monospace; font-size:12px; font-weight:700;">🪙 5</div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:14px;">
+              <div style="width:62px; height:62px; border-radius:8px; background:linear-gradient(160deg,#caa24eee,#caa24e99); border:2px solid #caa24e; display:flex; align-items:center; justify-content:center; font-size:30px;">🗡</div>
+              <div style="font-family:'Noto Sans SC',sans-serif; font-weight:700; font-size:16px; color:#e7edf3;">青龙偃月</div>
+            </div>
+          </div>
+        </div>
+        <div style="{{ wellAfter }}">
+          <div style="{{ tagAfter }}">改造后</div>
+          <div style="{{ cardFrame }}">
+            <div style="{{ cardInk }}">
+              <div style="{{ cardFoil }}"></div>
+              <div style="{{ inkBlot3 }}"></div>
+              <div style="{{ costSeal }}">🪙 5</div>
+              <div style="position:relative; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:18px 12px 14px;">
+                <div style="{{ relicAv }}"><span style="font-size:32px;">🗡</span></div>
+                <span style="{{ goldTitleSm }}">青龙偃月</span>
+                <div style="{{ huiwenSm }}"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 五行 element system ===== -->
+    <div style="background:#fff; border-radius:18px; border:1px solid #e3e4ec; box-shadow:0 2px 16px rgba(40,40,70,.05); padding:24px 26px; margin-bottom:22px;">
+      <div style="display:flex; align-items:baseline; gap:11px; margin-bottom:6px; flex-wrap:wrap;"><span style="font-family:'Silkscreen',monospace; font-size:12px; color:#fff; background:#23242e; border-radius:7px; padding:4px 9px;">五行</span><div style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:21px; color:#23242e; white-space:nowrap;">元素分格 · Wu Xing</div></div>
+      <div style="font-size:13.5px; color:#6c6e7a; line-height:1.55; max-width:760px; margin-bottom:8px;">一套贯穿三种玩法的统一"格":<b>炉石</b>的卡牌花色与品质、<b>金铲铲</b>的羁绊、<b>小丑牌</b>的连携倍率(相生叠倍率、相克压制)。每张牌/每个棋子归一种元素,既是花色又是羁绊又是计分。</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;">
+        <span style="font-size:11px; color:#52535e; background:#f3f4f8; border:1px solid #e0e1e9; border-radius:99px; padding:3px 11px;">炉石 · 花色/品质</span>
+        <span style="font-size:11px; color:#52535e; background:#f3f4f8; border:1px solid #e0e1e9; border-radius:99px; padding:3px 11px;">金铲铲 · 羁绊</span>
+        <span style="font-size:11px; color:#52535e; background:#f3f4f8; border:1px solid #e0e1e9; border-radius:99px; padding:3px 11px;">小丑牌 · 连携倍率</span>
+      </div>
+      <div style="border-radius:14px; background:radial-gradient(120% 120% at 50% 0%,#182636,#0a111b); border:1px solid rgba(202,162,78,.22); padding:22px 20px;">
+        <!-- element cards -->
+        <div style="display:flex; gap:12px;">
+          <sc-for list="{{ wuxing }}" as="e" hint-placeholder-count="5">
+            <div style="{{ e.card }}">
+              <div style="{{ e.inner }}">
+                <div style="{{ e.pip }}">{{ e.k }}</div>
+                <div style="{{ e.mult }}">{{ e.multText }}</div>
+                <div style="{{ e.glyphBox }}"><span style="{{ e.glyphStyle }}">{{ e.k }}</span></div>
+                <div style="{{ e.nameStyle }}">{{ e.k }} · {{ e.en }}</div>
+                <div style="{{ e.roleStyle }}">{{ e.role }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <!-- 相生 chain -->
+        <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-top:22px; flex-wrap:wrap;">
+          <span style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#5fb98a; margin-right:4px;">相生 · 叠倍率</span>
+          <sc-for list="{{ shengChain }}" as="s" hint-placeholder-count="5">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="{{ s.seal }}">{{ s.k }}</div>
+              <span style="color:#5fb98a; font-size:15px;">→</span>
+            </div>
+          </sc-for>
+          <span style="font-size:11px; color:#7e8c9b; margin-left:2px;">循环 · 克:金克木 · 火克金</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; color:#9698a6; font-family:'Rajdhani',sans-serif; font-size:13px; letter-spacing:.04em; padding:18px 0 4px;">定调后,这套「色形纹神 + 五行分格」会统一刷到全部 20 个组件 · 锦霞将平行升级为织锦描金水墨</div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    // 回纹 (Chinese fret) tile, gold on transparent
+    const fret = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="14" viewBox="0 0 22 14"><path d="M1 13 V4 H10 V10 H5 V7 H8 M13 1 V10 H21" fill="none" stroke="#caa24e" stroke-width="1.3" stroke-linecap="square" opacity="0.9"/></svg>';
+    const fretUri = 'url("data:image/svg+xml,' + encodeURIComponent(fret) + '")';
+    const CHAMFER = 'polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px)';
+    const CHAMFER_SM = 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)';
+    const INK = 'radial-gradient(120% 90% at 28% 14%, rgba(70,104,140,.5), transparent 55%), radial-gradient(110% 80% at 82% 96%, rgba(14,22,34,.7), transparent 50%), radial-gradient(80% 120% at 100% 0%, rgba(40,64,92,.45), transparent 45%), linear-gradient(160deg, #16222f, #0b121c)';
+    const goldGrad = 'linear-gradient(180deg, #f5e6ad 0%, #e8cd82 40%, #c69a44 100%)';
+
+    // wells + tags
+    const wellBefore = { position: 'relative', borderRadius: '14px', padding: '34px 22px 20px', background: 'radial-gradient(120% 120% at 50% 0%, #1a2230, #0c1117)', border: '1px solid rgba(255,255,255,.06)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', minHeight: '210px', justifyContent: 'center' };
+    const wellAfter = Object.assign({}, wellBefore, { background: 'radial-gradient(120% 120% at 50% 0%, #182636, #0a111b)', border: '1px solid rgba(202,162,78,.22)' });
+    const tagBase = { position: 'absolute', top: '12px', left: '14px', fontSize: '10px', letterSpacing: '.16em', textTransform: 'uppercase', fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, padding: '3px 9px', borderRadius: '6px' };
+    const tagBefore = Object.assign({}, tagBase, { color: '#8b97a6', background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)' });
+    const tagAfter = Object.assign({}, tagBase, { color: '#1a1208', background: goldGrad, border: 'none' });
+    const noteBefore = { fontSize: '11px', color: '#6b7686', textAlign: 'center', marginTop: '2px' };
+    const noteAfter = { fontSize: '11px', color: '#b79a5e', textAlign: 'center', marginTop: '2px', maxWidth: '80%' };
+
+    // ---- button ----
+    const btnFlat = { padding: '12px 30px', borderRadius: '12px', border: 'none', background: 'linear-gradient(180deg,#283341,#1a222c)', color: '#dfe7ef', fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, fontSize: '18px', letterSpacing: '.08em', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.08)' };
+    const btnFrame = { clipPath: CHAMFER, background: goldGrad, padding: '2px', animation: 'ember 2.6s ease-in-out infinite' };
+    const btnInner = { position: 'relative', clipPath: CHAMFER, background: INK, padding: '13px 32px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px', overflow: 'hidden' };
+    const goldText = { fontFamily: "'Ma Shan Zheng',cursive", fontSize: '26px', lineHeight: 1, background: goldGrad, webkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent', textShadow: '0 1px 1px rgba(0,0,0,.4)', letterSpacing: '.06em' };
+    const huiwen = { width: '64px', height: '12px', backgroundImage: fretUri, backgroundRepeat: 'repeat-x', backgroundSize: 'auto 12px', opacity: .85 };
+
+    // ---- panel ----
+    const panelFlat = { width: '100%', maxWidth: '320px', borderRadius: '6px', overflow: 'hidden', background: 'linear-gradient(180deg,#1c2531,#121821)', border: '1px solid #33404f' };
+    const panelFrame = { width: '100%', maxWidth: '330px', clipPath: CHAMFER, background: goldGrad, padding: '2px', boxShadow: '0 10px 26px rgba(0,0,0,.5)' };
+    const panelInk = { position: 'relative', clipPath: CHAMFER, background: INK, overflow: 'hidden', minHeight: '128px' };
+    const inkBlot1 = { position: 'absolute', top: '-20px', right: '-10px', width: '150px', height: '120px', background: 'radial-gradient(closest-side, rgba(90,130,170,.4), transparent)', filter: 'blur(6px)', animation: 'inkdrift 9s ease-in-out infinite', pointerEvents: 'none' };
+    const inkBlot2 = { position: 'absolute', bottom: '-30px', left: '-20px', width: '180px', height: '120px', background: 'radial-gradient(closest-side, rgba(10,16,26,.6), transparent)', filter: 'blur(8px)', pointerEvents: 'none' };
+    const sealStamp = { position: 'absolute', top: '14px', right: '16px', width: '34px', height: '34px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#c0433a,#9c2f2a)', clipPath: 'polygon(8% 4%,96% 0,100% 92%,4% 100%)', color: '#ffeede', fontFamily: "'Ma Shan Zheng',cursive", fontSize: '20px', transform: 'rotate(-5deg)', boxShadow: '0 2px 8px rgba(0,0,0,.4)', zIndex: 2 };
+    const goldTitle = { fontFamily: "'Ma Shan Zheng',cursive", fontSize: '28px', lineHeight: 1, background: goldGrad, webkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent', position: 'relative' };
+    const huiwenWide = { height: '12px', marginTop: '10px', backgroundImage: fretUri, backgroundRepeat: 'repeat-x', backgroundSize: 'auto 12px', opacity: .7 };
+
+    // ---- item card ----
+    const cardFlat = { width: '152px', display: 'flex', flexDirection: 'column', overflow: 'hidden', borderRadius: '12px', background: 'linear-gradient(180deg,#1c2531,#121821)', border: '1px solid #caa24e', minHeight: '188px' };
+    const cardFrame = { width: '160px', clipPath: CHAMFER_SM, background: goldGrad, padding: '2.5px', animation: 'ember 2.8s ease-in-out infinite' };
+    const cardInk = { position: 'relative', clipPath: CHAMFER_SM, background: INK, overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: '196px' };
+    const cardFoil = { position: 'absolute', inset: 0, background: 'linear-gradient(110deg, transparent 38%, rgba(245,230,173,.28) 50%, transparent 62%)', backgroundSize: '230% 100%', animation: 'foil 3.4s ease-in-out infinite', pointerEvents: 'none', zIndex: 1 };
+    const inkBlot3 = { position: 'absolute', bottom: '-24px', left: '50%', transform: 'translateX(-50%)', width: '150px', height: '90px', background: 'radial-gradient(closest-side, rgba(70,104,140,.4), transparent)', filter: 'blur(6px)', pointerEvents: 'none' };
+    const costSeal = { position: 'relative', zIndex: 2, height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(180deg,#f5e6ad,#c69a44)', color: '#1a1208', fontFamily: "'Silkscreen',monospace", fontSize: '12px', fontWeight: 700 };
+    const relicAv = { width: '64px', height: '64px', clipPath: CHAMFER_SM, background: 'linear-gradient(160deg,#2a3a4e,#16222f)', border: '2px solid #caa24e', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 16px rgba(202,162,78,.4), inset 0 0 0 1px rgba(245,230,173,.3)' };
+    const goldTitleSm = { fontFamily: "'Ma Shan Zheng',cursive", fontSize: '21px', lineHeight: 1, background: goldGrad, webkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent', position: 'relative', zIndex: 2 };
+    const huiwenSm = { width: '70px', height: '11px', backgroundImage: fretUri, backgroundRepeat: 'repeat-x', backgroundSize: 'auto 11px', opacity: .7, position: 'relative', zIndex: 2 };
+
+    // ---- 五行 Wu Xing element system (跨 小丑牌×金铲铲×炉石 的统一分格) ----
+    const CARDTOP = 'polygon(13px 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 0 100%, 0 13px)';
+    const eleData = [
+      { k: '金', en: 'Metal', col: '#e8d49a', glow: '#f6ecc4', mult: 4, role: '物理 · 暴击' },
+      { k: '木', en: 'Wood', col: '#5fb98a', glow: '#9be8bd', mult: 2, role: '治疗 · 成长' },
+      { k: '水', en: 'Water', col: '#4f97d8', glow: '#9ccdf5', mult: 3, role: '控制 · 法力' },
+      { k: '火', en: 'Fire', col: '#e85a3c', glow: '#ff9268', mult: 5, role: '爆发 · 灼烧' },
+      { k: '土', en: 'Earth', col: '#cf9a4e', glow: '#ecc684', mult: 2, role: '护盾 · 嘲讽' },
+    ];
+    const wuxing = eleData.map((e) => ({
+      k: e.k, en: e.en, role: e.role, multText: '×' + e.mult,
+      card: { flex: 1, minWidth: 0, clipPath: CARDTOP, background: 'linear-gradient(160deg,' + e.glow + ',' + e.col + ')', padding: '2px', boxShadow: '0 6px 16px rgba(0,0,0,.45), 0 0 14px ' + e.col + '44' },
+      inner: { position: 'relative', clipPath: CARDTOP, background: 'radial-gradient(95% 70% at 50% 0%, ' + e.col + '40, transparent 62%), linear-gradient(170deg,#17232f,#0b121b)', padding: '12px 8px 12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '7px', minHeight: '150px', overflow: 'hidden' },
+      pip: { position: 'absolute', top: '7px', left: '9px', fontFamily: "'Ma Shan Zheng',cursive", fontSize: '15px', color: e.glow, lineHeight: 1 },
+      mult: { position: 'absolute', top: '6px', right: '8px', fontFamily: "'Silkscreen',monospace", fontSize: '11px', padding: '2px 6px', borderRadius: '99px', background: 'linear-gradient(180deg,#f5e6ad,#c69a44)', color: '#1a1208' },
+      glyphBox: { marginTop: '14px', width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', background: 'radial-gradient(circle,' + e.col + '33, transparent 70%)' },
+      glyphStyle: { fontFamily: "'Ma Shan Zheng',cursive", fontSize: '44px', lineHeight: 1, color: e.glow, textShadow: '0 0 14px ' + e.col + 'aa' },
+      nameStyle: { fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, fontSize: '13px', letterSpacing: '.05em', color: e.glow },
+      roleStyle: { fontSize: '10px', color: '#9aa6b4', textAlign: 'center' },
+    }));
+    // 相生链:金→水→木→火→土→(金)
+    const shengOrder = ['金', '水', '木', '火', '土'];
+    const eleByK = {}; eleData.forEach((e) => { eleByK[e.k] = e; });
+    const shengChain = shengOrder.map((k) => {
+      const e = eleByK[k];
+      return { k, seal: { width: '38px', height: '38px', flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(150deg,' + e.glow + ',' + e.col + ')', clipPath: 'polygon(8% 4%,96% 0,100% 92%,4% 100%)', color: '#1a1208', fontFamily: "'Ma Shan Zheng',cursive", fontSize: '22px', boxShadow: '0 0 12px ' + e.col + '77' } };
+    });
+
+    return {
+      wuxing, shengChain,
+      wellBefore, wellAfter, tagBefore, tagAfter, noteBefore, noteAfter,
+      btnFlat, btnFrame, btnInner, goldText, huiwen,
+      panelFlat, panelFrame, panelInk, inkBlot1, inkBlot2, sealStamp, goldTitle, huiwenWide,
+      cardFlat, cardFrame, cardInk, cardFoil, inkBlot3, costSeal, relicAv, goldTitleSm, huiwenSm,
+    };
+  }
+}
+</script>
+</body>
+</html>

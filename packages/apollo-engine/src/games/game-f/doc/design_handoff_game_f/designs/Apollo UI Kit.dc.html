@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Rajdhani:wght@500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&family=Zhi+Mang+Xing&family=Ma+Shan+Zheng&family=Caveat:wght@600;700&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9eaf0; }
+  @keyframes f-spin { to { transform: rotate(360deg); } }
+  @keyframes f-shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-2px); } 75% { transform: translateX(2px); } }
+  @keyframes f-pulse { 0%,100% { opacity: .7; } 50% { opacity: 1; } }
+</style>
+</helmet>
+
+<div style="{{ pageStyle }}">
+  <div style="max-width:1200px; margin:0 auto;">
+
+    <!-- ===== Header ===== -->
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
+      <div>
+        <div style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#9698a6; font-family:'Rajdhani',sans-serif; font-weight:600;">ZeroCraft Engine · Theme System</div>
+        <div style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:40px; color:#23242e; letter-spacing:-.01em; line-height:1.05; margin-top:4px;">通用组件库 · UI Kit</div>
+        <div style="font-size:15px; color:#6c6e7a; margin-top:8px; max-width:640px; line-height:1.5;">20 个标准基础组件 × 两套皮肤(玄铁 / 锦霞)× 全交互态。每个控件走独立 CSS 变量,换 token 即换皮;字体按组件可配置,大标题可挂手写/毛笔花体。</div>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <div style="display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:10px; background:#15171e; color:#e7edf3; font-family:'Rajdhani',sans-serif; font-weight:600; font-size:13px;"><span style="width:10px;height:10px;border-radius:3px;background:#ff5d2e;"></span>玄铁 Vanguard</div>
+        <div style="display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:10px; background:#fff3ee; color:#5a3f44; border:1px solid #e9cfb5; font-family:'Cormorant Garamond',serif; font-weight:600; font-size:14px;"><span style="width:10px;height:10px;border-radius:3px;background:#d8607b;"></span>锦霞 Aurora</div>
+      </div>
+    </div>
+
+    <!-- component index -->
+    <div style="display:flex; flex-wrap:wrap; gap:7px; margin:18px 0 30px;">
+      <sc-for list="{{ indexChips }}" as="c" hint-placeholder-count="20">
+        <div style="{{ c.style }}"><span style="opacity:.6; font-family:'Silkscreen',monospace; font-size:9px;">{{ c.n }}</span> {{ c.cn }}</div>
+      </sc-for>
+    </div>
+
+    <!-- ===== FOUNDATIONS · Colors ===== -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ kickerStyle }}">Foundations</div>
+      <div style="{{ cardTitleStyle }}">色板 · Color Tokens</div>
+      <div style="{{ cardDescStyle }}">基础色 + 语义色。每套皮肤同名 token、不同取值 —— 这是 tokens.css 的核心。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
+              <sc-for list="{{ colorSwatches }}" as="sw" hint-placeholder-count="9">
+                <div>
+                  <div style="{{ sw.style }}"></div>
+                  <div style="font-size:11px; color:var(--ink-dim); margin-top:5px; font-family:var(--font-heading);">{{ sw.label }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- ===== FOUNDATIONS · Typography ===== -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ kickerStyle }}">Foundations</div>
+      <div style="{{ cardTitleStyle }}">字体 · Typography（可按组件配置）</div>
+      <div style="{{ cardDescStyle }}">5 个字体槽:display 手写花体（大标题，张力夸张）/ heading 标题 / body 正文 / number 等宽数字 / script 点缀。组件各自引用 token，可独立替换。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <sc-for list="{{ typeSamples }}" as="t" hint-placeholder-count="5">
+                <div style="display:flex; align-items:baseline; gap:16px; border-bottom:1px solid var(--panel-border); padding-bottom:14px;">
+                  <div style="width:108px; flex:none;">
+                    <div style="font-size:12px; color:var(--ink); font-family:var(--font-heading); font-weight:700;">{{ t.label }}</div>
+                    <div style="font-size:10px; color:var(--ink-dim); font-family:var(--font-num); margin-top:3px;">{{ t.note }}</div>
+                  </div>
+                  <div style="{{ t.style }}">{{ t.sample }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- ===== FOUNDATIONS · Shape ===== -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ kickerStyle }}">Foundations</div>
+      <div style="{{ cardTitleStyle }}">形状 · Radius & Shape</div>
+      <div style="{{ cardDescStyle }}">玄铁低圆角锐利、锦霞大圆角柔和;按钮圆角独立 token（两套都圆）。技能槽形状也走 token（玄铁六边形切角 / 锦霞圆角）。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; gap:18px; align-items:flex-end;">
+              <sc-for list="{{ radiusSamples }}" as="r" hint-placeholder-count="3">
+                <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+                  <div style="{{ r.style }}"></div>
+                  <span style="font-size:10px; color:var(--ink-dim); font-family:var(--font-num);">{{ r.label }}</span>
+                </div>
+              </sc-for>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+                <div style="{{ sk.slotShape }}">⚔</div>
+                <span style="font-size:10px; color:var(--ink-dim); font-family:var(--font-num);">slot-clip</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- ===== FOUNDATIONS · 五行 element grading ===== -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ kickerStyle }}">Foundations</div>
+      <div style="{{ cardTitleStyle }}">五行分格 · Wu Xing</div>
+      <div style="{{ cardDescStyle }}">贯穿三种玩法的统一"格":炉石的卡牌花色/品质、金铲铲的羁绊、小丑牌的连携倍率(相生叠倍率、相克压制)。每张牌/每个棋子归一种元素。</div>
+      <div style="border-radius:14px; background:radial-gradient(120% 120% at 50% 0%,#182636,#0a111b); border:1px solid rgba(202,162,78,.22); padding:22px 20px; margin-top:18px;">
+        <div style="display:flex; gap:12px;">
+          <sc-for list="{{ wuxing }}" as="e" hint-placeholder-count="5">
+            <div style="{{ e.card }}">
+              <div style="{{ e.inner }}">
+                <div style="{{ e.pip }}">{{ e.k }}</div>
+                <div style="{{ e.mult }}">{{ e.multText }}</div>
+                <div style="{{ e.glyphBox }}"><span style="{{ e.glyphStyle }}">{{ e.k }}</span></div>
+                <div style="{{ e.nameStyle }}">{{ e.k }} · {{ e.en }}</div>
+                <div style="{{ e.roleStyle }}">{{ e.role }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-top:22px; flex-wrap:wrap;">
+          <span style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#5fb98a; margin-right:4px;">相生 · 叠倍率</span>
+          <sc-for list="{{ shengChain }}" as="s" hint-placeholder-count="5">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="{{ s.seal }}">{{ s.k }}</div>
+              <span style="color:#5fb98a; font-size:15px;">→</span>
+            </div>
+          </sc-for>
+          <span style="font-size:11px; color:#7e8c9b; margin-left:2px;">循环 · 克:金克木 · 火克金</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Button ===== -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}">
+        <span style="{{ numBadge }}">01</span>
+        <div style="{{ cardTitleStyle }}">按钮</div>
+        <span style="{{ titleEnStyle }}">button</span>
+        <span style="{{ fontTagStyle }}">font: --font-heading</span>
+      </div>
+      <div style="{{ cardDescStyle }}">主/次/危险三型。hover 抬升+亮起、press 下沉缩放（机械感）、focus 聚焦环、disabled、loading。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+              <button style="{{ btnPrimary }}" style-hover="{{ liveHover }}" style-active="{{ livePress }}" style-focus="{{ liveFocus }}">主要操作</button>
+              <button style="{{ btnSecondary }}" style-hover="{{ secHover }}" style-active="{{ livePress }}">次要</button>
+              <button style="{{ btnDanger }}" style-hover="{{ liveHover }}" style-active="{{ livePress }}">危险</button>
+            </div>
+            <div style="font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-dim); margin:18px 0 10px; font-family:var(--font-heading);">全状态 states</div>
+            <div style="display:flex; gap:16px; flex-wrap:wrap;">
+              <sc-for list="{{ btnStates }}" as="st" hint-placeholder-count="5">
+                <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+                  <button style="{{ st.style }}">操作</button>
+                  <span style="{{ stateLabel }}">{{ st.label }}</span>
+                </div>
+              </sc-for>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+                <button style="{{ stLoading }}">操作<span style="{{ spinnerStyle }}"></span></button>
+                <span style="{{ stateLabel }}">loading</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- ===== Health / bars ===== -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}">
+        <span style="{{ numBadge }}">02</span>
+        <div style="{{ cardTitleStyle }}">血条 / 资源条</div>
+        <span style="{{ titleEnStyle }}">health-bar</span>
+        <span style="{{ fontTagStyle }}">font: --font-num</span>
+      </div>
+      <div style="{{ cardDescStyle }}">HP / MP / 经验。玄铁分段刻度+硬边、低血红闪抖动;锦霞圆头柔光、甜美。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span style="font-size:12px; color:var(--ink-dim);">生命 HP</span><span style="font-family:var(--font-num); font-size:12px; color:var(--hp);">1640 / 1640</span></div>
+                <div style="{{ barTrack }}"><div style="{{ barFillHp }}"></div><div style="{{ barOverlay }}"></div></div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span style="font-size:12px; color:var(--ink-dim);">生命 HP · 危急</span><span style="font-family:var(--font-num); font-size:12px; color:var(--danger);">208 / 1640</span></div>
+                <div style="{{ barTrack }}"><div style="{{ barFillLow }}"></div><div style="{{ barOverlay }}"></div></div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span style="font-size:12px; color:var(--ink-dim);">法力 MP</span><span style="font-family:var(--font-num); font-size:12px; color:var(--mp);">64 / 100</span></div>
+                <div style="{{ barTrack }}"><div style="{{ barFillMp }}"></div><div style="{{ barOverlay }}"></div></div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- ===== Skill slot ===== -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}">
+        <span style="{{ numBadge }}">03</span>
+        <div style="{{ cardTitleStyle }}">技能槽</div>
+        <span style="{{ titleEnStyle }}">skill-slot</span>
+        <span style="{{ fontTagStyle }}">shape: --slot-clip</span>
+      </div>
+      <div style="{{ cardDescStyle }}">就绪 / 冷却扫描 / 激活脉冲 / 禁用。玄铁六边切角+冷却遮罩+边角点亮;锦霞圆角柔光。键位角标。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; gap:22px; flex-wrap:wrap;">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:9px;">
+                <div style="{{ slotReady }}">⚔<div style="{{ slotKey }}">Q</div></div>
+                <span style="{{ stateLabel }}">ready</span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:9px;">
+                <div style="{{ slotCooldown }}">⚔<div style="{{ cooldownOverlay }}"></div><span style="{{ cdText }}">3</span><div style="{{ slotKey }}">W</div></div>
+                <span style="{{ stateLabel }}">cooldown</span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:9px;">
+                <div style="{{ slotActive }}">✦<div style="{{ slotKey }}">E</div></div>
+                <span style="{{ stateLabel }}">active</span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:9px;">
+                <div style="{{ slotDisabled }}">🛡<div style="{{ slotKey }}">R</div></div>
+                <span style="{{ stateLabel }}">disabled</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- ===== Modal ===== -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}">
+        <span style="{{ numBadge }}">19</span>
+        <div style="{{ cardTitleStyle }}">模态 / 弹窗</div>
+        <span style="{{ titleEnStyle }}">modal</span>
+        <span style="{{ fontTagStyle }}">corner: --corner</span>
+      </div>
+      <div style="{{ cardDescStyle }}">确认/警告弹窗与商城框。四角带主题转角纹饰 —— 玄铁=龙鳞装甲角(锐利铆钉)、锦霞=凤羽卷草角(玫瑰金)。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="{{ modalPanelStyle }}">
+              <div style="{{ cornerTL }}"></div>
+              <div style="{{ cornerTR }}"></div>
+              <div style="{{ cornerBL }}"></div>
+              <div style="{{ cornerBR }}"></div>
+              <div style="text-align:center; font-family:var(--font-heading); font-weight:700; font-size:21px; color:var(--ink); letter-spacing:.04em;">出售这枚棋子？</div>
+              <div style="text-align:center; font-size:13.5px; color:var(--ink-dim); margin-top:10px; line-height:1.6;">将返还 <span style="font-family:var(--font-num); color:var(--gold);">3</span> 金币，此操作无法撤销。</div>
+              <div style="display:flex; gap:12px; justify-content:center; margin-top:24px;">
+                <button style="{{ btnSecondary }}" style-hover="{{ secHover }}" style-active="{{ livePress }}">取消</button>
+                <button style="{{ btnPrimary }}" style-hover="{{ liveHover }}" style-active="{{ livePress }}">确认出售</button>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 04 panel -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">04</span><div style="{{ cardTitleStyle }}">面板</div><span style="{{ titleEnStyle }}">panel</span><span style="{{ fontTagStyle }}">font: --font-heading</span></div>
+      <div style="{{ cardDescStyle }}">窗口 / 内容容器:标题栏 + 关闭 + 正文。玄铁锐边金属、锦霞圆角丝绸。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="{{ panelDemo }}">
+              <div style="{{ panelHeaderStyle }}"><span style="font-family:var(--font-heading); font-weight:700; font-size:15px; color:var(--ink);">阵容详情</span><span style="{{ panelClose }}">✕</span></div>
+              <div style="padding:16px; font-size:13px; line-height:1.6; color:var(--ink-dim);">承载列表、表单、信息块的容器。半透明背板浮于战场画面之上,处理 z 层与 pointer-events。</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 05 dialog -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">05</span><div style="{{ cardTitleStyle }}">对话框</div><span style="{{ titleEnStyle }}">dialog</span><span style="{{ fontTagStyle }}">font: --font-body</span></div>
+      <div style="{{ cardDescStyle }}">NPC 立绘 + 缎带名牌 + 打字机正文 + 继续指示。乙游/剧情通用。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="{{ dialogBox }}">
+              <div style="{{ dialogPortrait }}">🗣</div>
+              <div style="flex:1;">
+                <span style="{{ dialogNameStyle }}">诸葛亮</span>
+                <div style="margin-top:9px; font-size:14px; line-height:1.6; color:var(--ink);">亮夜观天象，曹军必败于火攻 —— 主公早做准备。<span style="color:var(--accent);">▍</span></div>
+                <div style="text-align:right; color:var(--accent); margin-top:4px;">▼</div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 06 menu -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">06</span><div style="{{ cardTitleStyle }}">菜单</div><span style="{{ titleEnStyle }}">menu</span><span style="{{ fontTagStyle }}">font: --font-heading</span></div>
+      <div style="{{ cardDescStyle }}">垂直列表:默认 / 选中(accent) / 禁用。hover 高亮、选中边角点亮。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; flex-direction:column; gap:9px;">
+              <sc-for list="{{ menuData }}" as="m" hint-placeholder-count="4">
+                <div style="{{ m.style }}"><span>{{ m.icon }}</span><span style="flex:1;">{{ m.label }}</span><span style="font-size:10px; opacity:.7; letter-spacing:.1em; text-transform:uppercase;">{{ m.tag }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 07 notification -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">07</span><div style="{{ cardTitleStyle }}">通知</div><span style="{{ titleEnStyle }}">notification</span><span style="{{ fontTagStyle }}">color: semantic</span></div>
+      <div style="{{ cardDescStyle }}">顶/底横幅:成功 / 警告 / 危险,左侧能量色条 + 图标。锐利滑入。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <sc-for list="{{ notiData }}" as="n" hint-placeholder-count="3">
+                <div style="{{ n.style }}"><span style="{{ n.iconStyle }}">{{ n.icon }}</span><div><div style="font-weight:700; font-size:14px; color:var(--ink);">{{ n.label }}</div><div style="font-size:12px; color:var(--ink-dim);">{{ n.sub }}</div></div></div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 08 progress -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">08</span><div style="{{ cardTitleStyle }}">进度条</div><span style="{{ titleEnStyle }}">progress-bar</span><span style="{{ fontTagStyle }}">font: --font-num</span></div>
+      <div style="{{ cardDescStyle }}">加载 / 经验 / 读条。玄铁分段硬边、锦霞圆头柔光,数值跳动。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div><div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span style="font-size:12px; color:var(--ink-dim);">加载中</span><span style="font-family:var(--font-num); font-size:12px; color:var(--accent);">64%</span></div><div style="{{ barTrack }}"><div style="{{ progFillLoad }}"></div></div></div>
+              <div><div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span style="font-size:12px; color:var(--ink-dim);">经验 EXP</span><span style="font-family:var(--font-num); font-size:12px; color:var(--xp);">820 / 2000</span></div><div style="{{ barTrack }}"><div style="{{ progFillXp }}"></div></div></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 09 tooltip -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">09</span><div style="{{ cardTitleStyle }}">提示</div><span style="{{ titleEnStyle }}">tooltip</span><span style="{{ fontTagStyle }}">z-layer overlay</span></div>
+      <div style="{{ cardDescStyle }}">悬浮信息气泡:标题 + 描述 + 指向箭头。浮于元素之上。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="padding:8px 0 14px;">
+              <div style="{{ tooltipBox }}">
+                <div style="font-family:var(--font-heading); font-weight:700; font-size:14px; color:var(--accent);">青龙偃月刀</div>
+                <div style="font-size:12px; color:var(--ink-dim); margin-top:5px; line-height:1.5;">攻击 +120 · 暴击 +15%<br>装备后横扫造成额外物理伤害。</div>
+                <div style="{{ tooltipArrow }}"></div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 10 label -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">10</span><div style="{{ cardTitleStyle }}">标签</div><span style="{{ titleEnStyle }}">label</span><span style="{{ fontTagStyle }}">font: per-role</span></div>
+      <div style="{{ cardDescStyle }}">标题 / 正文 / 数字 + 品质色标签(普通/稀有/史诗/传说)。各角色独立字体 token。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:14px;">
+              <span style="font-family:var(--font-heading); font-weight:700; font-size:22px; color:var(--ink);">标题 Heading</span>
+              <span style="font-size:14px; color:var(--ink-dim);">正文 body</span>
+              <span style="font-family:var(--font-num); font-size:18px; color:var(--accent);">1,443</span>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <sc-for list="{{ qualTags }}" as="q" hint-placeholder-count="4">
+                <span style="{{ q.style }}">{{ q.label }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 11 icon-badge -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">11</span><div style="{{ cardTitleStyle }}">图标角标</div><span style="{{ titleEnStyle }}">icon-badge</span><span style="{{ fontTagStyle }}">count: --font-num</span></div>
+      <div style="{{ cardDescStyle }}">图标 + 数量角标 / 红点 / NEW。导航、背包、邮件通用。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; gap:22px;">
+              <sc-for list="{{ badgeData }}" as="b" hint-placeholder-count="4">
+                <div style="{{ iconBox }}">{{ b.icon }}<sc-if value="{{ b.count }}" hint-placeholder-val=""><span style="{{ b.countStyle }}">{{ b.count }}</span></sc-if><sc-if value="{{ b.isDot }}" hint-placeholder-val="{{ false }}"><span style="{{ b.dotStyle }}"></span></sc-if></div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 12 inventory -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">12</span><div style="{{ cardTitleStyle }}">背包</div><span style="{{ titleEnStyle }}">inventory</span><span style="{{ fontTagStyle }}">rarity glow</span></div>
+      <div style="{{ cardDescStyle }}">物品栏:稀有度发光边(传说金/史诗紫/稀有蓝/普通灰)+ 空槽。拖拽摆放。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; gap:11px; flex-wrap:wrap;">
+              <sc-for list="{{ invData }}" as="it" hint-placeholder-count="6"><div style="{{ it.style }}">{{ it.icon }}</div></sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 13 mini-map -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">13</span><div style="{{ cardTitleStyle }}">小地图</div><span style="{{ titleEnStyle }}">mini-map</span><span style="{{ fontTagStyle }}">blips</span></div>
+      <div style="{{ cardDescStyle }}">棱角边框 + 网格底 + 我方/敌方/盟友光点。玄铁角标硬朗、锦霞圆润。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="{{ mapFrame }}">
+              <sc-for list="{{ mapTerrain }}" as="tr" hint-placeholder-count="2"><div style="{{ tr }}"></div></sc-for>
+              <sc-for list="{{ mapBlips }}" as="bl" hint-placeholder-count="4"><div style="{{ bl }}"></div></sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 14 avatar-frame -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">14</span><div style="{{ cardTitleStyle }}">头像框</div><span style="{{ titleEnStyle }}">avatar-frame</span><span style="{{ fontTagStyle }}">lv + online</span></div>
+      <div style="{{ cardDescStyle }}">头像 + 装饰描边 + 等级牌 + 在线点。社交/乙游;玄铁能量环、锦霞花环。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; gap:24px; align-items:center;">
+              <div style="{{ avatarRing }}"><div style="{{ avatarInner }}">🦁</div><div style="{{ avatarDot }}"></div><div style="{{ avatarLv }}">Lv 42</div></div>
+              <div style="{{ avatarRing }}"><div style="{{ avatarInner }}">🐯</div><div style="{{ avatarLv }}">Lv 38</div></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 15 name-plate -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">15</span><div style="{{ cardTitleStyle }}">名牌</div><span style="{{ titleEnStyle }}">name-plate</span><span style="{{ fontTagStyle }}">faction color</span></div>
+      <div style="{{ cardDescStyle }}">头像 + 名称 + 称号 + 等级,势力色区分(蜀红/吴绿)。跟随单位的挂件。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; flex-direction:column; gap:11px;">
+              <sc-for list="{{ npData }}" as="p" hint-placeholder-count="2">
+                <div style="{{ p.style }}">
+                  <div style="{{ p.av }}">{{ p.ch }}</div>
+                  <div><div style="font-family:var(--font-heading); font-weight:700; font-size:15px; color:var(--ink);">{{ p.name }}</div><div style="{{ p.titleStyle }}">{{ p.title }}</div></div>
+                  <span style="{{ p.lvStyle }}">Lv {{ p.lv }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 16 choice-option -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">16</span><div style="{{ cardTitleStyle }}">选项</div><span style="{{ titleEnStyle }}">choice-option</span><span style="{{ fontTagStyle }}">font: --font-body</span></div>
+      <div style="{{ cardDescStyle }}">对话选项胶囊:默认 / hover(右移+柔光) / 选中 / 禁用。VN/乙游核心。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <sc-for list="{{ choiceData }}" as="c" hint-placeholder-count="4">
+                <div style="{{ c.style }}">{{ c.label }}<span style="float:right; font-size:10px; opacity:.6; letter-spacing:.1em; text-transform:uppercase;">{{ c.tag }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 17 tab-bar -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">17</span><div style="{{ cardTitleStyle }}">标签栏</div><span style="{{ titleEnStyle }}">tab-bar</span><span style="{{ fontTagStyle }}">font: --font-heading</span></div>
+      <div style="{{ cardDescStyle }}">多页面切换:激活态 accent 文字 + 底部能量指示条。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; gap:6px; border-bottom:1px solid var(--panel-border);">
+              <sc-for list="{{ tabData }}" as="t" hint-placeholder-count="4">
+                <div style="{{ t.style }}">{{ t.label }}<div style="{{ t.bar }}"></div></div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 18 slider -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">18</span><div style="{{ cardTitleStyle }}">滑块</div><span style="{{ titleEnStyle }}">slider</span><span style="{{ fontTagStyle }}">value: --font-num</span></div>
+      <div style="{{ cardDescStyle }}">设置/音量。轨道 + 填充 + 手柄,数值实时显示。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; flex-direction:column; gap:20px; padding:4px 8px 0;">
+              <sc-for list="{{ sliderData }}" as="s" hint-placeholder-count="2">
+                <div><div style="display:flex; justify-content:space-between; margin-bottom:9px;"><span style="font-size:13px; color:var(--ink);">{{ s.label }}</span><span style="font-family:var(--font-num); font-size:12px; color:var(--accent);">{{ s.val }}</span></div><div style="{{ s.track }}"><div style="{{ s.fill }}"></div><div style="{{ s.handle }}"></div></div></div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- 20 toast -->
+    <div style="{{ cardStyle }}">
+      <div style="{{ compHeadStyle }}"><span style="{{ numBadge }}">20</span><div style="{{ cardTitleStyle }}">Toast</div><span style="{{ titleEnStyle }}">toast</span><span style="{{ fontTagStyle }}">auto-dismiss</span></div>
+      <div style="{{ cardDescStyle }}">轻量即时反馈:获得/升星/提示。短暂浮现后自动消失。</div>
+      <div style="{{ wellsRow }}">
+        <sc-for list="{{ skins }}" as="sk" hint-placeholder-count="2">
+          <div style="{{ sk.wellStyle }}">
+            <div style="{{ skinTagStyle }}"><span style="{{ sk.dotStyle }}"></span>{{ sk.name }} · {{ sk.full }}</div>
+            <div style="display:flex; flex-direction:column; gap:11px; align-items:flex-start;">
+              <sc-for list="{{ toastData }}" as="t" hint-placeholder-count="2">
+                <div style="{{ t.style }}"><span style="{{ t.iconStyle }}">{{ t.icon }}</span><span style="font-size:14px; color:var(--ink);">{{ t.label }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="text-align:center; color:#9698a6; font-family:'Rajdhani',sans-serif; font-size:13px; letter-spacing:.06em; padding:16px 0 10px;">✓ 20 个标准组件全部就绪 · 两套皮肤 · 全交互态 · 字体可配置</div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  themes() {
+    return {
+      onyx: {
+        '--app-bg': 'radial-gradient(120% 120% at 50% -8%, #1d2d42 0%, #0f1b29 55%, #070e17 100%)',
+        '--texture': 'repeating-linear-gradient(45deg, rgba(135,175,215,.05) 0 1px, transparent 1px 9px), repeating-linear-gradient(-45deg, rgba(135,175,215,.04) 0 1px, transparent 1px 9px)',
+        '--ink-wash': 'radial-gradient(120% 85% at 28% 8%, rgba(82,120,158,.22), transparent 55%), radial-gradient(100% 80% at 88% 100%, rgba(8,14,24,.5), transparent 55%)',
+        '--panel-grad': 'radial-gradient(130% 95% at 22% 10%, rgba(82,120,158,.30), transparent 56%), linear-gradient(165deg,#1a2a3c,#0f1c2a)',
+        '--panel-border': '#3a516e',
+        '--panel-shadow': 'inset 0 1px 0 rgba(255,255,255,.07), 0 6px 16px rgba(0,0,0,.5)',
+        '--hairline': 'rgba(232,205,138,.24)',
+        '--gold-grad': 'linear-gradient(180deg,#f5e6ad,#c69a44)',
+        '--chamfer': 'polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px)',
+        '--chip-bg': 'rgba(255,255,255,.05)',
+        '--track': 'rgba(0,0,0,.5)',
+        '--ink': '#e7edf3', '--ink-dim': '#7e8c9b',
+        '--accent': '#ff5d2e', '--accent-grad': 'linear-gradient(180deg,#ff7a45,#ee4515)',
+        '--accent-soft': 'rgba(255,93,46,.18)', '--accent-ink': '#1c0d06',
+        '--hp': '#46d17a', '--mp': '#37b6ff', '--xp': '#c184ff', '--gold': '#ffcb3d',
+        '--success': '#46d17a', '--warning': '#ffb24a', '--danger': '#ff404f', '--info': '#37b6ff',
+        '--radius': '4px', '--btn-radius': '12px', '--radius-lg': '8px',
+        '--btn-bg': 'linear-gradient(180deg,#283341,#1a222c)', '--btn-edge': '#3d4b5b', '--btn-text': '#dfe7ef',
+        '--slot-clip': 'polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)',
+        '--bar-overlay': 'repeating-linear-gradient(90deg, rgba(0,0,0,.3) 0 2px, transparent 2px 13px)',
+        '--font-display': "'Zhi Mang Xing', cursive",
+        '--font-heading': "'Rajdhani', sans-serif",
+        '--font-body': "'Noto Sans SC', sans-serif",
+        '--font-num': "'Silkscreen', monospace",
+        '--font-script': "'Caveat', cursive",
+      },
+      brocade: {
+        '--app-bg': 'radial-gradient(120% 120% at 50% -10%, #fdf4ee 0%, #f3e2dc 60%, #ecd6cf 100%)',
+        '--texture': 'radial-gradient(circle, rgba(201,148,72,.16) 1px, transparent 1.7px) 0 0 / 26px 26px, radial-gradient(circle, rgba(216,96,123,.10) 1px, transparent 1.6px) 13px 13px / 26px 26px, repeating-linear-gradient(45deg, rgba(201,148,72,.07) 0 1px, transparent 1px 26px), repeating-linear-gradient(-45deg, rgba(201,148,72,.07) 0 1px, transparent 1px 26px)',
+        '--ink-wash': 'radial-gradient(120% 85% at 28% 8%, rgba(216,170,120,.18), transparent 55%), radial-gradient(100% 80% at 88% 100%, rgba(216,150,160,.12), transparent 55%)',
+        '--panel-grad': 'radial-gradient(130% 95% at 22% 10%, rgba(216,170,120,.20), transparent 56%), linear-gradient(165deg,#fffaf3,#f8e7d6)',
+        '--panel-border': '#e0c290',
+        '--panel-shadow': 'inset 0 1px 0 #fff, 0 10px 24px rgba(176,120,92,.16)',
+        '--hairline': 'rgba(207,154,63,.5)',
+        '--gold-grad': 'linear-gradient(180deg,#f3e2a4,#cf9a3f)',
+        '--chamfer': 'polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px)',
+        '--chip-bg': 'rgba(255,255,255,.55)',
+        '--track': 'rgba(150,110,90,.18)',
+        '--ink': '#5a3f44', '--ink-dim': '#a98b8f',
+        '--accent': '#d8607b', '--accent-grad': 'linear-gradient(180deg,#e887a0,#cf5070)',
+        '--accent-soft': 'rgba(216,96,123,.16)', '--accent-ink': '#fff',
+        '--hp': '#54ad8e', '--mp': '#8aa0e6', '--xp': '#c98fc4', '--gold': '#cf9a3f',
+        '--success': '#54ad8e', '--warning': '#e0a94e', '--danger': '#d65668', '--info': '#8aa0e6',
+        '--radius': '14px', '--btn-radius': '16px', '--radius-lg': '22px',
+        '--btn-bg': 'linear-gradient(180deg,#fffaf4,#fbece1)', '--btn-edge': '#ecd3b2', '--btn-text': '#6a4a4f',
+        '--slot-clip': 'none',
+        '--bar-overlay': 'none',
+        '--font-display': "'Ma Shan Zheng', cursive",
+        '--font-heading': "'Cormorant Garamond', serif",
+        '--font-body': "'Noto Serif SC', serif",
+        '--font-num': "'Silkscreen', monospace",
+        '--font-script': "'Pacifico', cursive",
+      },
+    };
+  }
+
+  renderVals() {
+    const TH = this.themes();
+    const dragonSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="none" stroke="#ff7a45" stroke-width="2.2" stroke-linecap="round"><path d="M7 60 L7 16 Q7 7 16 7 L60 7"/><path d="M7 28 L17 20 M7 40 L20 30 M18 7 L26 15 M30 7 L40 16"/></g><path d="M7 7 H22 L7 22 Z" fill="#ff7a45" opacity="0.45"/><circle cx="10" cy="10" r="2.6" fill="#ffcb3d"/></svg>';
+    const phoenixSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="none" stroke="#cf9a3f" stroke-width="1.7" stroke-linecap="round"><path d="M7 58 C7 30 19 9 52 7"/><path d="M12 46 C20 33 33 25 50 20"/><path d="M9 52 C18 38 33 28 54 15"/><path d="M30 14 q7 -6 16 -6 M40 21 q7 -4 15 -1 M21 25 q4 -9 11 -13"/></g><path d="M50 7 q9 0 9 9 q-9 0 -9 -9 Z" fill="#d8607b" opacity="0.55"/><circle cx="9" cy="56" r="2.4" fill="#d8607b"/></svg>';
+    TH.onyx['--corner'] = 'url("data:image/svg+xml,' + encodeURIComponent(dragonSvg) + '")';
+    TH.brocade['--corner'] = 'url("data:image/svg+xml,' + encodeURIComponent(phoenixSvg) + '")';
+    const mkWell = (vars) => Object.assign({}, vars, {
+      background: 'var(--ink-wash), var(--texture), var(--app-bg)', color: 'var(--ink)', fontFamily: 'var(--font-body)',
+      borderRadius: '14px', padding: '22px', border: '1px solid rgba(0,0,0,.1)',
+      flex: 1, minWidth: '380px', boxShadow: 'inset 0 0 50px rgba(0,0,0,.08)',
+    });
+    const slotShape = {
+      width: '64px', height: '64px', clipPath: 'var(--slot-clip)', borderRadius: 'var(--radius-lg)',
+      background: 'var(--accent-soft)', border: '2px solid var(--accent)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', color: 'var(--ink)',
+    };
+    const skins = [
+      { key: 'onyx', name: '玄铁', full: '暗黑金属硬核 · Vanguard', wellStyle: mkWell(TH.onyx), dotStyle: { width: '9px', height: '9px', borderRadius: '3px', background: 'var(--accent)' }, slotShape },
+      { key: 'brocade', name: '锦霞', full: '宫廷锦绣 · Aurora', wellStyle: mkWell(TH.brocade), dotStyle: { width: '9px', height: '9px', borderRadius: '3px', background: 'var(--accent)' }, slotShape },
+    ];
+
+    // component index
+    const idx = [
+      ['01', '按钮', 1], ['02', '血条', 1], ['03', '技能槽', 1], ['04', '面板', 1], ['05', '对话框', 1],
+      ['06', '菜单', 1], ['07', '通知', 1], ['08', '进度条', 1], ['09', '提示', 1], ['10', '标签', 1],
+      ['11', '图标角标', 1], ['12', '背包', 1], ['13', '小地图', 1], ['14', '头像框', 1], ['15', '名牌', 1],
+      ['16', '选项', 1], ['17', '标签栏', 1], ['18', '滑块', 1], ['19', '模态', 1], ['20', 'Toast', 1],
+    ];
+    const indexChips = idx.map(([n, cn, done]) => ({
+      n, cn,
+      style: {
+        display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 11px', borderRadius: '8px',
+        fontFamily: "'Rajdhani',sans-serif", fontWeight: 600, fontSize: '13px',
+        background: done ? '#23242e' : '#fff', color: done ? '#fff' : '#9a9ca8',
+        border: '1px solid ' + (done ? '#23242e' : '#e0e1e9'),
+      },
+    }));
+
+    // foundations
+    const colorTokens = [['底色 bg', '--app-bg'], ['面板 panel', '--panel-grad'], ['主色 accent', '--accent'], ['文字 ink', '--ink'], ['成功', '--success'], ['警告', '--warning'], ['危险', '--danger'], ['信息', '--info'], ['金 gold', '--gold']];
+    const colorSwatches = colorTokens.map(([label, v]) => ({
+      label, style: { height: '46px', borderRadius: '9px', background: 'var(' + v + ')', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.18), inset 0 0 0 2px rgba(0,0,0,.12)' },
+    }));
+    const typeSamples = [
+      { label: 'Display 花体', note: '--font-display', sample: '三分天下', style: { fontFamily: 'var(--font-display)', fontSize: '46px', lineHeight: 1.05, color: 'var(--ink)' } },
+      { label: 'Heading 标题', note: '--font-heading', sample: 'APOLLO KIT', style: { fontFamily: 'var(--font-heading)', fontSize: '26px', fontWeight: 700, letterSpacing: '.03em', color: 'var(--ink)' } },
+      { label: 'Body 正文', note: '--font-body', sample: '刷新商店 · 购买经验', style: { fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)' } },
+      { label: 'Number 数字', note: '--font-num', sample: '1443 / 52', style: { fontFamily: 'var(--font-num)', fontSize: '20px', color: 'var(--accent)' } },
+      { label: 'Script 点缀', note: '--font-script', sample: 'Victory!', style: { fontFamily: 'var(--font-script)', fontSize: '30px', color: 'var(--accent)' } },
+    ];
+    const radii = [['radius', '--radius'], ['btn', '--btn-radius'], ['lg', '--radius-lg']];
+    const radiusSamples = radii.map(([label, v]) => ({ label, style: { width: '64px', height: '50px', borderRadius: 'var(' + v + ')', background: 'var(--accent-soft)', border: '1px solid var(--accent)' } }));
+
+    // ---- button ----
+    const btnBase = { padding: '10px 22px', clipPath: 'var(--chamfer)', borderRadius: 'var(--btn-radius)', border: 'none', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '14px', letterSpacing: '.03em', cursor: 'pointer', transition: 'all .16s cubic-bezier(.2,.7,.3,1)' };
+    const btnPrimary = Object.assign({}, btnBase, { background: 'var(--accent-grad)', color: 'var(--accent-ink)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.32), 0 5px 14px var(--accent-soft)' });
+    const btnSecondary = Object.assign({}, btnBase, { background: 'var(--btn-bg)', color: 'var(--btn-text)', border: '1px solid var(--btn-edge)', boxShadow: 'inset 0 1px 0 var(--hairline)' });
+    const btnDanger = Object.assign({}, btnBase, { background: 'var(--danger)', color: '#fff', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.25), 0 5px 14px rgba(0,0,0,.2)' });
+    const liveHover = { filter: 'brightness(1.1)', transform: 'translateY(-2px)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.32), 0 9px 22px var(--accent-soft)' };
+    const secHover = { filter: 'brightness(1.06)', transform: 'translateY(-2px)', borderColor: 'var(--accent)' };
+    const livePress = { transform: 'translateY(1px) scale(.96)', filter: 'brightness(.93)' };
+    const liveFocus = { outline: 'none', boxShadow: '0 0 0 3px var(--accent-soft), 0 0 0 1px var(--accent)' };
+    const btnStates = [
+      { label: 'default', style: btnPrimary },
+      { label: 'hover', style: Object.assign({}, btnPrimary, liveHover) },
+      { label: 'press', style: Object.assign({}, btnPrimary, livePress) },
+      { label: 'focus', style: Object.assign({}, btnPrimary, { boxShadow: '0 0 0 3px var(--accent-soft), 0 0 0 1px var(--accent)' }) },
+      { label: 'disabled', style: Object.assign({}, btnPrimary, { opacity: .4, filter: 'grayscale(.4)', cursor: 'not-allowed', boxShadow: 'none' }) },
+    ];
+    const stLoading = Object.assign({}, btnPrimary, { color: 'transparent', position: 'relative', cursor: 'wait' });
+    const spinnerStyle = { position: 'absolute', top: '50%', left: '50%', width: '15px', height: '15px', marginTop: '-7.5px', marginLeft: '-7.5px', borderRadius: '50%', border: '2px solid rgba(255,255,255,.35)', borderTopColor: '#fff', animation: 'f-spin .7s linear infinite' };
+    const stateLabel = { fontSize: '10px', letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-dim)', fontFamily: 'var(--font-heading)', fontWeight: 600 };
+
+    // ---- bars ----
+    const barTrack = { height: '16px', borderRadius: 'var(--radius)', background: 'var(--track)', overflow: 'hidden', boxShadow: 'inset 0 1px 3px rgba(0,0,0,.3)', position: 'relative' };
+    const barFillHp = { position: 'absolute', inset: 0, width: '100%', background: 'var(--hp)', borderRadius: 'var(--radius)', boxShadow: '0 0 10px var(--hp)' };
+    const barFillLow = { position: 'absolute', inset: 0, width: '13%', background: 'var(--danger)', borderRadius: 'var(--radius)', boxShadow: '0 0 12px var(--danger)', animation: 'f-shake .5s ease-in-out infinite' };
+    const barFillMp = { position: 'absolute', inset: 0, width: '64%', background: 'var(--mp)', borderRadius: 'var(--radius)', boxShadow: '0 0 10px var(--mp)' };
+    const barOverlay = { position: 'absolute', inset: 0, background: 'var(--bar-overlay)', pointerEvents: 'none' };
+
+    // ---- skill slot ----
+    const slotBase = { width: '76px', height: '76px', clipPath: 'var(--slot-clip)', borderRadius: 'var(--radius-lg)', background: 'var(--panel-grad)', border: '2px solid var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '38px', lineHeight: 1, position: 'relative', color: 'var(--ink)' };
+    const slotReady = Object.assign({}, slotBase, { boxShadow: 'inset 0 0 0 1px var(--hairline), 0 0 18px var(--accent-soft)' });
+    const slotActive = Object.assign({}, slotBase, { boxShadow: 'inset 0 0 0 1px var(--hairline), 0 0 26px var(--accent)', animation: 'f-pulse 1.2s ease-in-out infinite' });
+    const slotCooldown = Object.assign({}, slotBase, { filter: 'saturate(.5) brightness(.78)' });
+    const slotDisabled = Object.assign({}, slotBase, { opacity: .4, filter: 'grayscale(.55)' });
+    const cooldownOverlay = { position: 'absolute', inset: 0, clipPath: 'var(--slot-clip)', borderRadius: 'var(--radius-lg)', background: 'conic-gradient(rgba(0,0,0,.62) 0 200deg, transparent 200deg 360deg)' };
+    const cdText = { position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-num)', fontSize: '20px', color: '#fff' };
+    const slotKey = { position: 'absolute', bottom: '-5px', right: '-5px', width: '20px', height: '20px', borderRadius: '6px', background: 'var(--accent)', color: 'var(--accent-ink)', fontFamily: 'var(--font-num)', fontSize: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' };
+
+    // neutral chrome
+    const pageStyle = { background: '#e9eaf0', minHeight: '100vh', padding: '40px 32px 70px', fontFamily: "'Noto Sans SC', sans-serif" };
+    const cardStyle = { background: '#fff', borderRadius: '18px', border: '1px solid #e3e4ec', boxShadow: '0 2px 16px rgba(40,40,70,.05)', padding: '24px 26px', marginBottom: '22px' };
+    const kickerStyle = { fontSize: '11px', letterSpacing: '.24em', textTransform: 'uppercase', color: '#b0b2bd', fontFamily: "'Rajdhani',sans-serif", fontWeight: 600 };
+    const cardTitleStyle = { fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, fontSize: '21px', color: '#23242e', marginTop: '2px', whiteSpace: 'nowrap' };
+    const cardDescStyle = { fontSize: '13.5px', color: '#74767f', marginTop: '7px', lineHeight: 1.5, maxWidth: '760px' };
+    const wellsRow = { display: 'flex', gap: '16px', marginTop: '18px', flexWrap: 'wrap' };
+    const skinTagStyle = { display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '12px', letterSpacing: '.06em', color: 'var(--ink-dim)', marginBottom: '16px', paddingBottom: '11px', borderBottom: '1px solid var(--panel-border)' };
+    const numBadge = { fontFamily: "'Silkscreen',monospace", fontSize: '12px', color: '#fff', background: '#23242e', borderRadius: '7px', padding: '4px 8px' };
+    const fontTagStyle = { fontFamily: "'Silkscreen',monospace", fontSize: '10px', color: '#9a6a3a', background: '#fbf0e4', border: '1px solid #f0dcc4', borderRadius: '6px', padding: '3px 8px', marginLeft: 'auto', whiteSpace: 'nowrap', flex: 'none' };
+    const titleEnStyle = { fontFamily: "'Rajdhani',sans-serif", fontWeight: 600, fontSize: '14px', color: '#a9abb6', letterSpacing: '.02em', whiteSpace: 'nowrap', flex: 'none' };
+    const compHeadStyle = { display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap' };
+
+    const cornerBase = { position: 'absolute', width: '56px', height: '56px', backgroundImage: 'var(--corner)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', pointerEvents: 'none' };
+    const cornerTL = Object.assign({}, cornerBase, { top: '8px', left: '8px' });
+    const cornerTR = Object.assign({}, cornerBase, { top: '8px', right: '8px', transform: 'scaleX(-1)' });
+    const cornerBL = Object.assign({}, cornerBase, { bottom: '8px', left: '8px', transform: 'scaleY(-1)' });
+    const cornerBR = Object.assign({}, cornerBase, { bottom: '8px', right: '8px', transform: 'scale(-1,-1)' });
+    const modalPanelStyle = { position: 'relative', clipPath: 'var(--chamfer)', width: '100%', maxWidth: '380px', margin: '0 auto', background: 'var(--panel-grad)', border: '1px solid var(--accent)', borderRadius: 'var(--radius-lg)', boxShadow: 'inset 0 0 0 1px var(--hairline), 0 24px 50px rgba(0,0,0,.4)', padding: '32px 28px' };
+
+    // ---- 04 panel ----
+    const panelDemo = { clipPath: 'var(--chamfer)', borderRadius: 'var(--radius)', overflow: 'hidden', background: 'var(--panel-grad)', border: '1px solid var(--panel-border)', boxShadow: 'inset 0 0 0 1px var(--hairline), var(--panel-shadow)' };
+    const panelHeaderStyle = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 15px', borderBottom: '1px solid var(--panel-border)', background: 'var(--chip-bg)' };
+    const panelClose = { width: '24px', height: '24px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ink-dim)', border: '1px solid var(--panel-border)', cursor: 'pointer', fontSize: '12px' };
+    // ---- 05 dialog ----
+    const dialogBox = { position: 'relative', clipPath: 'var(--chamfer)', display: 'flex', gap: '15px', padding: '16px 18px', borderRadius: 'var(--radius-lg)', background: 'var(--panel-grad)', border: '1px solid var(--accent)', boxShadow: 'inset 0 0 0 1px var(--hairline), 0 10px 26px rgba(0,0,0,.28)' };
+    const dialogPortrait = { width: '62px', height: '62px', flex: 'none', borderRadius: 'var(--radius)', background: 'var(--accent-soft)', border: '2px solid var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px' };
+    const dialogNameStyle = { display: 'inline-block', padding: '3px 14px', borderRadius: '99px', background: 'var(--accent-grad)', color: 'var(--accent-ink)', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '13px' };
+    // ---- 06 menu ----
+    const menuBase = { display: 'flex', alignItems: 'center', gap: '11px', padding: '11px 15px', clipPath: 'var(--chamfer)', borderRadius: 'var(--btn-radius)', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '15px', transition: 'all .15s' };
+    const menuData = [
+      { icon: '▶', label: '继续游戏', tag: 'default', style: Object.assign({}, menuBase, { background: 'var(--chip-bg)', color: 'var(--ink)', border: '1px solid var(--panel-border)', cursor: 'pointer' }) },
+      { icon: '⚙', label: '设置', tag: 'selected', style: Object.assign({}, menuBase, { background: 'var(--accent-grad)', color: 'var(--accent-ink)', border: '1px solid var(--accent)', boxShadow: '0 4px 12px var(--accent-soft)', cursor: 'pointer' }) },
+      { icon: '🏆', label: '成就', tag: '', style: Object.assign({}, menuBase, { background: 'var(--chip-bg)', color: 'var(--ink)', border: '1px solid var(--panel-border)', cursor: 'pointer' }) },
+      { icon: '⏻', label: '退出', tag: 'disabled', style: Object.assign({}, menuBase, { background: 'transparent', color: 'var(--ink-dim)', border: '1px solid var(--panel-border)', opacity: .42, cursor: 'not-allowed' }) },
+    ];
+    // ---- 07 notification ----
+    const notiBase = { display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 15px', borderRadius: 'var(--radius)' };
+    const notiData = [['✓', '保存成功', '阵容已同步', 'var(--success)'], ['!', '金币不足', '刷新需 2 金', 'var(--warning)'], ['✕', '连接断开', '正在重连…', 'var(--danger)']].map(([ic, t, s, c]) => ({ icon: ic, label: t, sub: s, style: Object.assign({}, notiBase, { background: 'var(--chip-bg)', border: '1px solid var(--panel-border)', borderLeft: '3px solid ' + c }), iconStyle: { width: '26px', height: '26px', borderRadius: '50%', flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', background: c, color: '#fff', fontWeight: 700, fontSize: '13px' } }));
+    // ---- 08 progress ----
+    const progFillLoad = { width: '64%', height: '100%', background: 'var(--accent-grad)', borderRadius: 'var(--radius)' };
+    const progFillXp = { width: '40%', height: '100%', background: 'var(--xp)', borderRadius: 'var(--radius)' };
+    // ---- 09 tooltip ----
+    const tooltipBox = { position: 'relative', maxWidth: '230px', padding: '11px 14px', borderRadius: 'var(--radius)', background: 'var(--panel-grad)', border: '1px solid var(--accent)', boxShadow: 'inset 0 0 0 1px var(--hairline), 0 8px 20px rgba(0,0,0,.3)' };
+    const tooltipArrow = { position: 'absolute', bottom: '-7px', left: '26px', width: '12px', height: '12px', background: 'var(--panel-grad)', borderRight: '1px solid var(--accent)', borderBottom: '1px solid var(--accent)', transform: 'rotate(45deg)' };
+    // ---- 10 label ----
+    const qualTags = [['普通', '#9aa6b2'], ['稀有', '#3a9bff'], ['史诗', '#bf6bff'], ['传说', 'var(--gold)']].map(([t, c]) => ({ label: t, style: { fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '12px', padding: '4px 13px', borderRadius: '99px', color: c, border: '1px solid ' + c, background: 'var(--chip-bg)' } }));
+    // ---- 11 icon-badge ----
+    const iconBox = { position: 'relative', width: '52px', height: '52px', clipPath: 'var(--chamfer)', borderRadius: 'var(--radius)', background: 'var(--panel-grad)', border: '1px solid var(--panel-border)', boxShadow: 'inset 0 0 0 1px var(--hairline)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Ma Shan Zheng',cursive", fontSize: '27px', color: 'var(--gold)' };
+    const badgeData = [['信', '5', ''], ['囊', '', 'dot'], ['铃', '99+', ''], ['礼', 'NEW', '']].map(([ic, ct, dot]) => ({ icon: ic, count: ct, isDot: dot === 'dot', countStyle: { position: 'absolute', top: '-7px', right: '-7px', minWidth: '20px', height: '20px', padding: '0 6px', borderRadius: '99px', background: 'var(--danger)', color: '#fff', fontFamily: 'var(--font-num)', fontSize: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--panel-grad)' }, dotStyle: { position: 'absolute', top: '-3px', right: '-3px', width: '12px', height: '12px', borderRadius: '50%', background: 'var(--success)', border: '2px solid var(--panel-grad)' } }));
+
+    // ---- 12 inventory ----
+    const invData = [['刀', 'var(--gold)'], ['盾', '#bf6bff'], ['符', '#3a9bff'], ['印', '#9aa6b2'], ['', ''], ['', '']].map(([ic, q]) => ({ icon: ic, style: { width: '56px', height: '56px', clipPath: 'var(--chamfer)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Ma Shan Zheng',cursive", fontSize: '31px', color: q || '#fff', background: ic ? 'var(--panel-grad)' : 'transparent', border: ic ? ('2px solid ' + q) : '1px dashed var(--panel-border)', boxShadow: ic ? ('0 0 12px ' + q + '55, inset 0 0 0 1px var(--hairline)') : 'none' } }));
+    // ---- 13 mini-map ----
+    const mapFrame = { position: 'relative', width: '210px', height: '150px', clipPath: 'var(--chamfer)', borderRadius: 'var(--radius)', overflow: 'hidden', border: '2px solid var(--accent)', background: 'linear-gradient(135deg,var(--accent-soft),var(--chip-bg))', boxShadow: 'inset 0 0 0 1px var(--hairline)' };
+    const blip = (c, x, y, sz) => ({ position: 'absolute', left: x, top: y, width: sz, height: sz, borderRadius: '50%', background: c, boxShadow: '0 0 8px ' + c });
+    const mapBlips = [blip('var(--accent)', '46%', '56%', '13px'), blip('var(--danger)', '70%', '26%', '9px'), blip('var(--danger)', '80%', '40%', '9px'), blip('var(--success)', '28%', '40%', '9px')];
+    const mapTerrain = [{ position: 'absolute', left: '0', top: '0', width: '55%', height: '45%', background: 'rgba(120,160,200,.1)' }, { position: 'absolute', right: '0', bottom: '0', width: '50%', height: '42%', background: 'rgba(120,160,200,.08)' }];
+    // ---- 14 avatar-frame ----
+    const avatarRing = { position: 'relative', width: '80px', height: '80px', borderRadius: '50%', background: 'var(--accent-grad)', padding: '4px', boxShadow: '0 0 18px var(--accent-soft)' };
+    const avatarInner = { width: '100%', height: '100%', borderRadius: '50%', background: 'var(--panel-grad)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '34px' };
+    const avatarLv = { position: 'absolute', bottom: '-4px', left: '50%', transform: 'translateX(-50%)', padding: '2px 11px', borderRadius: '99px', background: 'var(--accent-grad)', color: 'var(--accent-ink)', fontFamily: 'var(--font-num)', fontSize: '10px', border: '2px solid var(--panel-grad)' };
+    const avatarDot = { position: 'absolute', top: '5px', right: '5px', width: '15px', height: '15px', borderRadius: '50%', background: 'var(--success)', border: '2px solid var(--panel-grad)' };
+    // ---- 15 name-plate ----
+    const npData = [['关羽', '武圣', '#d8504e', '42'], ['周瑜', '大都督', '#3fae6e', '38']].map(([n, t, c, lv]) => ({ name: n, title: t, lv: lv, ch: n[0], style: { display: 'flex', alignItems: 'center', gap: '11px', padding: '7px 16px 7px 7px', borderRadius: '99px', background: 'var(--panel-grad)', border: '1px solid var(--panel-border)', boxShadow: 'inset 0 0 0 1px var(--hairline)' }, av: { width: '40px', height: '40px', borderRadius: '50%', flex: 'none', background: 'linear-gradient(160deg,' + c + 'ee,' + c + '99)', border: '2px solid ' + c, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontFamily: 'var(--font-display)', fontSize: '20px' }, titleStyle: { fontSize: '11px', color: c, fontWeight: 700 }, lvStyle: { marginLeft: 'auto', fontFamily: 'var(--font-num)', fontSize: '12px', color: 'var(--gold)' } }));
+    // ---- 16 choice-option ----
+    const chBase = { width: '100%', padding: '14px 20px', borderRadius: '99px', fontFamily: 'var(--font-body)', fontSize: '15px', textAlign: 'left', transition: 'all .16s', cursor: 'pointer' };
+    const choiceData = [
+      { label: '「联吴抗曹，共谋大业」', tag: 'default', style: Object.assign({}, chBase, { background: 'var(--chip-bg)', color: 'var(--ink)', border: '1px solid var(--panel-border)' }) },
+      { label: '「按兵不动，静观其变」', tag: 'hover', style: Object.assign({}, chBase, { background: 'var(--accent-soft)', color: 'var(--ink)', border: '1px solid var(--accent)', transform: 'translateX(5px)', boxShadow: '0 4px 14px var(--accent-soft)' }) },
+      { label: '「修书一封，约定火攻」', tag: 'selected', style: Object.assign({}, chBase, { background: 'var(--accent-grad)', color: 'var(--accent-ink)', border: '1px solid var(--accent)' }) },
+      { label: '「暂无此选项」', tag: 'disabled', style: Object.assign({}, chBase, { background: 'transparent', color: 'var(--ink-dim)', border: '1px solid var(--panel-border)', opacity: .42, cursor: 'not-allowed' }) },
+    ];
+    // ---- 17 tab-bar ----
+    const tabData = [['概览', 1], ['阵容', 0], ['商店', 0], ['战绩', 0]].map(([t, on]) => ({ label: t, style: { position: 'relative', padding: '11px 18px', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '15px', cursor: 'pointer', color: on ? 'var(--accent)' : 'var(--ink-dim)' }, bar: { position: 'absolute', left: '14px', right: '14px', bottom: '-1px', height: '3px', borderRadius: '99px', background: on ? 'var(--accent-grad)' : 'transparent' } }));
+    // ---- 18 slider ----
+    const sliderData = [['音效', 72], ['音乐', 45]].map(([l, v]) => ({ label: l, val: String(v), track: { position: 'relative', height: '8px', borderRadius: '99px', background: 'var(--track)' }, fill: { position: 'absolute', left: 0, top: 0, height: '100%', width: v + '%', borderRadius: '99px', background: 'var(--accent-grad)' }, handle: { position: 'absolute', top: '50%', left: v + '%', transform: 'translate(-50%,-50%)', width: '18px', height: '18px', borderRadius: '50%', background: '#fff', border: '2px solid var(--accent)', boxShadow: '0 2px 8px rgba(0,0,0,.35)' } }));
+    // ---- 20 toast ----
+    const toastData = [['✓', '获得装备 · 青龙偃月刀', 'var(--success)'], ['★', '赵云 升至 2 星！', 'var(--gold)']].map(([ic, t, c]) => ({ icon: ic, label: t, style: { display: 'flex', alignItems: 'center', gap: '11px', padding: '12px 18px', borderRadius: 'var(--radius)', background: 'var(--panel-grad)', border: '1px solid var(--accent)', boxShadow: 'inset 0 0 0 1px var(--hairline), 0 10px 24px rgba(0,0,0,.32)' }, iconStyle: { width: '24px', height: '24px', borderRadius: '50%', flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', background: c, color: '#fff', fontSize: '13px', fontWeight: 700 } }));
+
+    // ---- 五行 Wu Xing element grading (跨 小丑牌×金铲铲×炉石) ----
+    const wxCARDTOP = 'polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%, 0 12px)';
+    const wxEle = [
+      { k: '金', en: 'Metal', col: '#e8d49a', glow: '#f6ecc4', mult: 4, role: '物理 · 暴击' },
+      { k: '木', en: 'Wood', col: '#5fb98a', glow: '#9be8bd', mult: 2, role: '治疗 · 成长' },
+      { k: '水', en: 'Water', col: '#4f97d8', glow: '#9ccdf5', mult: 3, role: '控制 · 法力' },
+      { k: '火', en: 'Fire', col: '#e85a3c', glow: '#ff9268', mult: 5, role: '爆发 · 灼烧' },
+      { k: '土', en: 'Earth', col: '#cf9a4e', glow: '#ecc684', mult: 2, role: '护盾 · 嘲讽' },
+    ];
+    const wuxing = wxEle.map((e) => ({
+      k: e.k, en: e.en, role: e.role, multText: '×' + e.mult,
+      card: { flex: 1, minWidth: 0, clipPath: wxCARDTOP, background: 'linear-gradient(160deg,' + e.glow + ',' + e.col + ')', padding: '2px', boxShadow: '0 6px 16px rgba(0,0,0,.45), 0 0 14px ' + e.col + '44' },
+      inner: { position: 'relative', clipPath: wxCARDTOP, background: 'radial-gradient(95% 70% at 50% 0%, ' + e.col + '40, transparent 62%), linear-gradient(170deg,#17232f,#0b121b)', padding: '12px 8px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', minHeight: '146px', overflow: 'hidden' },
+      pip: { position: 'absolute', top: '7px', left: '9px', fontFamily: "'Ma Shan Zheng',cursive", fontSize: '15px', color: e.glow, lineHeight: 1 },
+      mult: { position: 'absolute', top: '6px', right: '8px', fontFamily: "'Silkscreen',monospace", fontSize: '11px', padding: '2px 6px', borderRadius: '99px', background: 'linear-gradient(180deg,#f5e6ad,#c69a44)', color: '#1a1208' },
+      glyphBox: { marginTop: '12px', width: '54px', height: '54px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', background: 'radial-gradient(circle,' + e.col + '33, transparent 70%)' },
+      glyphStyle: { fontFamily: "'Ma Shan Zheng',cursive", fontSize: '42px', lineHeight: 1, color: e.glow, textShadow: '0 0 14px ' + e.col + 'aa' },
+      nameStyle: { fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, fontSize: '13px', letterSpacing: '.05em', color: e.glow },
+      roleStyle: { fontSize: '10px', color: '#9aa6b4', textAlign: 'center' },
+    }));
+    const wxByK = {}; wxEle.forEach((e) => { wxByK[e.k] = e; });
+    const shengChain = ['金', '水', '木', '火', '土'].map((k) => {
+      const e = wxByK[k];
+      return { k, seal: { width: '38px', height: '38px', flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(150deg,' + e.glow + ',' + e.col + ')', clipPath: 'polygon(8% 4%,96% 0,100% 92%,4% 100%)', color: '#1a1208', fontFamily: "'Ma Shan Zheng',cursive", fontSize: '22px', boxShadow: '0 0 12px ' + e.col + '77' } };
+    });
+
+    return {
+      wuxing, shengChain,
+      pageStyle, cardStyle, kickerStyle, cardTitleStyle, cardDescStyle, wellsRow, skinTagStyle, numBadge, fontTagStyle,
+      titleEnStyle, compHeadStyle, cornerTL, cornerTR, cornerBL, cornerBR, modalPanelStyle,
+      panelDemo, panelHeaderStyle, panelClose, dialogBox, dialogPortrait, dialogNameStyle, menuData, notiData, progFillLoad, progFillXp, tooltipBox, tooltipArrow, qualTags, iconBox, badgeData,
+      invData, mapFrame, mapBlips, mapTerrain, avatarRing, avatarInner, avatarLv, avatarDot, npData, choiceData, tabData, sliderData, toastData,
+      skins, indexChips, colorSwatches, typeSamples, radiusSamples,
+      btnPrimary, btnSecondary, btnDanger, liveHover, secHover, livePress, liveFocus, btnStates, stLoading, spinnerStyle, stateLabel,
+      barTrack, barFillHp, barFillLow, barFillMp, barOverlay,
+      slotReady, slotActive, slotCooldown, slotDisabled, cooldownOverlay, cdText, slotKey,
+    };
+  }
+}
+</script>
+</body>
+</html>

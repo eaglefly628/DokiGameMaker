@@ -1,0 +1,73 @@
+/* ============================================================
+   ZeroCraft · Game F UI — 锦霞 (Aurora) 主题 tokens
+   偏女性向 · 宫廷锦绣
+   用法: 挂在皮肤根容器上 (e.g. <div data-theme="brocade">),
+        子元素一律 var(--token)。两套皮肤 token 同名不同值。
+   ============================================================ */
+[data-theme="brocade"] {
+  /* —— 背景 / 容器 —— */
+  --app-bg: radial-gradient(120% 120% at 50% -10%, #fdf4ee 0%, #f3e2dc 60%, #ecd6cf 100%);
+  --texture: radial-gradient(circle, rgba(201,148,72,.16) 1px, transparent 1.7px) 0 0 / 26px 26px,
+             radial-gradient(circle, rgba(216,96,123,.10) 1px, transparent 1.6px) 13px 13px / 26px 26px,
+             repeating-linear-gradient(45deg, rgba(201,148,72,.07) 0 1px, transparent 1px 26px),
+             repeating-linear-gradient(-45deg, rgba(201,148,72,.07) 0 1px, transparent 1px 26px);
+  --hud-bg: linear-gradient(180deg, rgba(255,250,244,.96), rgba(251,238,229,.9));
+  --dock-bg: linear-gradient(180deg, rgba(255,250,244,.72), rgba(250,236,225,.98));
+  --panel-grad: linear-gradient(180deg, #fffdfa, #fbeee4);
+  --panel-border: #e3c896;
+  --panel-shadow: inset 0 1px 0 #fff, 0 10px 24px rgba(176,120,92,.16);
+  --hairline: rgba(216,164,78,.4);
+  --chip-bg: rgba(255,255,255,.55);
+  --track: rgba(150,110,90,.18);
+
+  /* —— 文字 —— */
+  --ink: #5a3f44;
+  --ink-dim: #a98b8f;
+
+  /* —— 主色 / 语义 —— */
+  --accent: #d8607b;
+  --accent-grad: linear-gradient(180deg, #e887a0, #cf5070);
+  --accent-soft: rgba(216,96,123,.16);
+  --accent-ink: #fff;
+  --success: #54ad8e;
+  --warning: #e0a94e;
+  --danger:  #d65668;
+  --info:    #8aa0e6;
+  --hp: #54ad8e; --mp: #8aa0e6; --xp: #c98fc4;
+  --gold: #cf9a3f; --gold-chip: rgba(207,154,63,.12);
+  --seal-edge: #d8a44e;
+
+  /* —— 棋子费用色 —— */
+  --cost1: #b0a496; --cost2: #62b594; --cost3: #7aa1dd; --cost4: #c189d2; --cost5: #dba94e;
+  --star: #dba94e;
+
+  /* —— 形状 —— */
+  --radius: 14px;                                /* 圆 */
+  --btn-radius: 16px;
+  --radius-lg: 20px;
+  --slot-clip: none;                             /* 用圆角代替切角 */
+  --bar-overlay: none;
+
+  /* —— 按钮 —— */
+  --btn-bg: linear-gradient(180deg, #fffaf4, #fbece1);
+  --btn-edge: #ecd3b2;
+  --btn-text: #6a4a4f;
+  --ready-bg: linear-gradient(180deg, #ec9f6f, #d77a86);
+  --ready-text: #fff;
+  --ready-shadow: 0 8px 24px rgba(208,120,120,.4), inset 0 1px 0 rgba(255,255,255,.6);
+
+  /* —— 字体(按组件可配置) —— */
+  --font-display: 'Ma Shan Zheng', cursive;      /* 大标题 / 玉印字心 · 行楷 */
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body:    'Noto Serif SC', serif;
+  --font-num:     'Silkscreen', monospace;
+  --font-script:  'Pacifico', cursive;
+}
+
+/* 势力 / 所有权色(内容色,两套皮肤通用) */
+:root {
+  --fac-shu: #d8504e;
+  --fac-wu:  #3fae6e;
+  --fac-wei: #3a86d4;
+  --fac-qun: #9b6dd8;
+}

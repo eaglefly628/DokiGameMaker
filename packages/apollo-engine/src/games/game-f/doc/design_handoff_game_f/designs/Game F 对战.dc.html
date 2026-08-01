@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Rajdhani:wght@500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&family=Zhi+Mang+Xing&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #d9dae2; }
+  @keyframes f-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes f-pulse { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+  @keyframes f-shimmer { 0% { background-position: -120% 0; } 100% { background-position: 220% 0; } }
+  @keyframes f-spin { to { transform: rotate(360deg); } }
+</style>
+</helmet>
+
+<div style="{{ rootStyle }}">
+
+  <!-- toolbar -->
+  <div style="display:flex; align-items:center; gap:14px; padding:13px 22px; flex-wrap:wrap;">
+    <div style="display:flex; flex-direction:column; gap:1px;">
+      <div style="font-family:var(--font-heading); font-weight:700; font-size:16px; color:var(--ink); letter-spacing:.03em;">GAME F · 对战界面</div>
+      <div style="font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-dim);">Flat Board · 1280×720</div>
+    </div>
+    <div style="flex:1;"></div>
+    <span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim);">模式</span>
+    <div style="display:flex; background:var(--seg-track); border:1px solid var(--seg-edge); border-radius:11px; padding:3px;">
+      <button onClick="{{ pickSolo }}" style="{{ segSolo }}">单人</button>
+      <button onClick="{{ pickMulti }}" style="{{ segMulti }}">3人联机</button>
+    </div>
+    <span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim); margin-left:6px;">皮肤</span>
+    <div style="display:flex; background:var(--seg-track); border:1px solid var(--seg-edge); border-radius:11px; padding:3px;">
+      <button onClick="{{ pickOnyx }}" style="{{ segOnyx }}">玄铁</button>
+      <button onClick="{{ pickBrocade }}" style="{{ segBrocade }}">锦霞</button>
+    </div>
+  </div>
+
+  <!-- frame -->
+  <div style="margin:0 22px 26px; width:1280px; height:720px; overflow:hidden; border-radius:14px; box-shadow:0 24px 60px rgba(0,0,0,.35);">
+  <div style="width:1920px; height:1080px; transform:scale(0.66667); transform-origin:top left; position:relative; overflow:hidden; background:var(--app-bg); color:var(--ink); font-family:var(--font-body);">
+    <div style="position:absolute; inset:0; background:var(--texture); pointer-events:none;"></div>
+
+    <!-- ===== TOP HUD ===== -->
+    <div style="position:absolute; top:0; left:0; right:0; height:90px; display:flex; align-items:center; gap:20px; padding:0 30px; background:var(--hud-bg); border-bottom:1px solid var(--panel-border); z-index:8;">
+      <div style="display:flex; align-items:center; gap:16px;">
+        <div style="display:flex; flex-direction:column; line-height:1;">
+          <span style="font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-dim);">STAGE</span>
+          <span style="font-family:var(--font-num); font-size:28px; color:var(--ink); margin-top:5px;">2-3</span>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <sc-for list="{{ roundPips }}" as="p" hint-placeholder-count="7"><div style="{{ p.style }}"></div></sc-for>
+        </div>
+      </div>
+
+      <div style="flex:1; display:flex; justify-content:center;">
+        <div style="{{ phaseBanner }}">{{ phaseLabel }}</div>
+      </div>
+
+      <!-- timer -->
+      <div style="display:flex; flex-direction:column; align-items:center; line-height:1; padding:0 8px;">
+        <span style="font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-dim);">{{ timerLabel }}</span>
+        <span style="font-family:var(--font-num); font-size:28px; color:var(--timer-color); margin-top:5px;">{{ timerText }}</span>
+      </div>
+
+      <!-- right: my profile (always) -->
+      <div style="display:flex; align-items:center; gap:14px; min-width:300px; justify-content:flex-end;">
+        <div style="display:flex; flex-direction:column; align-items:flex-end; line-height:1.1;">
+          <span style="font-family:var(--font-heading); font-weight:700; font-size:16px; color:var(--ink);">主公 · 玄德</span>
+          <div style="display:flex; align-items:center; gap:7px; margin-top:5px;">
+            <div style="width:130px; height:10px; border-radius:99px; background:var(--track); overflow:hidden; border:1px solid var(--panel-border);"><div style="width:74%; height:100%; background:var(--hp); border-radius:99px;"></div></div>
+            <span style="font-family:var(--font-num); font-size:13px; color:var(--hp);">74</span>
+          </div>
+        </div>
+        <div style="width:52px; height:52px; border-radius:50%; background:var(--protag-bg); border:2px solid var(--accent); box-shadow:0 0 14px var(--accent-soft); display:flex; align-items:center; justify-content:center; font-size:26px;">🐢</div>
+        <div style="display:flex; align-items:center; gap:6px; padding:7px 13px; border-radius:11px; background:var(--chip-bg); border:1px solid var(--panel-border);">
+          <span style="font-family:var(--font-heading); font-weight:700; font-size:13px; color:var(--accent);">3连胜</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LEFT RAIL · 单人相关(羪统 / 强化 / 装备) ===== -->
+    <div style="position:absolute; top:106px; left:18px; width:264px; bottom:164px; display:flex; flex-direction:column; gap:11px; overflow-y:auto; padding-right:4px;">
+      <div style="font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-dim); padding:2px 4px;">羁绊 · Synergies</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <sc-for list="{{ synergies }}" as="s" hint-placeholder-count="5">
+          <div style="{{ s.row }}">
+            <div style="{{ s.icon }}">{{ s.glyph }}</div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; justify-content:space-between; align-items:baseline;">
+                <span style="font-family:var(--font-heading); font-weight:700; font-size:15px; color:var(--ink);">{{ s.name }}</span>
+                <span style="font-family:var(--font-num); font-size:12px; color:{{ s.cc }};">{{ s.count }}</span>
+              </div>
+              <div style="display:flex; gap:4px; margin-top:6px;">
+                <sc-for list="{{ s.ticks }}" as="t" hint-placeholder-count="3"><div style="{{ t.style }}"></div></sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="{{ panel }}">
+        <div style="{{ panelHead }}">强化符文</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="{{ augRow }}"><span style="font-size:18px;">⚔️</span><div><div style="font-family:var(--font-heading); font-weight:700; font-size:14px; color:var(--ink);">桃园结义</div><div style="font-size:11px; color:var(--ink-dim);">蜀阵容 +12% 攻击</div></div></div>
+          <div style="{{ augRow }}"><span style="font-size:18px;">💰</span><div><div style="font-family:var(--font-heading); font-weight:700; font-size:14px; color:var(--ink);">屯田积粮</div><div style="font-size:11px; color:var(--ink-dim);">每回合 +3 金</div></div></div>
+        </div>
+      </div>
+      <div style="{{ panel }}">
+        <div style="{{ panelHead }}">装备 · 锦囊</div>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:9px;">
+          <sc-for list="{{ items }}" as="it" hint-placeholder-count="8"><div style="{{ it.style }}">{{ it.glyph }}</div></sc-for>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CENTER · flat board + bench ===== -->
+    <div style="position:absolute; top:100px; left:298px; right:298px; bottom:164px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;">
+      <!-- enemy banner -->
+      <div style="display:flex; align-items:center; gap:9px; margin-bottom:14px;">
+        <span style="width:8px; height:8px; border-radius:2px; background:#3a86d4; box-shadow:0 0 8px #3a86d4;"></span>
+        <span style="font-family:var(--font-heading); font-weight:600; font-size:14px; color:var(--ink-dim); letter-spacing:.04em;">魏 · 董卓先锋 — Lv 6 · 38血</span>
+      </div>
+      <!-- platform -->
+      <div style="{{ platform }}">
+        <div style="position:absolute; inset:0; border-radius:inherit; background:var(--platform-glow); pointer-events:none;"></div>
+        <div style="position:relative;">
+          <sc-for list="{{ boardRows }}" as="row" hint-placeholder-count="8">
+            <div style="{{ row.style }}">
+              <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="7">
+                <div style="{{ cellWrap }}">
+                  <div style="{{ cell.outer }}"></div>
+                  <div style="{{ cell.inner }}"></div>
+                  <sc-if value="{{ cell.piece }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;">
+                      <div style="display:flex; gap:2px; height:8px;">
+                        <sc-for list="{{ cell.piece.stars }}" as="st" hint-placeholder-count="2"><div style="{{ cell.piece.starStyle }}"></div></sc-for>
+                      </div>
+                      <div style="{{ cell.piece.av }}"><span style="{{ cell.piece.gs }}">{{ cell.piece.glyph }}</span></div>
+                      <div style="width:54px; height:5px; border-radius:99px; background:rgba(0,0,0,.4); overflow:hidden; margin-top:1px;"><div style="{{ cell.piece.hp }}"></div></div>
+                      <div style="width:54px; height:4px; border-radius:99px; background:rgba(0,0,0,.4); overflow:hidden;"><div style="{{ cell.piece.mp }}"></div></div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+          <div style="position:absolute; left:130px; top:430px; width:20px; height:20px; border-radius:50%; background:var(--gold); box-shadow:0 0 13px var(--gold); animation:f-float 2.4s ease-in-out infinite;"></div>
+        </div>
+      </div>
+      <!-- bench (aligned under board) -->
+      <div style="display:flex; align-items:center; gap:9px; padding:9px 14px; border-radius:16px; background:var(--dock-bg); border:1px solid var(--panel-border); box-shadow:inset 0 0 0 1px var(--hairline);">
+        <span style="font-family:var(--font-heading); font-weight:700; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-dim); writing-mode:vertical-rl; transform:rotate(180deg);">备战席</span>
+        <sc-for list="{{ bench }}" as="b" hint-placeholder-count="9">
+          <div style="{{ b.slot }}">
+            <sc-if value="{{ b.piece }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+                <div style="{{ b.av }}"><span style="{{ b.gs }}">{{ b.glyph }}</span></div>
+                <div style="display:flex; gap:2px;"><sc-for list="{{ b.stars }}" as="st" hint-placeholder-count="1"><div style="{{ b.starStyle }}"></div></sc-for></div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- ===== RIGHT RAIL · 多人相关(玩家名单 + 战况点图) ===== -->
+    <div style="position:absolute; top:106px; right:18px; width:264px; bottom:164px; display:flex; flex-direction:column; gap:11px;">
+      <!-- solo: 当前对手 -->
+      <sc-if value="{{ isSolo }}" hint-placeholder-val="{{ true }}">
+        <div style="font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-dim); padding:2px 4px;">当前对手 · Opponent</div>
+        <div style="{{ soloOpponent.card }}">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="{{ soloOpponent.av }}">{{ soloOpponent.name }}</div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-family:var(--font-heading); font-weight:700; font-size:15px; color:var(--ink);">{{ soloOpponent.name }}先锋</span>
+                <span style="{{ soloOpponent.facTag }}">魏</span>
+                <span style="{{ soloOpponent.humanTag }}">{{ soloOpponent.humanText }}</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px; margin-top:5px;">
+                <div style="flex:1; height:8px; border-radius:99px; background:var(--track); overflow:hidden;"><div style="{{ soloOpponent.hpFill }}"></div></div>
+                <span style="font-family:var(--font-num); font-size:11px; color:var(--danger);">{{ soloOpponent.hpText }}</span>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:11px; border-radius:10px; background:var(--panel-grad); border:1px solid var(--panel-border); padding:11px 11px 13px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"><span style="font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim);">敌方战场</span><span style="{{ soloOpponent.readyStyle }}"><span style="{{ soloOpponent.readyDot }}"></span>{{ soloOpponent.readyText }}</span></div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <sc-for list="{{ soloOpponent.rows }}" as="r" hint-placeholder-count="4">
+                <div style="{{ r.style }}"><sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="7"><div style="{{ c.style }}"></div></sc-for></div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="{{ panel }}">
+          <div style="{{ panelHead }}">本阶段目标</div>
+          <div style="display:flex; align-items:flex-start; gap:10px;">
+            <div style="width:34px; height:34px; flex:none; border-radius:9px; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; color:var(--accent); font-family:var(--font-num); font-size:13px;">★</div>
+            <div style="font-size:13px; color:var(--ink); line-height:1.45;">击破「董卓先锋」<br><span style="color:var(--ink-dim); font-size:12px;">守住主公血线</span></div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- multi: 玩家名单 + 战况点图 -->
+      <sc-if value="{{ isMulti }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; align-items:center; gap:9px; padding:2px 4px;">
+          <span style="font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-dim);">对战玩家</span>
+          <span style="font-family:var(--font-num); font-size:12px; color:var(--accent);">{{ rosterCount }}</span>
+          <div style="flex:1;"></div>
+          <button onClick="{{ toggleBoards }}" style="{{ toggleBtn }}" style-hover="{{ econHover }}" style-active="{{ btnPress }}">{{ toggleLabel }}</button>
+        </div>
+        <div style="{{ rosterScroll }}">
+          <sc-for list="{{ roster }}" as="p" hint-placeholder-count="7">
+            <div style="{{ p.card }}">
+              <div style="display:flex; align-items:center; gap:9px;">
+                <div style="{{ p.av }}">{{ p.name }}</div>
+                <div style="flex:1; min-width:0;">
+                  <div style="display:flex; align-items:center; gap:5px;">
+                    <span style="font-family:var(--font-heading); font-weight:700; font-size:14px; color:var(--ink);">{{ p.name }}</span>
+                    <span style="{{ p.facTag }}">·</span>
+                    <span style="{{ p.humanTag }}">{{ p.humanText }}</span>
+                    <span style="{{ p.placeStyle }}">{{ p.placeText }}</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:6px; margin-top:5px;">
+                    <div style="flex:1; height:7px; border-radius:99px; background:var(--track); overflow:hidden;"><div style="{{ p.hpFill }}"></div></div>
+                    <span style="font-family:var(--font-num); font-size:10px; color:var(--ink-dim);">{{ p.hpText }}</span>
+                    <span style="{{ p.readyStyle }}"><span style="{{ p.readyDot }}"></span>{{ p.readyText }}</span>
+                  </div>
+                </div>
+              </div>
+              <sc-if value="{{ boardsOpen }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top:10px; border-radius:9px; background:var(--panel-grad); border:1px solid var(--panel-border); padding:9px; display:flex; flex-direction:column; align-items:center;">
+                  <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="4">
+                    <div style="{{ r.style }}"><sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="7"><div style="{{ c.style }}"></div></sc-for></div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+
+    <!-- ===== BOTTOM BAR (slim) ===== -->
+    <div style="position:absolute; left:0; right:0; bottom:0; height:152px; background:var(--dock-bg); border-top:1px solid var(--panel-border); padding:18px 30px; z-index:7; display:flex; align-items:stretch; gap:16px;">
+      <!-- economy -->
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="display:flex; align-items:center; gap:9px; padding:0 16px; height:100%; border-radius:14px; background:var(--gold-chip); border:1px solid var(--gold);">
+          <span style="font-size:22px;">🪙</span><span style="font-family:var(--font-num); font-size:28px; color:var(--gold);">52</span>
+        </div>
+        <div style="display:flex; flex-direction:column; justify-content:center; gap:7px; padding:0 16px; height:100%; border-radius:14px; background:var(--chip-bg); border:1px solid var(--panel-border); min-width:128px;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-family:var(--font-heading); font-weight:700; font-size:15px; color:var(--ink);">等级 6</span><span style="font-family:var(--font-num); font-size:11px; color:var(--ink-dim);">20/36</span></div>
+          <div style="height:8px; border-radius:99px; background:var(--track); overflow:hidden;"><div style="width:56%; height:100%; background:var(--xp); border-radius:99px;"></div></div>
+        </div>
+        <button style="{{ econBtnTall }}" style-hover="{{ econHover }}" style-active="{{ btnPress }}">买经验<br><span style="font-family:var(--font-num); font-size:11px; color:var(--gold);">4金</span></button>
+      </div>
+
+      <!-- 招募商店 trigger -->
+      <button onClick="{{ openShop }}" style="{{ shopTriggerStyle }}" style-hover="{{ shopTriggerHover }}" style-active="{{ btnPress }}">
+        <span style="position:absolute; inset:0; border-radius:inherit; background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.18) 50%,transparent 62%); background-size:230% 100%; animation:f-shimmer 3.6s ease-in-out infinite; pointer-events:none;"></span>
+        <div style="position:relative; display:flex; align-items:center; gap:12px;">
+          <span style="font-size:28px;">🏯</span>
+          <div style="display:flex; flex-direction:column; align-items:flex-start; line-height:1.2;">
+            <span style="font-family:var(--font-heading); font-weight:700; font-size:22px; color:var(--accent); letter-spacing:.04em;">点将台 · 招募</span>
+            <span style="font-size:12px; color:var(--ink-dim);">{{ remainText }} · 点击开启</span>
+          </div>
+        </div>
+      </button>
+
+      <!-- ready -->
+      <div style="width:200px; flex:none; display:flex; flex-direction:column; gap:8px;">
+        <button style="{{ readyBtn }}" style-hover="{{ readyHover }}" style-active="{{ btnPress }}">
+          <span style="position:absolute; inset:0; border-radius:inherit; background:linear-gradient(110deg,transparent 36%,rgba(255,255,255,.4) 50%,transparent 64%); background-size:230% 100%; animation:f-shimmer 3s ease-in-out infinite; pointer-events:none;"></span>
+          <span style="position:relative; font-family:var(--font-heading); font-weight:700; font-size:26px; letter-spacing:.1em;">{{ readyLabel }}</span>
+          <span style="position:relative; font-size:11px; letter-spacing:.22em; opacity:.85; margin-top:2px;">{{ readySub }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== SHOP OVERLAY (点将台) ===== -->
+    <div onClick="{{ closeShop }}" style="{{ shopBackdrop }}">
+      <div onClick="{{ stopProp }}" style="position:relative; width:1480px; background:var(--panel-grad); border:1px solid var(--accent); border-radius:24px; box-shadow:inset 0 0 0 1px var(--hairline), 0 40px 90px rgba(0,0,0,.6); padding:42px 44px 34px;">
+        <div style="{{ cornerTL }}"></div><div style="{{ cornerTR }}"></div><div style="{{ cornerBL }}"></div><div style="{{ cornerBR }}"></div>
+        <!-- header -->
+        <div style="display:flex; align-items:center; gap:18px; margin-bottom:24px;">
+          <div style="font-family:var(--font-display); font-size:48px; color:var(--ink); line-height:1;">点将台</div>
+          <div style="font-size:13px; color:var(--ink-dim);">招募英雄 · 买一名少一名,可刷新</div>
+          <div style="flex:1;"></div>
+          <div style="display:flex; align-items:center; gap:9px; padding:9px 16px; border-radius:14px; background:var(--gold-chip); border:1px solid var(--gold);"><span style="font-size:20px;">🪙</span><span style="font-family:var(--font-num); font-size:24px; color:var(--gold);">52</span></div>
+          <div onClick="{{ closeShop }}" style="width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-dim); border:1px solid var(--panel-border); background:var(--chip-bg); font-size:18px;" style-hover="{{ econHover }}">✕</div>
+        </div>
+        <!-- cards -->
+        <div style="display:flex; gap:18px;">
+          <sc-if value="{{ c0.filled }}" hint-placeholder-val="{{ true }}"><div onClick="{{ buySlot }}" data-idx="{{ c0.idx }}" style="{{ c0.card }}" style-hover="{{ c0.hover }}" style-active="{{ c0.press }}"><div style="{{ c0.costBar }}"><span style="font-family:var(--font-num); font-size:13px;">🪙{{ c0.cost }}</span></div><div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; padding:14px;"><div style="{{ c0.av }}"><span style="{{ c0.gs }}">{{ c0.glyph }}</span></div><div style="font-family:var(--font-cjk); font-weight:700; font-size:19px; color:var(--ink);">{{ c0.name }}</div><div style="display:flex; gap:6px;"><sc-for list="{{ c0.traits }}" as="t" hint-placeholder-count="2"><span style="{{ t.style }}">{{ t.label }}</span></sc-for></div></div></div></sc-if>
+          <sc-if value="{{ c0.empty }}" hint-placeholder-val="{{ false }}"><div style="{{ c0.slotStyle }}"><span style="font-size:30px; opacity:.4;">✓</span><span style="font-size:13px;">已招募</span></div></sc-if>
+          <sc-if value="{{ c1.filled }}" hint-placeholder-val="{{ true }}"><div onClick="{{ buySlot }}" data-idx="{{ c1.idx }}" style="{{ c1.card }}" style-hover="{{ c1.hover }}" style-active="{{ c1.press }}"><div style="{{ c1.costBar }}"><span style="font-family:var(--font-num); font-size:13px;">🪙{{ c1.cost }}</span></div><div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; padding:14px;"><div style="{{ c1.av }}"><span style="{{ c1.gs }}">{{ c1.glyph }}</span></div><div style="font-family:var(--font-cjk); font-weight:700; font-size:19px; color:var(--ink);">{{ c1.name }}</div><div style="display:flex; gap:6px;"><sc-for list="{{ c1.traits }}" as="t" hint-placeholder-count="2"><span style="{{ t.style }}">{{ t.label }}</span></sc-for></div></div></div></sc-if>
+          <sc-if value="{{ c1.empty }}" hint-placeholder-val="{{ false }}"><div style="{{ c1.slotStyle }}"><span style="font-size:30px; opacity:.4;">✓</span><span style="font-size:13px;">已招募</span></div></sc-if>
+          <sc-if value="{{ c2.filled }}" hint-placeholder-val="{{ true }}"><div onClick="{{ buySlot }}" data-idx="{{ c2.idx }}" style="{{ c2.card }}" style-hover="{{ c2.hover }}" style-active="{{ c2.press }}"><div style="{{ c2.costBar }}"><span style="font-family:var(--font-num); font-size:13px;">🪙{{ c2.cost }}</span></div><div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; padding:14px;"><div style="{{ c2.av }}"><span style="{{ c2.gs }}">{{ c2.glyph }}</span></div><div style="font-family:var(--font-cjk); font-weight:700; font-size:19px; color:var(--ink);">{{ c2.name }}</div><div style="display:flex; gap:6px;"><sc-for list="{{ c2.traits }}" as="t" hint-placeholder-count="2"><span style="{{ t.style }}">{{ t.label }}</span></sc-for></div></div></div></sc-if>
+          <sc-if value="{{ c2.empty }}" hint-placeholder-val="{{ false }}"><div style="{{ c2.slotStyle }}"><span style="font-size:30px; opacity:.4;">✓</span><span style="font-size:13px;">已招募</span></div></sc-if>
+          <sc-if value="{{ c3.filled }}" hint-placeholder-val="{{ true }}"><div onClick="{{ buySlot }}" data-idx="{{ c3.idx }}" style="{{ c3.card }}" style-hover="{{ c3.hover }}" style-active="{{ c3.press }}"><div style="{{ c3.costBar }}"><span style="font-family:var(--font-num); font-size:13px;">🪙{{ c3.cost }}</span></div><div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; padding:14px;"><div style="{{ c3.av }}"><span style="{{ c3.gs }}">{{ c3.glyph }}</span></div><div style="font-family:var(--font-cjk); font-weight:700; font-size:19px; color:var(--ink);">{{ c3.name }}</div><div style="display:flex; gap:6px;"><sc-for list="{{ c3.traits }}" as="t" hint-placeholder-count="2"><span style="{{ t.style }}">{{ t.label }}</span></sc-for></div></div></div></sc-if>
+          <sc-if value="{{ c3.empty }}" hint-placeholder-val="{{ false }}"><div style="{{ c3.slotStyle }}"><span style="font-size:30px; opacity:.4;">✓</span><span style="font-size:13px;">已招募</span></div></sc-if>
+          <sc-if value="{{ c4.filled }}" hint-placeholder-val="{{ true }}"><div onClick="{{ buySlot }}" data-idx="{{ c4.idx }}" style="{{ c4.card }}" style-hover="{{ c4.hover }}" style-active="{{ c4.press }}"><div style="{{ c4.costBar }}"><span style="font-family:var(--font-num); font-size:13px;">🪙{{ c4.cost }}</span></div><div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; padding:14px;"><div style="{{ c4.av }}"><span style="{{ c4.gs }}">{{ c4.glyph }}</span></div><div style="font-family:var(--font-cjk); font-weight:700; font-size:19px; color:var(--ink);">{{ c4.name }}</div><div style="display:flex; gap:6px;"><sc-for list="{{ c4.traits }}" as="t" hint-placeholder-count="2"><span style="{{ t.style }}">{{ t.label }}</span></sc-for></div></div></div></sc-if>
+          <sc-if value="{{ c4.empty }}" hint-placeholder-val="{{ false }}"><div style="{{ c4.slotStyle }}"><span style="font-size:30px; opacity:.4;">✓</span><span style="font-size:13px;">已招募</span></div></sc-if>
+        </div>
+        <!-- footer -->
+        <div style="display:flex; align-items:center; gap:14px; margin-top:26px;">
+          <button onClick="{{ reroll }}" style="{{ rerollBtn }}" style-hover="{{ readyHover }}" style-active="{{ btnPress }}">
+            <span style="font-size:20px;">🔄</span><span style="font-family:var(--font-heading); font-weight:700; font-size:17px;">刷新</span><span style="font-family:var(--font-num); font-size:12px; color:var(--gold);">2金</span>
+          </button>
+          <button style="{{ lockBtnWide }}" style-hover="{{ econHover }}" style-active="{{ btnPress }}"><span style="font-size:17px;">🔒</span> 锁定商店</button>
+          <div style="flex:1;"></div>
+          <button onClick="{{ closeShop }}" style="{{ doneBtn }}" style-hover="{{ econHover }}" style-active="{{ btnPress }}">完成</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { theme: 'onyx', mode: 'solo', phase: 'prep', shopOpen: false, locked: false, slots: [0, 1, 2, 3, 4], boardsOpen: true };
+
+  themes() {
+    return {
+      onyx: {
+        '--app-bg': 'radial-gradient(120% 120% at 50% -10%, #1a2230 0%, #0a0d12 55%, #06080b 100%)',
+        '--texture': 'repeating-linear-gradient(45deg, rgba(135,175,215,.05) 0 1px, transparent 1px 9px), repeating-linear-gradient(-45deg, rgba(135,175,215,.04) 0 1px, transparent 1px 9px)',
+        '--hud-bg': 'linear-gradient(180deg,rgba(22,28,37,.95),rgba(14,18,24,.88))',
+        '--dock-bg': 'linear-gradient(180deg,rgba(18,23,31,.7),rgba(10,13,18,.97))',
+        '--panel-grad': 'linear-gradient(180deg,#1c2531,#121821)', '--panel-border': '#33404f', '--hairline': 'rgba(255,214,150,.12)', '--chip-bg': 'rgba(255,255,255,.05)',
+        '--seg-track': '#161d27', '--seg-edge': '#2c313b', '--track': 'rgba(0,0,0,.5)',
+        '--ink': '#e7edf3', '--ink-dim': '#7e8c9b',
+        '--accent': '#ff5d2e', '--accent-grad': 'linear-gradient(180deg,#ff7a45,#ee4515)', '--accent-soft': 'rgba(255,93,46,.18)', '--accent-ink': '#1c0d06',
+        '--hp': '#46d17a', '--mp': '#37b6ff', '--xp': '#c184ff', '--gold': '#ffcb3d', '--gold-chip': 'rgba(255,203,61,.1)', '--danger': '#ff404f',
+        '--btn-bg': 'linear-gradient(180deg,#283341,#1a222c)', '--btn-edge': '#3d4b5b', '--btn-text': '#dfe7ef', '--btn-radius': '12px', '--radius': '11px', '--radius-lg': '16px',
+        '--platform-bg': 'radial-gradient(120% 90% at 50% 35%, #1a2531, #0c1117 70%)', '--platform-glow': 'radial-gradient(70% 60% at 50% 45%, rgba(255,93,46,.08), transparent 70%)', '--platform-edge': '#33404f',
+        '--hex-fill': 'linear-gradient(180deg,#1d2733,#141b25)', '--hex-stroke': '#3b4a5a', '--hex-fill-e': 'linear-gradient(180deg,#26303d,#1a2230)', '--hex-stroke-e': '#46566a',
+        '--protag-bg': 'radial-gradient(circle at 35% 30%, #ffe08a, #d98a2b)',
+        '--ready-bg': 'linear-gradient(180deg,#ff7a45,#e8420f)', '--ready-text': '#1c0d06', '--ready-shadow': '0 0 22px rgba(255,93,46,.5), inset 0 1px 0 rgba(255,255,255,.4)',
+        '--cost1': '#97a4b2', '--cost2': '#37c46e', '--cost3': '#3a9bff', '--cost4': '#bf6bff', '--cost5': '#ffb024', '--star': '#ffd34a',
+        '--font-cjk': "'Noto Sans SC', sans-serif", '--font-heading': "'Rajdhani', sans-serif", '--font-body': "'Noto Sans SC', sans-serif", '--font-num': "'Silkscreen', monospace",
+      },
+      brocade: {
+        '--app-bg': 'radial-gradient(120% 120% at 50% -10%, #fdf4ee 0%, #f3e2dc 60%, #ecd6cf 100%)',
+        '--texture': 'radial-gradient(circle, rgba(201,148,72,.14) 1px, transparent 1.7px) 0 0/26px 26px, repeating-linear-gradient(45deg, rgba(201,148,72,.06) 0 1px, transparent 1px 26px), repeating-linear-gradient(-45deg, rgba(201,148,72,.06) 0 1px, transparent 1px 26px)',
+        '--hud-bg': 'linear-gradient(180deg,rgba(255,250,244,.96),rgba(251,238,229,.9))',
+        '--dock-bg': 'linear-gradient(180deg,rgba(255,250,244,.72),rgba(250,236,225,.98))',
+        '--panel-grad': 'linear-gradient(180deg,#fffdfa,#fbeee4)', '--panel-border': '#e3c896', '--hairline': 'rgba(216,164,78,.4)', '--chip-bg': 'rgba(255,255,255,.55)',
+        '--seg-track': '#f3e3d4', '--seg-edge': '#e3c896', '--track': 'rgba(150,110,90,.18)',
+        '--ink': '#5a3f44', '--ink-dim': '#a98b8f',
+        '--accent': '#d8607b', '--accent-grad': 'linear-gradient(180deg,#e887a0,#cf5070)', '--accent-soft': 'rgba(216,96,123,.16)', '--accent-ink': '#fff',
+        '--hp': '#54ad8e', '--mp': '#8aa0e6', '--xp': '#c98fc4', '--gold': '#cf9a3f', '--gold-chip': 'rgba(207,154,63,.12)', '--danger': '#d65668',
+        '--btn-bg': 'linear-gradient(180deg,#fffaf4,#fbece1)', '--btn-edge': '#ecd3b2', '--btn-text': '#6a4a4f', '--btn-radius': '16px', '--radius': '14px', '--radius-lg': '20px',
+        '--platform-bg': 'radial-gradient(120% 90% at 50% 35%, #fff8f0, #f0ddcb 70%)', '--platform-glow': 'radial-gradient(70% 60% at 50% 45%, rgba(216,96,123,.08), transparent 70%)', '--platform-edge': '#e3c896',
+        '--hex-fill': 'linear-gradient(180deg,#fff8f0,#f6e7d8)', '--hex-stroke': '#e0c79c', '--hex-fill-e': 'linear-gradient(180deg,#f7ece2,#f0ddce)', '--hex-stroke-e': '#dcc09a',
+        '--protag-bg': 'radial-gradient(circle at 35% 30%, #fff0d8, #e0a96d)',
+        '--ready-bg': 'linear-gradient(180deg,#ec9f6f,#d77a86)', '--ready-text': '#fff', '--ready-shadow': '0 8px 24px rgba(208,120,120,.4), inset 0 1px 0 rgba(255,255,255,.6)',
+        '--cost1': '#b0a496', '--cost2': '#62b594', '--cost3': '#7aa1dd', '--cost4': '#c189d2', '--cost5': '#dba94e', '--star': '#dba94e',
+        '--font-cjk': "'Noto Serif SC', serif", '--font-heading': "'Cormorant Garamond', serif", '--font-body': "'Noto Serif SC', serif", '--font-num': "'Silkscreen', monospace",
+      },
+    };
+  }
+
+  renderVals() {
+    const T = this.themes()[this.state.theme];
+    const isMulti = this.state.mode === 'multi';
+    const isSolo = !isMulti;
+    const isPrep = this.state.phase === 'prep';
+    const FAC = { '蜀': '#d8504e', '吴': '#3fae6e', '魏': '#3a86d4', '群': '#9b6dd8' };
+    const HEX = 'polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)';
+
+    const rootStyle = Object.assign({}, T, { background: '#d9dae2', minHeight: '100vh', paddingBottom: '10px' });
+
+    const seg = (on) => ({ padding: '7px 15px', borderRadius: '8px', cursor: 'pointer', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '13px', letterSpacing: '.03em', whiteSpace: 'nowrap', border: 'none', background: on ? 'var(--accent-grad)' : 'transparent', color: on ? 'var(--accent-ink)' : 'var(--ink-dim)', boxShadow: on ? 'inset 0 1px 0 rgba(255,255,255,.3)' : 'none', transition: 'all .15s ease' });
+
+    const pipKinds = ['pvp', 'pvp', 'now', 'carousel', 'pvp', 'pvp', 'pve'];
+    const pipC = { pvp: 'var(--ink-dim)', pve: '#9b6dd8', carousel: 'var(--gold)', now: 'var(--accent)' };
+    const roundPips = pipKinds.map((k) => ({ style: { width: k === 'now' ? '11px' : '8px', height: k === 'now' ? '11px' : '8px', borderRadius: k === 'pve' ? '2px' : '50%', background: pipC[k], boxShadow: k === 'now' ? '0 0 10px var(--accent)' : 'none' } }));
+
+    const phaseBanner = { padding: '8px 24px', borderRadius: '99px', whiteSpace: 'nowrap', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '16px', letterSpacing: '.06em', background: isPrep ? 'var(--accent-soft)' : 'rgba(255,64,79,.14)', color: isPrep ? 'var(--accent)' : 'var(--danger)', border: '1px solid ' + (isPrep ? 'var(--accent)' : 'var(--danger)') };
+
+    // synergies
+    const synData = [
+      { name: '蜀 · 桃园', fac: '蜀', have: 4, tiers: [2, 4, 6], glyph: '蜀' },
+      { name: '吴 · 江东', fac: '吴', have: 2, tiers: [2, 4], glyph: '吴' },
+      { name: '武将', fac: null, have: 4, tiers: [2, 4, 6], glyph: '武' },
+      { name: '谋士', fac: null, have: 2, tiers: [2, 4], glyph: '谋' },
+      { name: '射手', fac: null, have: 1, tiers: [2, 3], glyph: '射' },
+    ];
+    const synergies = synData.map((s) => {
+      const col = s.fac ? FAC[s.fac] : 'var(--accent)';
+      const active = s.have >= s.tiers[0];
+      const reached = s.tiers.filter((t) => s.have >= t).length;
+      return {
+        name: s.name, glyph: s.glyph, count: s.have + '/' + s.tiers[s.tiers.length - 1], cc: active ? col : 'var(--ink-dim)',
+        row: { display: 'flex', alignItems: 'center', gap: '11px', padding: '10px 12px', borderRadius: 'var(--radius)', border: '1px solid ' + (active ? col : 'var(--panel-border)'), background: active ? 'var(--chip-bg)' : 'transparent', opacity: active ? 1 : .5, boxShadow: active ? 'inset 0 0 0 1px var(--hairline)' : 'none' },
+        icon: { width: '32px', height: '32px', flex: 'none', borderRadius: '9px', background: active ? col : 'var(--track)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-cjk)', fontWeight: 900, fontSize: '16px', color: active ? '#fff' : 'var(--ink-dim)' },
+        ticks: s.tiers.map((t, i) => ({ style: { flex: 1, height: '4px', borderRadius: '99px', background: i < reached ? col : 'var(--track)' } })),
+      };
+    });
+
+    const allianceCard = { position: 'relative', overflow: 'hidden', marginTop: '4px', padding: '12px 13px', borderRadius: 'var(--radius)', background: 'var(--accent-soft)', border: '1px solid var(--accent)', boxShadow: 'inset 0 0 0 1px var(--hairline)' };
+
+    const panel = { background: 'var(--panel-grad)', border: '1px solid var(--panel-border)', borderRadius: 'var(--radius)', boxShadow: 'inset 0 0 0 1px var(--hairline), 0 4px 12px rgba(0,0,0,.15)', padding: '15px' };
+    const matePanel = Object.assign({}, panel, { border: '1px solid #3fae6e', boxShadow: 'inset 0 0 0 1px rgba(63,174,110,.25), 0 4px 12px rgba(0,0,0,.15)' });
+    const panelHead = { fontSize: '10px', letterSpacing: '.2em', textTransform: 'uppercase', color: 'var(--ink-dim)', marginBottom: '11px' };
+    const augRow = { display: 'flex', alignItems: 'center', gap: '11px', padding: '9px 11px', borderRadius: '9px', background: 'var(--chip-bg)', border: '1px solid var(--panel-border)' };
+    const itemGlyphs = ['🗡', '🛡', '👑', '📜', '🏹', '', '', ''];
+    const items = itemGlyphs.map((g) => ({ glyph: g, style: { aspectRatio: '1', borderRadius: '9px', background: g ? 'var(--chip-bg)' : 'transparent', border: g ? '1px solid var(--panel-border)' : '1px dashed var(--panel-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' } }));
+
+    // platform
+    const platform = { position: 'relative', padding: '26px 30px', borderRadius: '24px', background: 'var(--platform-bg)', border: '1px solid var(--platform-edge)', boxShadow: 'inset 0 0 0 1px var(--hairline), inset 0 0 60px rgba(0,0,0,.3), 0 18px 40px rgba(0,0,0,.3)' };
+
+    // board pieces
+    const pieceList = [
+      { r: 1, c: 2, name: '华雄', fac: '魏', star: 1, hp: 100, mp: 30 },
+      { r: 1, c: 4, name: '董卓', fac: '魏', star: 2, hp: 100, mp: 60 },
+      { r: 2, c: 3, name: '吕布', fac: '魏', star: 2, hp: 100, mp: 80 },
+      { r: 6, c: 1, name: '关羽', fac: '蜀', star: 2, hp: 88, mp: 45 },
+      { r: 6, c: 3, name: '张飞', fac: '蜀', star: 2, hp: 100, mp: 20 },
+      { r: 5, c: 2, name: '赵云', fac: '蜀', star: 1, hp: 72, mp: 60 },
+      { r: 7, c: 4, name: '诸葛亮', fac: '蜀', star: 1, hp: 100, mp: 90 },
+      { r: 6, c: 5, name: '周瑜', fac: '吴', star: 1, hp: 100, mp: 30 },
+    ];
+    const place = {};
+    pieceList.forEach((p) => { place[p.r + '-' + p.c] = p; });
+    const mkPiece = (p) => {
+      const col = FAC[p.fac];
+      return {
+        glyph: p.fac, stars: Array.from({ length: p.star }, (_, i) => i),
+        starStyle: { width: '7px', height: '7px', transform: 'rotate(45deg)', background: 'var(--star)', boxShadow: '0 0 4px var(--star)' },
+        av: { width: '50px', height: '50px', borderRadius: '9px', background: 'linear-gradient(160deg,' + col + 'ee,' + col + '99)', border: '2px solid ' + col, boxShadow: '0 2px 8px rgba(0,0,0,.4)', backgroundImage: 'linear-gradient(160deg,' + col + 'ee,' + col + '99), repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 4px,transparent 4px 8px)', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+        gs: { fontFamily: 'var(--font-cjk)', fontWeight: 900, fontSize: '20px', color: '#fff', textShadow: '0 1px 3px rgba(0,0,0,.5)' },
+        hp: { width: p.hp + '%', height: '100%', background: 'var(--hp)' }, mp: { width: p.mp + '%', height: '100%', background: 'var(--mp)' },
+      };
+    };
+    const HEXMINI = 'polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)';
+    const mkMini = (fac, pattern) => {
+      const col = FAC[fac];
+      return [0, 1, 2, 3].map((r) => ({
+        style: { display: 'flex', gap: '2px', marginTop: r === 0 ? '0' : '-5px', marginLeft: (r % 2 === 1) ? '10px' : '0' },
+        cells: Array.from({ length: 7 }, (_, c) => {
+          const on = (pattern[r] || []).includes(c);
+          return { style: { width: '19px', height: '17px', clipPath: HEXMINI, background: on ? col : 'var(--track)', boxShadow: on ? ('0 0 4px ' + col + '99') : 'none' } };
+        }),
+      }));
+    };
+    const FACNAME = { '蜀': '蜀', '吴': '吴', '魏': '魏', '群': '群雄' };
+    const rosterView = (p) => {
+      const col = FAC[p.fac];
+      return {
+        name: p.name, hpText: String(p.hp), placeText: p.place ? '#' + p.place : '',
+        av: { position: 'relative', width: '40px', height: '40px', borderRadius: '11px', flex: 'none', background: 'linear-gradient(160deg,' + col + 'ee,' + col + '99)', border: '2px solid ' + col, boxShadow: '0 2px 8px ' + col + '55', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontFamily: 'var(--font-cjk)', fontWeight: 900, fontSize: '17px' },
+        facName: FACNAME[p.fac],
+        facTag: { display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '10px', padding: '2px 8px', borderRadius: '99px', background: col + '22', color: col, border: '1px solid ' + col + '66', fontWeight: 700 },
+        humanText: p.human ? '真人' : 'AI 托管',
+        humanTag: { fontSize: '9px', padding: '2px 7px', borderRadius: '99px', background: p.human ? 'var(--accent-soft)' : 'var(--chip-bg)', color: p.human ? 'var(--accent)' : 'var(--ink-dim)', border: '1px solid ' + (p.human ? 'var(--accent)' : 'var(--panel-border)'), fontWeight: 700 },
+        placeStyle: { marginLeft: 'auto', fontFamily: 'var(--font-num)', fontSize: '13px', color: p.place === 1 ? 'var(--gold)' : 'var(--ink-dim)' },
+        hpFill: { width: p.hp + '%', height: '100%', background: p.hp < 35 ? 'var(--danger)' : col, borderRadius: '99px' },
+        // 备战态
+        readyText: p.ready ? '已就绪' : '布阵中',
+        readyStyle: { display: 'flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '12px', color: p.ready ? 'var(--hp)' : 'var(--ink-dim)' },
+        readyDot: { width: '7px', height: '7px', borderRadius: '50%', background: p.ready ? 'var(--hp)' : 'var(--ink-dim)', boxShadow: p.ready ? '0 0 6px var(--hp)' : 'none' },
+        // 战斗态
+        dmgText: String(p.dmg), aliveText: p.alive,
+        progFill: { width: p.prog + '%', height: '100%', background: 'var(--accent-grad)', borderRadius: '99px', boxShadow: '0 0 6px var(--accent-soft)' },
+        battleStyle: { display: 'flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '12px', color: 'var(--accent)' },
+        rows: mkMini(p.fac, p.pat),
+        card: { borderRadius: '14px', background: 'var(--chip-bg)', border: '1px solid ' + (p.human ? col + 'aa' : 'var(--panel-border)'), boxShadow: 'inset 0 0 0 1px var(--hairline), 0 3px 10px rgba(0,0,0,.12)', padding: '13px 14px' },
+      };
+    };
+    // 3 人联机为起步规模 —— 当前对局玩家(不含本人)。
+    // 结构为列表,扩到 N 人只需追加条目;ready=false 的席位可由 AI 顶替(human:false)。
+    const PARTY_SIZE = 3; // 总玩家数(含本人),便于后续扩展
+    const rosterData = [
+      { name: '仲谋', fac: '吴', human: true, hp: 81, ready: true, place: 2, dmg: 1240, alive: '6/9', prog: 70, pat: [[2, 4], [3], [1, 5], []] },
+      { name: '孟德', fac: '魏', human: true, hp: 64, ready: false, place: 3, dmg: 980, alive: '4/8', prog: 45, pat: [[1, 3, 5], [2, 4], [3], [0]] },
+      { name: '奉先', fac: '群', human: false, hp: 100, ready: true, place: 1, dmg: 1610, alive: '8/9', prog: 92, pat: [[3], [2, 3, 4], [1, 5], [3]] },
+    ];
+    const roster = rosterData.map(rosterView);
+    const soloOpponent = rosterView({ name: '董卓', fac: '魏', human: false, hp: 38, ready: false, place: null, dmg: 720, alive: '3/7', prog: 33, pat: [[2, 4], [1, 3], [3], [0, 6]] });
+
+    const cols = 7;
+    const cellW = 118;
+    const cellH = 104;
+    const overlap = -28;
+    const offset = (cellW + 4) / 2;
+    const cellWrap = { position: 'relative', width: cellW + 'px', height: cellH + 'px', margin: '0 2px' };
+    const boardRows = [];
+    for (let r = 0; r < 8; r++) {
+      const enemy = r < 4;
+      const cells = [];
+      for (let c = 0; c < cols; c++) {
+        const p = place[r + '-' + c];
+        cells.push({
+          outer: { position: 'absolute', inset: 0, clipPath: HEX, background: enemy ? 'var(--hex-stroke-e)' : 'var(--hex-stroke)' },
+          inner: { position: 'absolute', inset: '2px', clipPath: HEX, background: enemy ? 'var(--hex-fill-e)' : 'var(--hex-fill)' },
+          piece: p ? mkPiece(p) : null,
+        });
+      }
+      boardRows.push({ cells, style: { display: 'flex', marginTop: r === 0 ? '0' : overlap + 'px', marginLeft: (r % 2 === 1) ? offset + 'px' : '0' } });
+    }
+
+    // (mini board now per-roster-player; see rosterView/mkMini above)
+
+
+    // bench
+    const benchData = [{ name: '黄忠', fac: '蜀', star: 1 }, null, { name: '貂蝉', fac: '群', star: 2 }, null, null, { name: '甘宁', fac: '吴', star: 1 }, null, null, null];
+    const bench = benchData.map((b) => {
+      const base = { width: '66px', height: '66px', flex: 'none', borderRadius: '11px', background: 'var(--chip-bg)', border: '1px solid var(--panel-border)', boxShadow: 'inset 0 2px 6px rgba(0,0,0,.22)', display: 'flex', alignItems: 'center', justifyContent: 'center' };
+      if (!b) return { piece: null, slot: base };
+      const col = FAC[b.fac];
+      return { piece: true, glyph: b.fac, stars: Array.from({ length: b.star }, (_, i) => i), starStyle: { width: '5px', height: '5px', transform: 'rotate(45deg)', background: 'var(--star)' }, slot: base, av: { width: '42px', height: '42px', borderRadius: '8px', background: 'linear-gradient(160deg,' + col + 'ee,' + col + '99)', border: '2px solid ' + col, display: 'flex', alignItems: 'center', justifyContent: 'center' }, gs: { fontFamily: 'var(--font-cjk)', fontWeight: 900, fontSize: '17px', color: '#fff' } };
+    });
+
+    // shop
+    const shopData = [
+      { name: '赵云', fac: '蜀', cost: 2, traits: ['蜀', '武将'] },
+      { name: '司马懿', fac: '魏', cost: 4, traits: ['魏', '谋士'] },
+      { name: '吕布', fac: '群', cost: 5, traits: ['群雄', '武将'] },
+      { name: '甘宁', fac: '吴', cost: 2, traits: ['吴', '射手'] },
+      { name: '关羽', fac: '蜀', cost: 3, traits: ['蜀', '武将'] },
+    ];
+    const shop = shopData.map((c) => {
+      const col = FAC[c.fac]; const cv = 'var(--cost' + c.cost + ')';
+      return {
+        name: c.name, cost: c.cost, glyph: c.fac,
+        card: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', cursor: 'pointer', borderRadius: '12px', border: '1px solid ' + cv, background: 'var(--panel-grad)', boxShadow: 'inset 0 0 0 1px var(--hairline), 0 4px 12px rgba(0,0,0,.18)', transition: 'transform .15s cubic-bezier(.2,.7,.3,1), box-shadow .15s ease' },
+        hover: { transform: 'translateY(-6px)', boxShadow: '0 12px 24px rgba(0,0,0,.4), 0 0 18px ' + cv + '66' },
+        press: { transform: 'translateY(-1px) scale(.985)' },
+        costBar: { height: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: cv, color: '#0d0f13', fontWeight: 700 },
+        av: { width: '60px', height: '60px', borderRadius: '11px', background: 'linear-gradient(160deg,' + col + 'ee,' + col + '99)', border: '2px solid ' + col, backgroundImage: 'linear-gradient(160deg,' + col + 'ee,' + col + '99), repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0 4px,transparent 4px 8px)', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+        gs: { fontFamily: 'var(--font-cjk)', fontWeight: 900, fontSize: '26px', color: '#fff', textShadow: '0 1px 3px rgba(0,0,0,.5)' },
+        traits: c.traits.map((t) => ({ label: t, style: { fontFamily: 'var(--font-cjk)', fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '99px', background: 'var(--chip-bg)', border: '1px solid var(--panel-border)', color: 'var(--ink-dim)' } })),
+      };
+    });
+
+    // ---- shop overlay (点将台) ----
+    const POOL = [
+      { name: '赵云', fac: '蜀', cost: 2, traits: ['蜀', '武将'] }, { name: '关羽', fac: '蜀', cost: 3, traits: ['蜀', '武将'] },
+      { name: '张飞', fac: '蜀', cost: 2, traits: ['蜀', '豪杰'] }, { name: '诸葛亮', fac: '蜀', cost: 5, traits: ['蜀', '谋士'] },
+      { name: '周瑜', fac: '吴', cost: 4, traits: ['吴', '谋士'] }, { name: '甘宁', fac: '吴', cost: 2, traits: ['吴', '射手'] },
+      { name: '吕蒙', fac: '吴', cost: 3, traits: ['吴', '武将'] }, { name: '司马懿', fac: '魏', cost: 4, traits: ['魏', '谋士'] },
+      { name: '曹操', fac: '魏', cost: 5, traits: ['魏', '武将'] }, { name: '吕布', fac: '群', cost: 5, traits: ['群雄', '武将'] },
+      { name: '貂蝉', fac: '群', cost: 4, traits: ['群雄', '谋士'] }, { name: '华雄', fac: '群', cost: 1, traits: ['群雄', '武将'] },
+    ];
+    const mkCardView = (idx, slotI) => {
+      if (idx === null || idx === undefined) return { filled: false, empty: true, slotStyle: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '14px', border: '1px dashed var(--panel-border)', background: 'var(--chip-bg)', color: 'var(--ink-dim)', minHeight: '218px' } };
+      const c = POOL[idx]; const col = FAC[c.fac]; const cv = 'var(--cost' + c.cost + ')';
+      return {
+        filled: true, name: c.name, cost: c.cost, glyph: c.fac, idx: String(slotI),
+        card: { position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', cursor: 'pointer', borderRadius: '14px', border: '1px solid ' + cv, background: 'var(--panel-grad)', boxShadow: 'inset 0 0 0 1px var(--hairline), 0 6px 16px rgba(0,0,0,.22)', transition: 'transform .15s cubic-bezier(.2,.7,.3,1), box-shadow .15s ease', minHeight: '218px' },
+        hover: { transform: 'translateY(-7px)', boxShadow: '0 14px 28px rgba(0,0,0,.42), 0 0 20px ' + cv + '77' },
+        press: { transform: 'translateY(-2px) scale(.98)' },
+        costBar: { height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: cv, color: '#0d0f13', fontWeight: 700 },
+        av: { width: '76px', height: '76px', borderRadius: '13px', background: 'linear-gradient(160deg,' + col + 'ee,' + col + '99)', border: '2px solid ' + col, backgroundImage: 'linear-gradient(160deg,' + col + 'ee,' + col + '99), repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0 4px,transparent 4px 8px)', boxShadow: '0 3px 10px rgba(0,0,0,.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+        gs: { fontFamily: 'var(--font-cjk)', fontWeight: 900, fontSize: '34px', color: '#fff', textShadow: '0 1px 3px rgba(0,0,0,.5)' },
+        traits: c.traits.map((t) => ({ label: t, style: { fontFamily: 'var(--font-cjk)', fontSize: '12px', fontWeight: 700, padding: '2px 10px', borderRadius: '99px', background: 'var(--chip-bg)', border: '1px solid var(--panel-border)', color: 'var(--ink-dim)' } })),
+      };
+    };
+    const sv = this.state.slots.map((idx, i) => mkCardView(idx, i));
+    const buySlot = (e) => { const i = +e.currentTarget.dataset.idx; const s = this.state.slots.slice(); s[i] = null; this.setState({ slots: s }); };
+    const reroll = () => { const s = Array.from({ length: 5 }, () => Math.floor(Math.random() * POOL.length)); this.setState({ slots: s }); };
+    const cornerUri = (() => {
+      const dragon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="none" stroke="#ff7a45" stroke-width="2.2" stroke-linecap="round"><path d="M7 60 L7 16 Q7 7 16 7 L60 7"/><path d="M7 28 L17 20 M7 40 L20 30 M18 7 L26 15 M30 7 L40 16"/></g><path d="M7 7 H22 L7 22 Z" fill="#ff7a45" opacity="0.45"/><circle cx="10" cy="10" r="2.6" fill="#ffcb3d"/></svg>';
+      const phoenix = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="none" stroke="#cf9a3f" stroke-width="1.7" stroke-linecap="round"><path d="M7 58 C7 30 19 9 52 7"/><path d="M12 46 C20 33 33 25 50 20"/><path d="M9 52 C18 38 33 28 54 15"/><path d="M30 14 q7 -6 16 -6 M40 21 q7 -4 15 -1 M21 25 q4 -9 11 -13"/></g><path d="M50 7 q9 0 9 9 q-9 0 -9 -9 Z" fill="#d8607b" opacity="0.55"/><circle cx="9" cy="56" r="2.4" fill="#d8607b"/></svg>';
+      return 'url("data:image/svg+xml,' + encodeURIComponent(this.state.theme === 'onyx' ? dragon : phoenix) + '")';
+    })();
+    const cBase = { position: 'absolute', width: '56px', height: '56px', backgroundImage: cornerUri, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', pointerEvents: 'none', zIndex: 3 };
+    const remainCount = this.state.slots.filter((x) => x !== null).length;
+
+    const econBtn = { flex: 1, padding: '9px 4px', borderRadius: '12px', cursor: 'pointer', background: 'var(--btn-bg)', border: '1px solid var(--btn-edge)', color: 'var(--btn-text)', fontFamily: 'var(--font-cjk)', fontWeight: 700, fontSize: '12px', lineHeight: 1.3, boxShadow: 'inset 0 1px 0 var(--hairline)', transition: 'all .15s ease', textAlign: 'center' };
+    const lockBtn = Object.assign({}, econBtn, { flex: '0 0 52px' });
+    const readyBtn = { position: 'relative', overflow: 'hidden', width: '100%', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', borderRadius: '16px', border: 'none', background: 'var(--ready-bg)', color: 'var(--ready-text)', boxShadow: 'var(--ready-shadow)', transition: 'all .15s ease' };
+
+    return {
+      rootStyle, isMulti, isSolo,
+      pickSolo: () => this.setState({ mode: 'solo' }), pickMulti: () => this.setState({ mode: 'multi' }),
+      pickOnyx: () => this.setState({ theme: 'onyx' }), pickBrocade: () => this.setState({ theme: 'brocade' }),
+      segSolo: seg(isSolo), segMulti: seg(isMulti), segOnyx: seg(this.state.theme === 'onyx'), segBrocade: seg(this.state.theme === 'brocade'),
+      roundPips, phaseBanner, phaseLabel: isPrep ? '⚔ 备战阶段 · 布阵中' : '⚔ 战斗阶段',
+      timerLabel: isPrep ? '备战' : '战斗', timerText: '0:23', timerColor: 'var(--ink)',
+      synergies, panel, panelHead, augRow, items,
+      roster, soloOpponent, rosterCount: PARTY_SIZE + ' 人', boardsOpen: this.state.boardsOpen,
+      toggleBoards: () => this.setState({ boardsOpen: !this.state.boardsOpen }),
+      toggleLabel: this.state.boardsOpen ? '收起战况 ▴' : '展开战况 ▾',
+      rosterScroll: { flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', paddingRight: '4px' },
+      toggleBtn: { padding: '5px 11px', borderRadius: '8px', cursor: 'pointer', background: 'var(--chip-bg)', border: '1px solid var(--panel-border)', color: 'var(--ink-dim)', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '11px', whiteSpace: 'nowrap', transition: 'all .15s ease' },
+      platform, boardRows, cellWrap, bench, econBtn, lockBtn,
+      econHover: { borderColor: 'var(--accent)', color: 'var(--ink)', transform: 'translateY(-1px)' },
+      btnPress: { transform: 'translateY(1px) scale(.96)', filter: 'brightness(.93)' },
+      readyBtn, readyHover: { filter: 'brightness(1.08)', transform: 'translateY(-2px)' },
+      readyLabel: '开 战', readySub: 'READY · SPACE',
+      // shop overlay
+      openShop: () => this.setState({ shopOpen: true }),
+      closeShop: () => this.setState({ shopOpen: false }),
+      stopProp: (e) => e.stopPropagation(),
+      shopBackdrop: { position: 'absolute', inset: 0, zIndex: 60, background: 'rgba(0,0,0,.58)', backdropFilter: 'blur(5px)', display: this.state.shopOpen ? 'flex' : 'none', alignItems: 'center', justifyContent: 'center' },
+      reroll, buySlot, remainText: remainCount + ' 名待募',
+      c0: sv[0], c1: sv[1], c2: sv[2], c3: sv[3], c4: sv[4],
+      cornerTL: Object.assign({ top: '10px', left: '10px' }, cBase),
+      cornerTR: Object.assign({ top: '10px', right: '10px', transform: 'scaleX(-1)' }, cBase),
+      cornerBL: Object.assign({ bottom: '10px', left: '10px', transform: 'scaleY(-1)' }, cBase),
+      cornerBR: Object.assign({ bottom: '10px', right: '10px', transform: 'scale(-1,-1)' }, cBase),
+      shopTriggerStyle: { position: 'relative', overflow: 'hidden', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px', cursor: 'pointer', borderRadius: '16px', border: '1px solid var(--accent)', background: 'var(--accent-soft)', color: 'var(--ink)', boxShadow: 'inset 0 0 0 1px var(--hairline)', transition: 'all .15s ease' },
+      shopTriggerHover: { transform: 'translateY(-2px)', background: 'var(--accent-soft)', filter: 'brightness(1.06)', boxShadow: '0 8px 20px var(--accent-soft)' },
+      econBtnTall: { display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 18px', height: '100%', borderRadius: '14px', cursor: 'pointer', background: 'var(--btn-bg)', border: '1px solid var(--btn-edge)', color: 'var(--btn-text)', fontFamily: 'var(--font-cjk)', fontWeight: 700, fontSize: '14px', lineHeight: 1.35, boxShadow: 'inset 0 1px 0 var(--hairline)', transition: 'all .15s ease', textAlign: 'center' },
+      rerollBtn: { display: 'flex', alignItems: 'center', gap: '9px', padding: '13px 24px', borderRadius: '14px', border: 'none', cursor: 'pointer', background: 'var(--accent-grad)', color: 'var(--accent-ink)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.32), 0 5px 14px var(--accent-soft)', transition: 'all .15s ease' },
+      lockBtnWide: { display: 'flex', alignItems: 'center', gap: '8px', padding: '13px 22px', borderRadius: '14px', cursor: 'pointer', background: 'var(--btn-bg)', border: '1px solid var(--btn-edge)', color: 'var(--btn-text)', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '15px', boxShadow: 'inset 0 1px 0 var(--hairline)', transition: 'all .15s ease' },
+      doneBtn: { padding: '13px 32px', borderRadius: '14px', cursor: 'pointer', background: 'var(--btn-bg)', border: '1px solid var(--btn-edge)', color: 'var(--ink)', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '15px', boxShadow: 'inset 0 1px 0 var(--hairline)', transition: 'all .15s ease' },
+    };
+  }
+}
+</script>
+</body>
+</html>

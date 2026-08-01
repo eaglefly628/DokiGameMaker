@@ -62,9 +62,13 @@ ZeroCraft Game Maker = **可视化制作工具（Editor / Maker）** + **内置�
 ## Phase 3 —— 与 Apollo 的整合（三层口径 · 2026-07-31 裁决）
 
 > **口径变更**：早期版本写的是「把 Apollo 塞进来当 runtime」。经双方调查后改为
-> **三层分开推进**。核心红线两条：**引用不拷贝、门禁不旁路**。
+> **三层分开推进**——第一层驾驶舱、第二层引擎内核、第三层接口层，各层姿势不同。
 > Apollo 仓（`eaglefly628/ApolloGame`，主干 `claude/mainbranch`）**保持独立**，
 > 其分支纪律、推送门禁、多 session 并行、验收体系原样保留。
+>
+> **红线（2026-08-01 修订）**：原写「引用不拷贝、门禁不旁路」。第二层经 owner 拍板
+> 改为 vendored 搬入（理由见该层），故第一条红线调整为 **「搬运必须留同步锚点」**
+> ——即 `SYNC.json` 记录来源 commit，杜绝无法追溯的漂移；**「门禁不旁路」不变**。
 
 ### 第一层：驾驶舱（立即可用，成本≈0）
 
@@ -80,11 +84,44 @@ ZeroCraft 当「驾驶舱」读 Apollo 仓，**不搬运任何代码**。双方�
 **边界**：ZeroCraft 是 Electron 桌面端，只在本机跑；云端 session 不受益于其 GUI，
 两边并行不冲突，状态统一汇到各自仓库。
 
-### 第二层：积木层（引用，不搬家）
+### 第二层：引擎内核（**已 vendored 搬入** · 2026-08-01 owner 拍板）
 
-Apollo 的引擎本体 / tier1-4 能力库 / UI starters / sample 游戏，经 `workingDir`
-天然可读。**现阶段明确不做 vendored 拷贝**（会立刻产生两份真相）。
-待真正要做「编辑器 + 引擎一体打包」的产品形态时，再评估 git submodule 挂法。
+> **口径修订**：本层原写「引用不搬家」。那个结论是按「ZeroCraft 当驾驶舱、帮忙开发
+> Apollo」的用途推出的；owner 澄清真实目标是**把 Apollo 引擎作为 ZeroCraft 产品自身的
+> 运行时**——产品的心脏留在另一个仓里用指针指着，等于本产品无法独立编译与发布。
+> 且上游 39,912 文件里引擎只占 1.4%，为 554 个文件挂一个 4 万文件的 submodule 不划算。
+> 故本层改为 **vendored 搬入**；第一层（驾驶舱）与第三层（接口层）口径不变。
+
+已落地为 **`packages/apollo-engine`**（759 文件，详见该包 `README.md` 与 `SYNC.json`）：
+
+- **引擎核心**：`engine` / `skills` / `assembly` / `renderer` / `runtime` / `net` /
+  `services` / `ui` / `assets` / `debug`
+- **制作端 Studio**：`studio` —— `DesignStudio` / `CreationWizard` / `GamePipelinePanel`，
+  以及美术管线面板 `ArtLedgerPanel` / `AssetBrowser` / `AssetImportWizard` /
+  `AssetGenPanel` / `AssetPendingReview`
+- **手册与核心铁律**：`docs/playbooks`（20 份「怎么用引擎做游戏」）、`docs/rules`
+  （数据驱动第一性原则、UI 契约、引擎总览、LLM onboarding）
+- **美术管线工具与门禁**：`tools/` 22 个（`ledger-audit` / `styleset-ledger` /
+  `asset-reconcile` / `art-resolve` / `ui-audit` / `scoped-gate` 等）
+
+**防「两份真相」的机制 = `SYNC.json` 同步锚点**：记录 vendored 自上游哪个 commit
+（当前 `f23f6ee`），任何一次重新同步必须更新它，据此可精确 diff 上游引擎面的增量。
+
+**没搬的**：游戏内容与美术资源（上游 37,833 个文件是美术素材，属于具体游戏）。
+例外是 Studio 生产代码所依赖的两个内置样例 `game-e` / `game-f`（76 文件、无美术资源）
+—— 这是搬运中发现的事实：`src/studio` 的 `AssetLibrary` / `StudioInspector` /
+`assets-model` 直接 import 它们的蓝图与资源清单，后续可解耦为可插拔样例注册表。
+游戏按需单独搬，方法见包内 README「搬一个游戏进来」。
+
+**已验证**：2251 条包内引用全量静态校验，**零断链**。
+
+**接线待办**（vendored ≠ 已接入；当前状态已如实登记在
+`scripts/test-workspaces.config.mjs`，**不谎报通过**）：
+
+1. 安装引擎依赖（`three` / `cannon-es` / `react` / `react-dom`）；
+2. 宿主 Vite / Vitest 配置引擎路径别名（`@engine` / `@skills` / `@atom-skills` /
+   `@assets` / `@services` / `@renderer` / `@ui` / `@net`）；
+3. 把上游引擎测试纳入本仓 runner，届时把登记改为 `requiredUnitWorkspace`。
 
 ### 第三层：接口层（唯一需要新做的，很薄）
 
@@ -132,6 +169,8 @@ Apollo 的引擎本体 / tier1-4 能力库 / UI starters / sample 游戏，经 `
 | 2026-07-28 | Phase 2 基座选定 = fork Cindy 开源客户端 | 见下方执行进度 |
 | 2026-07-28 | 只改「外部展示名」为 ZeroCraft，内部 `@cindy/*` 命名空间/标识符不动 | 避免破坏 `.cindy` 插件格式 / userData / 协议契约 |
 | 2026-07-28 | 云端能力暂不保留，走本地优先；简化不删代码 | owner 决策 |
+| 2026-07-31 | Phase 3 改为三层口径；核实并记录项目自动化任意命令执行风险 | 纠正「可在设置里关闭项目自动化」——该开关不存在 |
+| 2026-08-01 | 第二层改为 vendored 搬入 `packages/apollo-engine`（引擎+Studio+手册+美术管线工具，759 文件） | owner 拍板：引擎是本产品运行时，须能独立编译发布；以 `SYNC.json` 锚定上游 commit 防漂移 |
 
 ---
 

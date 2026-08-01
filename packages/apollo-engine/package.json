@@ -1,0 +1,38 @@
+{
+  "name": "@zerocraft/apollo-engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Apollo 数据驱动 ECS 2D/3D 游戏引擎 + 制作端 Studio（自 eaglefly628/ApolloGame vendored，见 SYNC.json）",
+  "type": "module",
+  "main": "./src/engine/index.ts",
+  "exports": {
+    ".": "./src/engine/index.ts",
+    "./engine/*": "./src/engine/*",
+    "./skills/*": "./src/skills/*",
+    "./assembly/*": "./src/assembly/*",
+    "./renderer/*": "./src/renderer/*",
+    "./runtime/*": "./src/runtime/*",
+    "./net/*": "./src/net/*",
+    "./services/*": "./src/services/*",
+    "./ui/*": "./src/ui/*",
+    "./studio/*": "./src/studio/*",
+    "./assets/*": "./src/assets/*"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "ledger:audit": "node tools/ledger-audit.mjs",
+    "ui:audit": "node tools/ui-audit.mjs",
+    "gate": "node tools/scoped-gate.mjs",
+    "gate:run": "node tools/scoped-gate.mjs --run"
+  },
+  "dependencies": {
+    "cannon-es": "^0.20.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.184.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.184.1"
+  }
+}
