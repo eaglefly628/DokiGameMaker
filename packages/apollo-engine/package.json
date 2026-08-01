@@ -26,7 +26,8 @@
     "gate": "node tools/scoped-gate.mjs",
     "gate:run": "node tools/scoped-gate.mjs --run",
     "dev": "vite",
-    "build:preview": "vite build"
+    "build:preview": "vite build",
+    "catalog": "vite-node src/assembly/catalog.run.ts"
   },
   "dependencies": {
     "cannon-es": "^0.20.0",
@@ -39,6 +40,7 @@
     "happy-dom": "^20.10.6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "vite": "^5.4.2"
+    "vite": "^5.4.2",
+    "vite-node": "^2.0.5"
   }
 }

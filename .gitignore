@@ -116,7 +116,13 @@ nul
 # Agent 工具私有目录整体忽略；共享说明只通过 AGENTS.md / CLAUDE.md 提交。
 .agents/
 .learnings/
-.claude/
+# .claude 其余部分（会话、本地设置等）仍忽略，但 **skills 例外放行**：
+# skill 是「本项目该怎么做事」的团队知识，且 ZeroCraft/Claude Code 会自动扫描
+# 项目目录下的 .claude/skills 使其生效——不随仓分发就等于每台机器各配一份。
+# （上游 Apollo 仓亦以此方式提交其 check-ui / resource-manager skill。）
+.claude/*
+!.claude/skills/
+.claude/settings.local.json
 CLAUDE.local.md
 .codex/
 .cursor/
