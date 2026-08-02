@@ -19,10 +19,12 @@
  *   - workdir 为空串 = remote session 或还没解析,plugin 自行降级渲染占位。
  */
 
-import { useCallback, useEffect, useMemo, useRef, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { createLogger } from '@/lib/logger';
+import { toast } from '@/lib/toast';
+import { extractIpcError } from '@/utils/ipcError';
 import { useAppShortcut } from '@/hooks/useAppShortcut';
 import { useMacFullscreen } from '@/hooks/useMacFullscreen';
 import { RightSidebarDetach } from '@/components/layout/RightSidebarDetach';
@@ -54,6 +56,8 @@ import type { TabKindHostContext, TabKindId, TabState } from './types';
 // getTabKind 查 registry。
 import './plugins';
 import { initRsbBrowserBridge } from './lib/rsbBrowserBridge';
+import { openGamePreviewInSidebar } from './lib/openGamePreview';
+import { gamePreviewErrorKey } from './lib/gamePreviewErrorKey';
 
 const log = createLogger('rightSidebar.shell');
 /**
@@ -241,6 +245,28 @@ export function RightSidebarShell({
     [sessionId],
   );
 
+  // ── 「运行游戏预览」──────────────────────────────────────────────────
+  // 一体化落地点(docs/REQUIREMENTS.md §7):main 起引擎 dev server(端口上已经有
+  // 服务就复用),起好后**由这里**开一个 web-browser 页签指向它 —— 全程不碰系统
+  // 浏览器。冷启动要等 Vite 预打包,期间入口置灰防连点;失败按错误码出 toast。
+  //
+  // workdir 为空(remote 会话 / 尚未解析)时不渲染入口:没有本地目录就没有可跑的
+  // 引擎仓库,与其点了报错不如不给。
+  const [gamePreviewStarting, setGamePreviewStarting] = useState(false);
+  const canRunGamePreview = Boolean(sessionId) && workdir !== '' && !remoteHostId;
+  const handleRunGamePreview = useCallback(() => {
+    if (!sessionId || !canRunGamePreview || gamePreviewStarting) return;
+    setGamePreviewStarting(true);
+    void openGamePreviewInSidebar(sessionId, workdir)
+      .catch((err) => {
+        log.error('game preview failed', { sessionId, err });
+        toast.error(t(gamePreviewErrorKey(err)));
+      })
+      .finally(() => {
+        setGamePreviewStarting(false);
+      });
+  }, [canRunGamePreview, gamePreviewStarting, sessionId, t, workdir]);
+
   const handleClose = useCallback(
     (tabId: string) => {
       if (!sessionId) return;
@@ -411,6 +437,8 @@ export function RightSidebarShell({
             onAdd={handleAdd}
             onCloseOthers={handleCloseOthers}
             onCloseAll={handleCloseAll}
+            onRunGamePreview={canRunGamePreview ? handleRunGamePreview : undefined}
+            gamePreviewStarting={gamePreviewStarting}
             pillVariant="chip"
             addButtonWrapperClassName="h-[30px]"
           />
@@ -460,6 +488,8 @@ export function RightSidebarShell({
           onDetach={onDetach}
           onCloseOthers={handleCloseOthers}
           onCloseAll={handleCloseAll}
+          onRunGamePreview={canRunGamePreview ? handleRunGamePreview : undefined}
+          gamePreviewStarting={gamePreviewStarting}
           chromeWindowDrag={chromeWindowDrag}
         />
       )}
@@ -475,6 +505,8 @@ export function RightSidebarShell({
             onAddReviewTab={() => handleAdd('review')}
             onAddBrowserTab={() => handleAdd('web-browser')}
             onAddTerminalTab={() => handleAdd('terminal')}
+            onRunGamePreview={canRunGamePreview ? handleRunGamePreview : undefined}
+            gamePreviewStarting={gamePreviewStarting}
             ghostTabMetas={ghostTabMetas}
             onAddGhostTab={handleAdd}
           />

@@ -565,6 +565,7 @@ import {
 } from './app-shortcuts/index.js';
 import { installNewMakerWindowShortcut } from './app-shortcuts/new-maker-window-shortcut.js';
 import { registerLayoutIpc } from './layout/index.js';
+import { registerGamePreviewIpc } from './game-preview/index.js';
 import {
   getGhostManager,
   isGhostAvailableForActiveSession,
@@ -1102,6 +1103,12 @@ registerAppShortcutIpc();
 // renderer 首帧 sendSync 拉布局(规则 7 无跳变)、set/reset 写路径、changed
 // 广播。注册时顺带 ensurePersisted:userData 落 layout.v1.json + 损坏自愈。
 registerLayoutIpc();
+
+// ── 游戏预览 dev server IPC ──────────────────────────────────────────
+// 右侧栏「运行游戏预览」:main 起 ZeroCraft 引擎的 Vite dev server(端口已被
+// 别人占着就复用),renderer 拿到 URL 后自己开 web-browser 页签。见
+// main/game-preview/。顶层注册,ipcMain.handle 在 app ready 前注册也有效。
+registerGamePreviewIpc();
 
 // ── 意识仓库 IPC──────────────────────────────────────────────────────
 // renderer 首帧 sendSync 拉已装意识清单(意识面板与内置面板同帧注册,规则 7

@@ -5,7 +5,7 @@
 > 架构分期见 `docs/ROADMAP.md`；引擎同步锚点见 `packages/apollo-engine/SYNC.json`。
 
 **分支**：`claude/ZeroMainBranch`（唯一开发分支，直推）
-**最后交接**：2026-08-02 · 最后提交 `84a9a7c`
+**最后交接**：2026-08-02 · 待办 1（游戏跑进右侧栏）代码完成，等实机目检
 
 ---
 
@@ -21,6 +21,7 @@
 | 美术账本审计 | `pnpm --filter @zerocraft/apollo-engine ledger:audit` | ✅ |
 | VS Code 点选运行 | `.vscode/launch.json`（9 项 + 1 compound） | ✅ |
 | game-maker Skill | `.claude/skills/zerocraft-game-maker/SKILL.md`（项目目录自动扫描生效） | ✅ |
+| **游戏跑进右侧栏** | 右侧栏「+」→ 游戏 →「运行游戏预览」（空态首行同款入口） | ✅ 代码完成、单测绿；**实机未目检** |
 
 **引擎包体检**：320 测试文件 / 2686 测试通过、1 跳过；`tsc --noEmit` 0 error。
 
@@ -28,24 +29,20 @@
 
 ## 二、下一步待办（按优先级）
 
-### 待办 1 —— 游戏跑进右侧栏（**owner 明确要的一体化，最高优先**）· ① IDE 框架线
+### 待办 1 —— 实机目检右侧栏预览（**唯一剩下的一步**）· ① IDE 框架线
 
-现状：预览要另开浏览器 `localhost:5180`，不是一体化。
+代码已按路线 A 落地（详见 `docs/REQUIREMENTS.md` §7「右侧栏预览的落地口径」），
+容器里跑不了 Electron GUI，**实机没看过**。owner 本机验一次：
 
-**调查已完成，两条路都可行，建议走 A：**
+1. `pnpm --filter desktop dev`（别用 `pnpm dev:desktop`，见三-2）；
+2. 开一个 workdir 在本仓的会话 → 右侧栏「+」→ 游戏 →「运行游戏预览」；
+3. 预期：首次冷启动等 Vite 预打包（入口置灰显示「正在启动…」），随后右侧栏出现
+   一个 web-browser 页签加载 `http://localhost:5180/`，**不弹系统浏览器**；
+4. 顺带确认 Light / Dark 两种模式下入口行与菜单项的观感（代码只用语义 token，
+   没有单模式硬编码，但两模式实机都没看过）。
 
-- **路线 A（内置·推荐）**：右侧栏本来就有 `web-browser` 面板（同级还有 terminal /
-  file-browser / review / orca-workers）。程序化入口：
-  ```ts
-  // apps/desktop/src/renderer/features/right-sidebar/store.ts:381
-  addTab(sessionId: string, kind: TabKindId, initialState: unknown): Promise<TabState>
-  // 用法示意：addTab(sessionId, 'web-browser', { url: 'http://localhost:5180' })
-  ```
-  要解决的：谁负责起 dev server（agent 跑 `pnpm dev:engine`？还是宿主起）、
-  以及起好后由谁触发 addTab。
-- **路线 B（插件）**：`apps/desktop/src/main/cindy-brain/previewSlot.ts` —— 插件经管子
-  上行 `{type:'preview-request', url, sessionId?}`，主机在右侧栏开标签；需 `preview`
-  槽 + `preview.hosts` 白名单。TapTap Maker 用的就是这条。
+失败时按 toast 文案排：`引擎依赖尚未安装` = 仓库根 `pnpm install`；
+`已有另一个仓库的预览服务占用着端口` = 先停掉别的 `pnpm dev:engine`。
 
 ### 待办 2 —— 用它真做一个游戏（验证流程是否好用）· ③ 游戏内容线
 
@@ -73,6 +70,12 @@
      `cdnBaseUrl` 是占位域名 `cdn.zerocraft.example`）。owner 本机正常。
    - `packages/maker-remote-ssh`：测试用 `chmod 0o555` 模拟写失败，容器以 root 运行
      无视权限位 → 断言落空。
+
+   2026-08-02 实测的容器基线（干净 HEAD 与改动后**逐条相同**）：desktop 包 10 个测试
+   文件 / 86 条红，集中在 `src/main/maker-host/**`（codexProxyHost、claudeAuthAdapter
+   等，随 claude/codex 二进制下不来）、`agentBinaryLinuxPrepare`、`agent-island`，以及
+   3 个 renderer 用例。**验证方法照抄**：`git stash push -u` → 跑同一批文件 → 对比条数
+   → `git stash pop`。数字对上就是环境限制，别去修。
 2. **别用 `pnpm dev:desktop`**——它先跑 `ensure-deps.mjs`，依赖漂移时**自动装依赖**，
    owner 明确不希望每次被拉去安装。用 `pnpm --filter desktop dev`。
 3. **三处别名配置必须同形**：`packages/apollo-engine/` 的 `tsconfig.json` paths、
@@ -82,6 +85,10 @@
 5. **引擎是 vendored**：改 `src/engine` 等共享面会在下次上游同步时冲突，
    必须在改动说明里点出（`SYNC.json` 锚定上游 commit `f23f6ee`）。
 6. **git push 别用管道判断结果**：`git push | tail` 会吞掉真实退出码造成假成功。
+7. **预览端口是 `strictPort: 5180`**（`packages/apollo-engine/vite.config.ts`）——
+   被占用时 Vite 直接报错而不是换口。所以右侧栏预览的逻辑是**先探活后拉起**：端口
+   上已经有服务就复用（标 `external`，退出时不杀它）。改端口要同步改
+   `apps/desktop/src/shared/gamePreviewIpc.ts` 的常量，否则「起来了但打开的是空页」。
 
 ---
 

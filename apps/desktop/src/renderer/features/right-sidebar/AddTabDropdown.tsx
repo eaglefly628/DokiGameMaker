@@ -14,7 +14,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FileDiff, FolderTree, Globe, Terminal } from 'lucide-react';
+import { FileDiff, FolderTree, Gamepad2, Globe, Terminal } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { listGhostTabMenuMetas, useTabKindRegistryVersion } from './registry';
@@ -35,6 +35,15 @@ interface AddTabDropdownProps {
    * dropdown 改 trailing 文案为"已打开"并维持 enabled(点击 = host 切到现有)。
    */
   existingKinds?: ReadonlySet<TabKindId>;
+  /**
+   * 「运行游戏预览」。**不是一种 tab kind** —— 它是一个动作:先让 main 起引擎
+   * dev server,再由 host 开一个 web-browser 页签指向它。所以走独立回调而不是
+   * 挤进 MENU_ITEMS,免得 TabKindId 里混进一个没有 plugin 的假 kind。
+   * 缺省 = 不渲染该组(无会话 / 无 workdir)。
+   */
+  onRunGamePreview?: () => void;
+  /** true = 正在启动,菜单项禁用(冷启动要等 Vite 预打包,别让用户连点)。 */
+  gamePreviewStarting?: boolean;
 }
 
 // Phase 1 硬编码。Phase 2 之后由 plugin registry 自动汇总。
@@ -70,7 +79,13 @@ const MENU_ITEMS: TabKindMenuMeta[] = [
   },
 ];
 
-export function AddTabDropdown({ onClose, onSelect, existingKinds }: AddTabDropdownProps) {
+export function AddTabDropdown({
+  onClose,
+  onSelect,
+  existingKinds,
+  onRunGamePreview,
+  gamePreviewStarting = false,
+}: AddTabDropdownProps) {
   const { t } = useTranslation();
   const ref = useRef<HTMLDivElement | null>(null);
   // 视口边缘检测:默认 left-0 从 + 按钮往右展开;若右边空间不够 220 + 8,翻成
@@ -123,6 +138,27 @@ export function AddTabDropdown({ onClose, onSelect, existingKinds }: AddTabDropd
       )}
       style={{ boxShadow: 'var(--shadow-menu)' }}
     >
+      {/* 游戏组排在最前:本产品的主线是做游戏(docs/REQUIREMENTS.md §1),
+          预览入口不该藏在通用面板后面。 */}
+      {onRunGamePreview && (
+        <>
+          <GroupHeader label={t('rightSidebar.gamePreview.menuGroup')} />
+          <DropdownItem
+            icon={Gamepad2}
+            label={t('rightSidebar.gamePreview.run')}
+            disabled={gamePreviewStarting}
+            trailing={
+              gamePreviewStarting ? (
+                <span className="text-[10px] text-[var(--text-tertiary)]">
+                  {t('rightSidebar.gamePreview.starting')}
+                </span>
+              ) : undefined
+            }
+            onClick={onRunGamePreview}
+          />
+          <div className="mx-1 my-1 h-px bg-[var(--border-default)]" />
+        </>
+      )}
       <GroupHeader label={t('rightSidebar.tabs.menu.addLabel')} />
       {enabled.map((m) => {
         const alreadyOpen = m.singleton && existingKinds?.has(m.kind);

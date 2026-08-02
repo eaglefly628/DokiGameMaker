@@ -28,6 +28,7 @@ import {
   ANALYTICS_SETTINGS_CHANGE_CHANNEL,
   type AnalyticsSettingsPayload,
 } from '../shared/analyticsSettings';
+import { GAME_PREVIEW_INVOKE } from '../shared/gamePreviewIpc';
 import { SELECTION_CONTEXT_MENU_ADD_TO_CHAT_CHANNEL } from '../shared/selectionContextMenu';
 import { SESSION_ATTENTION_CLEARED_CHANNEL } from '../shared/sessionAttention';
 import { VOICE_INPUT_POWER_STATE_CHANNEL } from '../shared/voiceInputPowerIpc';
@@ -795,6 +796,16 @@ contextBridge.exposeInMainWorld('electronAPI', {
       ipcRenderer.invoke('layout:set', layout),
     reset: (): Promise<{ layout: unknown }> => ipcRenderer.invoke('layout:reset'),
     onChanged: fanOutLayoutChanged,
+  },
+
+  // 游戏预览 dev server (shared/gamePreviewIpc.ts)。renderer 只能说"给这个
+  // workdir 起预览 / 停 / 查状态",可执行文件与参数全由 main 从仓库结构推导 ——
+  // 桥这边不暴露任何能让 renderer 指定命令的入口。
+  gamePreview: {
+    start: (params: { workdir: string }): Promise<unknown> =>
+      ipcRenderer.invoke(GAME_PREVIEW_INVOKE.START, params),
+    stop: (): Promise<unknown> => ipcRenderer.invoke(GAME_PREVIEW_INVOKE.STOP),
+    status: (): Promise<unknown> => ipcRenderer.invoke(GAME_PREVIEW_INVOKE.STATUS),
   },
 
   // 意识仓库 (shared/ghost.ts)。listSync 走 sendSync:意识面板要与内置

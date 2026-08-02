@@ -3266,6 +3266,21 @@
       },
       "placeholderHint": "{{kind}} — 内容将在后续阶段加入"
     },
+    "gamePreview": {
+      "menuGroup": "游戏",
+      "run": "运行游戏预览",
+      "runSub": "在右侧栏里跑 ZeroCraft 引擎，不另开浏览器",
+      "starting": "正在启动…",
+      "errors": {
+        "notEngineRepo": "当前工作目录不在 ZeroCraft 仓库里，找不到引擎包。",
+        "depsMissing": "引擎依赖尚未安装。先在仓库根跑一次 pnpm install，再重试。",
+        "startFailed": "预览服务启动失败。详情见桌面端日志。",
+        "startTimeout": "预览服务启动超时。首次冷启动需要预打包依赖，稍后重试。",
+        "otherProjectRunning": "已有另一个仓库的预览服务占用着端口，先停掉它再试。",
+        "permissionDenied": "此操作只能从主界面发起。",
+        "generic": "无法启动游戏预览。"
+      }
+    },
     "fileBrowser": {
       "noWorkdir": "当前对话未关联本地工作目录，文件浏览器不可用",
       "filterPlaceholder": "筛选文件…",

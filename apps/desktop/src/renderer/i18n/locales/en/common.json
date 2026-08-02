@@ -3267,6 +3267,21 @@
       },
       "placeholderHint": "{{kind}} — content coming in a later phase"
     },
+    "gamePreview": {
+      "menuGroup": "Game",
+      "run": "Run game preview",
+      "runSub": "Run the ZeroCraft engine in the sidebar — no separate browser",
+      "starting": "Starting…",
+      "errors": {
+        "notEngineRepo": "The current working directory is not inside a ZeroCraft repository.",
+        "depsMissing": "Engine dependencies are not installed. Run pnpm install at the repository root, then try again.",
+        "startFailed": "The preview server failed to start. See the desktop logs for details.",
+        "startTimeout": "The preview server timed out while starting. A cold start pre-bundles dependencies; try again shortly.",
+        "otherProjectRunning": "A preview server for another repository is holding the port. Stop it first.",
+        "permissionDenied": "This action can only be started from the main window.",
+        "generic": "Could not start the game preview."
+      }
+    },
     "fileBrowser": {
       "noWorkdir": "This session has no local working directory; file browser unavailable",
       "filterPlaceholder": "Filter files…",

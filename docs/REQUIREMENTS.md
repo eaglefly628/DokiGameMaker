@@ -76,8 +76,20 @@ Studio 侧有对应面板（`ArtLedgerPanel` / `AssetBrowser` / `AssetImportWiza
 | 「新建」页只提供做游戏的入口，移除通用编码入口 | ✅ 已实现 |
 | 点击入口即触发 game-maker Skill，自动读八阶段流程与积木库 | ✅ 已实现 |
 | 新建游戏一条命令起手，产出可跑真代码 | ✅ 已实现（`pnpm new:game`） |
-| **游戏跑在 ZeroCraft 右侧栏，不另开浏览器** | ⬜ **未实现**（见 HANDOFF 待办 1） |
+| **游戏跑在 ZeroCraft 右侧栏，不另开浏览器** | ✅ 已实现（右侧栏「运行游戏预览」，见下） |
 | 一键构建 / 发布 | ⬜ 未实现 |
+
+**右侧栏预览的落地口径**（改动只在 `apps/desktop/**`，属 ① IDE 框架线）：
+
+- 入口：右侧栏「+」菜单的**游戏**组、以及空态首行「运行游戏预览」。
+- 谁起 dev server：**main 进程**。renderer 只交一个 `workdir` 作为「从哪往上找仓库」的
+  线索，要执行什么由 main 从仓库结构推导（`packages/apollo-engine/package.json` 的
+  `name` 必须恰为 `@zerocraft/apollo-engine`），renderer 无从指定命令、参数或环境。
+- 端口 5180 上**已经有服务就复用**（用户自己 `pnpm dev:engine` 起的也算），标记
+  `external` 并且退出时不去杀它；只有本进程拉起的才在退出时回收。
+- 谁触发 addTab：**renderer**。main 起好后回一个 URL，renderer 走既有的
+  `openUrlInSidebarBrowser` 开 `web-browser` 页签，全程不碰系统浏览器。
+- 依赖没装时**如实报错让用户自己装**，不代跑 `pnpm install`。
 
 ## 8. 工作分工（三条线·各自域界与门禁）
 

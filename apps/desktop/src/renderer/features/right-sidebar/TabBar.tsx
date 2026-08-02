@@ -79,6 +79,9 @@ interface TabBarProps {
    *  Windows 主窗口展开态同时传入 onCloseSidebar,折叠按钮归属本 TabBar;
    *  折叠后再由聊天区角上的 chip 提供展开入口。 */
   onDetach?: () => void;
+  /** 「+」菜单里的「运行游戏预览」动作;透传给 TabStrip → AddTabDropdown。 */
+  onRunGamePreview?: () => void;
+  gamePreviewStarting?: boolean;
   /** 本条横带是否作为**窗口**拖拽区(B3):主窗口内嵌形态传 false —— 空白处是
    *  "拖面板"手势面(窗口拖拽区收不到鼠标事件,二者物理互斥;拖窗走左栏顶行);
    *  detached 子窗口等其它宿主不传,默认 true 维持经典拖窗行为。 */
@@ -95,6 +98,9 @@ interface TabStripProps {
   onAdd: (kind: TabKindId) => void;
   onCloseOthers?: (keepTabId: string) => void;
   onCloseAll?: () => void;
+  /** 见 AddTabDropdown 同名 prop —— 不是 tab kind,是一个动作。 */
+  onRunGamePreview?: () => void;
+  gamePreviewStarting?: boolean;
   className?: string;
   /**
    * pill 视觉变体:
@@ -188,6 +194,8 @@ export function TabBar({
   onCloseOthers,
   onCloseAll,
   onDetach,
+  onRunGamePreview,
+  gamePreviewStarting,
   chromeWindowDrag = true,
 }: TabBarProps) {
   const { t } = useTranslation();
@@ -211,6 +219,8 @@ export function TabBar({
         onAdd={onAdd}
         onCloseOthers={onCloseOthers}
         onCloseAll={onCloseAll}
+        onRunGamePreview={onRunGamePreview}
+        gamePreviewStarting={gamePreviewStarting}
         addButtonWrapperClassName="h-[36px]"
         addButtonClassName="mt-[3px]"
       />
@@ -268,6 +278,8 @@ export function TabStrip({
   onAdd,
   onCloseOthers,
   onCloseAll,
+  onRunGamePreview,
+  gamePreviewStarting = false,
   className,
   pillVariant = 'flush',
   addButtonWrapperClassName,
@@ -424,6 +436,15 @@ export function TabStrip({
               setDropdownOpen(false);
             }}
             existingKinds={existingKinds}
+            onRunGamePreview={
+              onRunGamePreview
+                ? () => {
+                    onRunGamePreview();
+                    setDropdownOpen(false);
+                  }
+                : undefined
+            }
+            gamePreviewStarting={gamePreviewStarting}
           />
         )}
       </div>

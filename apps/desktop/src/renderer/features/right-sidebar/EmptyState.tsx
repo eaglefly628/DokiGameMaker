@@ -11,7 +11,7 @@
  */
 
 import { useState } from 'react';
-import { ChevronRight, FileDiff, FolderOpen, Globe, Puzzle, Terminal } from 'lucide-react';
+import { ChevronRight, FileDiff, FolderOpen, Gamepad2, Globe, Puzzle, Terminal } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
@@ -23,6 +23,13 @@ interface EmptyStateProps {
   onAddBrowserTab: () => void;
   onAddTerminalTab: () => void;
   onAddReviewTab: () => void;
+  /**
+   * 「运行游戏预览」——本产品的主线动作(docs/REQUIREMENTS.md §7:游戏跑在右侧栏,
+   * 不另开浏览器),所以排在列表最前。缺省 = 不渲染该行(无会话 / 无 workdir)。
+   */
+  onRunGamePreview?: () => void;
+  /** true = 预览正在启动中,行禁用并显示启动中副标题(冷启动要等 Vite 预打包)。 */
+  gamePreviewStarting?: boolean;
   /** 启用中的插件页签 menu 项(listGhostTabMenuMetas 产物);缺省/空 = 不渲染插件行。 */
   ghostTabMetas?: TabKindMenuMeta[];
   onAddGhostTab?: (kind: TabKindId) => void;
@@ -33,6 +40,8 @@ export function EmptyState({
   onAddBrowserTab,
   onAddTerminalTab,
   onAddReviewTab,
+  onRunGamePreview,
+  gamePreviewStarting = false,
   ghostTabMetas = [],
   onAddGhostTab,
 }: EmptyStateProps) {
@@ -51,6 +60,19 @@ export function EmptyState({
         </span>
       </div>
       <div className="flex w-full flex-col">
+        {onRunGamePreview && (
+          <ActionRow
+            icon={Gamepad2}
+            label={t('rightSidebar.gamePreview.run')}
+            sub={
+              gamePreviewStarting
+                ? t('rightSidebar.gamePreview.starting')
+                : t('rightSidebar.gamePreview.runSub')
+            }
+            onClick={onRunGamePreview}
+            disabled={gamePreviewStarting}
+          />
+        )}
         <ActionRow
           icon={FolderOpen}
           label={t('rightSidebar.tabs.empty.openFile')}
@@ -155,6 +177,7 @@ function ActionRow({
   sub,
   onClick,
   inset = false,
+  disabled = false,
 }: {
   icon: LucideIcon;
   label: string;
@@ -162,13 +185,17 @@ function ActionRow({
   onClick: () => void;
   /** 折叠分组的子行:左侧缩进一档,视觉上归属上方 expander。 */
   inset?: boolean;
+  /** 进行中的动作(如预览正在启动)禁用重复点击;颜色仍走 token,两模式同源。 */
+  disabled?: boolean;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      disabled={disabled}
       className={cn(
-        'group flex w-full items-center gap-3.5 border-b border-[var(--border-default)] px-1 py-3 text-left transition-colors hover:bg-[var(--surface-hover)]',
+        'group flex w-full items-center gap-3.5 border-b border-[var(--border-default)] px-1 py-3 text-left transition-colors',
+        disabled ? 'cursor-not-allowed opacity-50' : 'hover:bg-[var(--surface-hover)]',
         inset && 'pl-9',
       )}
     >

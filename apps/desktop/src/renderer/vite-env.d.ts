@@ -1012,6 +1012,18 @@ interface ElectronAPI {
     ) => () => void;
   };
 
+  /**
+   * 游戏预览 dev server —— 契约见 shared/gamePreviewIpc.ts,main 端见
+   * main/game-preview/。renderer 只提供 workdir,起什么进程由 main 推导。
+   */
+  gamePreview: {
+    start: (params: {
+      workdir: string;
+    }) => Promise<import('../shared/gamePreviewIpc').GamePreviewStatus>;
+    stop: () => Promise<import('../shared/gamePreviewIpc').GamePreviewStatus>;
+    status: () => Promise<import('../shared/gamePreviewIpc').GamePreviewStatus>;
+  };
+
   /** 意识仓库 —— 数据模型与校验见 shared/ghost.ts,main 端见 main/cindy-brain/。 */
   ghosts: {
     /** 首帧同步拉取已装清单(规则 7:意识面板与内置面板同帧注册,无跳变)。 */
