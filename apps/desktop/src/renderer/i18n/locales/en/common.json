@@ -3854,10 +3854,10 @@
     "createAgent": {
       "quickStart": "Quick start",
       "quickStarts": {
-        "explore": "Explore and understand code",
-        "build": "Build a feature, app, or tool",
-        "review": "Review code and suggest changes",
-        "fix": "Fix issues and failures"
+        "zerocraftGame": "Create a new game with the ZeroCraft engine",
+        "zerocraftBoard": "Check the board and advance a game to its next stage",
+        "zerocraftMechanic": "Add a mechanic or change gameplay",
+        "zerocraftCatalog": "Browse the engine capability catalog"
       },
       "sidebar": {
         "new": "New",

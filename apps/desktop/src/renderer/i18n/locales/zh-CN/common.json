@@ -3853,10 +3853,10 @@
     "createAgent": {
       "quickStart": "快速开始",
       "quickStarts": {
-        "explore": "探索并理解代码",
-        "build": "构建新功能、应用或工具",
-        "review": "审查代码并提出修改建议",
-        "fix": "修复问题和失败"
+        "zerocraftGame": "用 ZeroCraft 引擎新建一个游戏",
+        "zerocraftBoard": "看流程板，推进已有游戏到下一阶段",
+        "zerocraftMechanic": "给游戏加一个玩法或改机制",
+        "zerocraftCatalog": "查引擎有哪些积木能用"
       },
       "sidebar": {
         "new": "新建",
@@ -7255,7 +7255,6 @@
         "cancelFailed": "取消订阅失败，请稍后重试。"
       },
       "topupCard": {
-
         "action": "购买点数"
       }
     },

@@ -3853,10 +3853,10 @@
     "createAgent": {
       "quickStart": "クイックスタート",
       "quickStarts": {
-        "explore": "コードを探索して理解",
-        "build": "新機能、アプリ、ツールを構築",
-        "review": "コードをレビューして修正を提案",
-        "fix": "問題や失敗を修正"
+        "zerocraftGame": "ZeroCraft エンジンで新しいゲームを作る",
+        "zerocraftBoard": "進行ボードを見て次の段階へ進める",
+        "zerocraftMechanic": "ゲームプレイを追加・変更する",
+        "zerocraftCatalog": "エンジンの機能カタログを見る"
       },
       "sidebar": {
         "new": "新規",

@@ -115,6 +115,9 @@ import {
   MessageSquareCode,
   MonitorSmartphone,
   SearchCode,
+  Gamepad2,
+  ListChecks,
+  Blocks,
 } from 'lucide-react';
 import type { Effort, PermissionMode } from '@/lib/userPreferences.types';
 import type { AttachedFile, MentionedResource } from '@/lib/fileTypes';
@@ -247,24 +250,32 @@ function draftEnableOrcaOptions(
 
 const createAgentQuickStarts = [
   {
-    key: 'explore',
-    labelKey: 'newChat.createAgent.quickStarts.explore',
+    // ── ZeroCraft Game Maker 的四个主线入口 ─────────────────────────────
+    // 本产品聚焦「用 ZeroCraft 引擎做游戏」，故快捷入口全部指向游戏创作，
+    // 不保留通用编码入口（owner 2026-08-02 决策）。
+    // 点击 = 把提示词预填进输入框 → 触发 .claude/skills/zerocraft-game-maker
+    // Skill，由它按八阶段流程板推进，并去 packages/apollo-engine 查积木与参考代码。
+    key: 'zerocraftGame',
+    labelKey: 'newChat.createAgent.quickStarts.zerocraftGame',
+    icon: Gamepad2,
+  },
+  {
+    // 已有游戏：先看板再干活，只做第一个非绿阶段（治长流程漂移）。
+    key: 'zerocraftBoard',
+    labelKey: 'newChat.createAgent.quickStarts.zerocraftBoard',
+    icon: ListChecks,
+  },
+  {
+    // 加玩法/改机制：仍然是「查积木 → 改蓝图数据」，不在游戏层自造系统。
+    key: 'zerocraftMechanic',
+    labelKey: 'newChat.createAgent.quickStarts.zerocraftMechanic',
+    icon: Blocks,
+  },
+  {
+    // 查积木清单（现场查，禁止凭记忆）。
+    key: 'zerocraftCatalog',
+    labelKey: 'newChat.createAgent.quickStarts.zerocraftCatalog',
     icon: SearchCode,
-  },
-  {
-    key: 'build',
-    labelKey: 'newChat.createAgent.quickStarts.build',
-    icon: Code2,
-  },
-  {
-    key: 'review',
-    labelKey: 'newChat.createAgent.quickStarts.review',
-    icon: MessageSquareCode,
-  },
-  {
-    key: 'fix',
-    labelKey: 'newChat.createAgent.quickStarts.fix',
-    icon: Hammer,
   },
 ] as const;
 
