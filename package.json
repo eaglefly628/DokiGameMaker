@@ -120,7 +120,8 @@
     "build:mac": "node scripts/ensure-agent-binaries.mjs && pnpm build",
     "pack:mac": "node scripts/ensure-agent-binaries.mjs && node scripts/ensure-deps.mjs && node apps/desktop/scripts/package-desktop.mjs --platform=darwin --arch=arm64 --no-sign",
     "mac:enable-dmg": "pnpm --filter desktop add -D @electron-forge/maker-dmg@^7.11.1",
-    "dev:engine": "pnpm --filter @zerocraft/apollo-engine dev"
+    "dev:engine": "pnpm --filter @zerocraft/apollo-engine dev",
+    "new:game": "pnpm --filter @zerocraft/apollo-engine new-game"
   },
   "dependencies": {
     "gray-matter": "^4.0.3"

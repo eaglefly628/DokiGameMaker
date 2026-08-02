@@ -9,7 +9,24 @@ description: 用 ZeroCraft（Apollo）引擎做游戏的完整工作流。当用
 
 > 所有命令都在仓库根执行。引擎与工具在 `packages/apollo-engine/`。
 
-## 0. 开工第一命令（**不许跳过**）
+## 0. 新建一个游戏（从 ZeroCraft Engine 模板起手）
+
+用户说「新建/做一个游戏」而目标游戏还不存在时，**先用模板建骨架，不要从空文件手写**：
+
+```bash
+pnpm new:game <slug> -- --name "显示名" --pitch "一句话玩法"
+```
+
+它产出的是**能立刻跑起来的真代码**（不是占位注释）：起手蓝图（真 capability）、
+`mount(container) => cleanup` 入口、冒烟测试（真引擎 load + 空跑 2 tick）、设计文档
+骨架，并自动注册进预览页。建完即可 `pnpm dev:engine` 看到它在动。
+
+**新游戏直接长在引擎包内**（`packages/apollo-engine/src/games/<slug>`），所以
+tier1–4 积木库、八阶段流程板、美术管线工具**开箱即得**——不复制引擎、不留第二份真相。
+
+建完接着走下面的流程板。
+
+## 1. 开工第一命令（**不许跳过**）
 
 ```bash
 node packages/apollo-engine/tools/game-pipeline.mjs board <slug>
@@ -25,7 +42,7 @@ manifest / 测试 / 台账 / 审计），不是谁说了算——所以：
 这条设计正是为了治「LLM 长流程上下文丢失/漂移」，见
 `packages/apollo-engine/tools/game-pipeline.mjs` 头注释。
 
-## 1. 八阶段与判据
+## 2. 八阶段与判据
 
 | 阶段 | 做什么 | 机器门判据 |
 | --- | --- | --- |
@@ -53,7 +70,7 @@ node packages/apollo-engine/tools/game-pipeline.mjs concept <slug> --name "…" 
 
 **宣布"完成"的唯一凭据 = 贴 `board <slug>` 的全绿输出。不全绿只许说"做到 SN"。**
 
-## 2. 自证（S4/S5 的硬门，也是自我迭代的抓手）
+## 3. 自证（S4/S5 的硬门，也是自我迭代的抓手）
 
 S4/S5 要求 `S4-alignment.md` / `S5-alignment.md` + **≥5 张画面证据**，缺了直接拒跑。
 这不是走过场——**它是让你自己发现问题、自己改的机制**，不要等人来指出。
@@ -70,7 +87,7 @@ S4/S5 要求 `S4-alignment.md` / `S5-alignment.md` + **≥5 张画面证据**，
 
 规范见 `packages/apollo-engine/docs/playbooks/self-check.md`。
 
-## 3. 查积木（**必做，禁止凭记忆**）
+## 4. 查积木（**必做，禁止凭记忆**）
 
 能力清单会变，**永远现场查**：
 
@@ -85,7 +102,7 @@ pnpm --filter @zerocraft/apollo-engine catalog                # 全量详情
 
 找不到合适积木时**先回来问**，不要自己造一套系统。
 
-## 4. 铁律（违反即判定未完成）
+## 5. 铁律（违反即判定未完成）
 
 **整个游戏是数据，不是代码。** 引擎是固定的确定性解释器；游戏内容用 Assembly JSON
 蓝图描述。产出物是**数据蓝图 + 薄接线**，不是一坨新系统。
@@ -95,7 +112,7 @@ pnpm --filter @zerocraft/apollo-engine catalog                # 全量详情
 3. **禁止 `innerHTML`** —— UI 走 LayoutNode 数据化组件（`@ui/components`）。
 4. **零测试不出货**；不得跳过、删除或弱化测试来制造通过。
 
-## 5. 本地跑起来看
+## 6. 本地跑起来看
 
 ```bash
 pnpm dev:engine     # → http://localhost:5180，选择页点进游戏
@@ -107,7 +124,7 @@ pnpm dev:engine     # → http://localhost:5180，选择页点进游戏
 参考写法：`packages/apollo-engine/src/games/game-i/`（各 `*-lab.ts` 是按主题拆开的
 蓝图示例，最适合照着学）。
 
-## 6. 手册（按需查，不要全读）
+## 7. 手册（按需查，不要全读）
 
 `packages/apollo-engine/docs/playbooks/`：
 `game-production.md`（八阶段线手册·**推进阶段前读对应节**）· `self-check.md`（自证）·
@@ -115,7 +132,7 @@ pnpm dev:engine     # → http://localhost:5180，选择页点进游戏
 `movement-pathfinding.md` · `randomness.md` · `rendering-fx.md` · `art-pipeline.md` ·
 `assets.md` · `save-platform.md` 等。核心铁律正文在 `docs/rules/`。
 
-## 7. 边界
+## 8. 边界
 
 - 游戏相关改动只在 `packages/apollo-engine/` 内。
 - 动 `src/engine` / `src/skills` 等**引擎共享面**会影响所有游戏——除非用户明确要求

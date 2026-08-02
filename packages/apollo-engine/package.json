@@ -27,7 +27,9 @@
     "gate:run": "node tools/scoped-gate.mjs --run",
     "dev": "vite",
     "build:preview": "vite build",
-    "catalog": "vite-node src/assembly/catalog.run.ts"
+    "catalog": "vite-node src/assembly/catalog.run.ts",
+    "new-game": "node tools/new-game.mjs",
+    "board": "node tools/game-pipeline.mjs board"
   },
   "dependencies": {
     "cannon-es": "^0.20.0",
