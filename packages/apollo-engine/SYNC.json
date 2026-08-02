@@ -30,7 +30,11 @@
     "assets/FreeArtLib/monster/animals/elephant_old.png (PNG 解码器测试夹具)",
     "public/games/game-c/art/art-ledger.json (ArtLedgerPanel 渲染测试夹具)",
     "vitest.config.ts (宿主侧路径别名)",
-    "src/games/game-i (42) + public/games/game-i (104 资源,676K) + docs/design/game-i"
+    "src/games/game-i (42) + public/games/game-i (104 资源,676K) + docs/design/game-i",
+    "tools/game-pipeline.mjs（八阶段流程板 board/gate/checklist/review/scorecard/signoff）",
+    "tools/acceptance-run.mjs + acceptance-schema.mjs（S4 验收剧本 conformance runner）",
+    "tools/ai-gen.mjs + jpeg-decode.mjs + style-packs.mjs(+json)（美术生成链依赖闭包）",
+    "tools/audit-baseline.json"
   ],
   "excluded": {
     "src/bench": "上游基准脚手架，引用大量未搬运的游戏；产品不需要",
@@ -45,7 +49,9 @@
     "引用自检": "2251 条内部引用已全量校验，零断链（唯二报警为检查器 artifact：Vite ?raw 后缀、注释内示例）。",
     "接线状态": "2026-08-01 已接线：依赖安装完成、路径别名配于包内 vitest.config.ts；289 测试文件 / 2416 测试通过、1 跳过，tsc 0 error；已在 scripts/test-workspaces.config.mjs 改为 requiredUnitWorkspace 纳入门禁必跑。",
     "vendor patch（同步时需重新施加）": "src/assets/asset-index.test.ts：真实 assets/index.json 自检改为 it.skipIf(!existsSync(...))——该 19MB/2.9万项索引及其 6373 个美术文件未搬入。同文件另 28 条解析器逻辑测试不受影响。",
-    "测试排除": "vitest.config.ts 排除 src/assets/shelf-3d.test.ts（整文件为「公用 3D 素材货架是否在册」的美术库内容守卫，非引擎代码）；沿用上游快/慢双车道，game-f 仅 APOLLO_DEEP=1 跑。",
-    "game-i 搬运（2026-08-01）": "owner 指定搬入的首个内容游戏。依赖全部落在已 vendored 的引擎核心（@ui/@engine/@skills/@atom-skills/@assets/@services/@renderer + ../../runtime + ../../assembly），零缺口。搬入后引擎包测试 308 文件 / 2520 测试全绿、tsc 0 error。美术资源随游戏一并搬入（public/games/game-i，676K）。"
+    "测试排除": "vitest.config.ts 排除三处并各写明理由：src/assets/shelf-3d.test.ts（美术库内容守卫，库未搬）、src/games/game-f/**（上游快车道口径，APOLLO_DEEP=1 才跑）、tools/ai-gen.test.mjs（外部 AI 美术服务适配器，mock 自测在本环境产 0 字节 glb/Buffer 越界，未查明的环境差异；工具本身可用，不假装绿）。",
+    "game-i 搬运（2026-08-01）": "owner 指定搬入的首个内容游戏。依赖全部落在已 vendored 的引擎核心（@ui/@engine/@skills/@atom-skills/@assets/@services/@renderer + ../../runtime + ../../assembly），零缺口。搬入后引擎包测试 308 文件 / 2520 测试全绿、tsc 0 error。美术资源随游戏一并搬入（public/games/game-i，676K）。",
+    "工具依赖闭包（2026-08-02 补齐）": "首次搬运只挑了工具主文件，漏了同目录依赖（ai-gen/jpeg-decode/style-packs）与数据文件（style-packs.json/audit-baseline.json），以及 S4 门禁所需的 acceptance-run/-schema，导致 art-replace/styleset-ledger/game-pipeline 的测试红。现已按 import 闭包补齐并加自检：tools/*.mjs 引用的同目录 .mjs/.json 全部在册。",
+    "流程板纳入门禁": "tools/**/*.test.mjs 已纳入 vitest include——流程板 board/gate 判据是本仓工作流核心，必须被门禁保护。当前 tools 下 12 个测试文件全过。"
   }
 }

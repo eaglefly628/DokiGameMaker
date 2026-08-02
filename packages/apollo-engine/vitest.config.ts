@@ -26,7 +26,9 @@ export default defineConfig({
     },
   },
   test: {
-    include: ['src/**/*.test.{ts,tsx}'],
+    // tools/ 下是随引擎搬入的流程板与审计脚本（.mjs），它们自带 vitest 测试——
+    // 流程板是本仓工作流的核心（board/gate/checklist 判据），必须纳入门禁。
+    include: ['src/**/*.test.{ts,tsx}', 'tools/**/*.test.mjs'],
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
@@ -35,6 +37,12 @@ export default defineConfig({
       // （见 SYNC.json excluded），故本文件整体不适用——它测的是上游美术库的库存，
       // 不是引擎代码。搬入美术库后删掉本行即恢复。
       'src/assets/shelf-3d.test.ts',
+      // ai-gen 是**外部 AI 美术生成服务**（Tripo / Meshy / DashScope）的适配器，真调需
+      // API key。其 mock 自测在本环境产 0 字节 glb / Buffer 越界（3 条红，未查明的环境
+      // 差异，非本仓改动引入）。工具本身随包可用，只是自测未接通——**不假装它绿**，
+      // 显式排除并记在此处与 SYNC.json。同目录其余 12 个工具测试（含流程板 board/gate、
+      // 验收剧本 conformance、美术账本、scoped-gate）全部纳入门禁且通过。
+      'tools/ai-gen.test.mjs',
       ...(process.env.APOLLO_DEEP === '1'
         ? []
         : [

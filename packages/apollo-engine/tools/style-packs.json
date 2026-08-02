@@ -1,0 +1,262 @@
+{
+  "neon-synthwave": {
+    "packId": "neon-synthwave",
+    "name": "霓虹合成波",
+    "promptZh": "霓虹合成波风格，赛博朋克，深紫黑底＋品红青光晕，扫描线，80 年代复古未来，高对比霓虹描边",
+    "promptEn": "neon synthwave style, cyberpunk, deep purple-black background with magenta and cyan glow, retro-futuristic 80s, high-contrast neon rim light",
+    "palette": [
+      852513,
+      2495559,
+      7996651,
+      16722541,
+      383464,
+      13760511
+    ],
+    "negative": {
+      "zh": "写实照片，杂乱背景，低对比，土黄",
+      "en": "photorealistic, cluttered background, low contrast, muddy brown"
+    },
+    "post": {
+      "paletteSnap": true
+    },
+    "params": {
+      "provider": "qwen",
+      "model": "wanx2.1-t2i-turbo",
+      "seed": 1770
+    }
+  },
+  "pixel-retro": {
+    "packId": "pixel-retro",
+    "name": "像素复古",
+    "promptZh": "16 位像素风，复古掌机调色板，硬边像素，清晰轮廓，透明底，游戏精灵图标",
+    "promptEn": "16-bit pixel art, retro handheld palette, hard-edged pixels, crisp silhouette, transparent background, game sprite icon",
+    "palette": [
+      1711148,
+      6104925,
+      11615827,
+      15695191,
+      16764277,
+      11006064,
+      3716964,
+      4302582
+    ],
+    "negative": {
+      "zh": "模糊，抗锯齿，渐变噪点，写实",
+      "en": "blurry, anti-aliased, gradient noise, photorealistic"
+    },
+    "post": {
+      "paletteSnap": true,
+      "pixelGrid": 32
+    },
+    "params": {
+      "provider": "qwen",
+      "model": "wanx2.1-t2i-turbo",
+      "seed": 1771
+    }
+  },
+  "cartoon-thick": {
+    "packId": "cartoon-thick",
+    "name": "厚描边卡通",
+    "promptZh": "厚描边卡通风格，明快饱和色，扁平上色，粗黑轮廓线，友好可爱，干净白底",
+    "promptEn": "thick-outline cartoon style, bright saturated colors, flat shading, bold black outlines, friendly and cute, clean white background",
+    "palette": [
+      2829114,
+      16777215,
+      16739179,
+      16767293,
+      7064439,
+      5084927,
+      10182117
+    ],
+    "negative": {
+      "zh": "写实，暗沉，噪点，细碎纹理",
+      "en": "photorealistic, dark, noisy, fine cluttered texture"
+    },
+    "post": {
+      "paletteSnap": true
+    },
+    "params": {
+      "provider": "qwen",
+      "model": "wanx2.1-t2i-turbo",
+      "seed": 1772
+    }
+  },
+  "disney-supercell": {
+    "packId": "disney-supercell",
+    "name": "迪斯尼×Supercell",
+    "promptZh": "迪士尼动画质感与 Supercell 手游风融合：厚涂立体卡通，糖果般饱和明快配色，圆润造型，柔和顶光与温暖环境色，干净厚白描边，高品质手游图标级打磨",
+    "promptEn": "Disney animation charm fused with Supercell mobile game polish: chunky 3d-ish cartoon, candy-bright saturated colors, rounded friendly shapes, soft top light with warm bounce, clean thick white outline, premium mobile game icon quality",
+    "palette": [
+      16642808,
+      15680580,
+      16436245,
+      3900150,
+      2278750,
+      11032055,
+      16347926,
+      1120295
+    ],
+    "negative": {
+      "zh": "写实照片，恐怖，暗沉，噪点，锯齿，粗糙涂鸦",
+      "en": "photorealistic, horror, dark and muddy, noisy, jagged edges, rough doodle"
+    },
+    "post": {
+      "paletteSnap": false
+    },
+    "params": {
+      "provider": "qwen",
+      "model": "wanx2.1-t2i-turbo",
+      "seed": 1773
+    }
+  },
+  "dreamy-pastel": {
+    "packId": "dreamy-pastel",
+    "name": "梦幻少女（暖暖系）",
+    "promptZh": "日系少女向换装游戏插画：水彩柔光，粉彩糖果色，蕾丝与缎带细节，梦幻光斑，精致时装质感，干净轮廓，高品质手游立绘",
+    "promptEn": "japanese shoujo dress-up game illustration: watercolor soft light, pastel candy palette, lace and ribbon details, dreamy bokeh sparkle, refined fashion fabric rendering, clean silhouette, premium mobile game art",
+    "palette": [
+      16773618,
+      16502760,
+      16361684,
+      15324671,
+      12248829,
+      16639626,
+      12458077,
+      2042167
+    ],
+    "negative": {
+      "zh": "写实照片，硬阴影，暗黑恐怖，粗糙线条，男性化",
+      "en": "photorealistic, harsh shadows, dark horror, rough sketchy lines, masculine"
+    },
+    "post": {
+      "paletteSnap": false
+    },
+    "params": {
+      "provider": "qwen",
+      "model": "wanx2.1-t2i-turbo",
+      "seed": 1774
+    }
+  },
+  "apollo-toon": {
+    "packId": "apollo-toon",
+    "name": "阿波罗卡通水墨（house style）",
+    "stylePrompt": "rounded cartoon fantasy meets Chinese ink-wash painting: chunky glossy game buttons with thick bottom lip, bold clean silhouettes, friendly exaggerated proportions, soft two-tone shading, warm saturated colors accented with ink black, rice-paper texture, jade and vermilion, subtle ink-brush stroke edges, high readability, game asset, no text, no watermark",
+    "promptEn": "rounded cartoon fantasy meets Chinese ink-wash painting: chunky glossy game buttons with thick bottom lip, bold clean silhouettes, friendly exaggerated proportions, soft two-tone shading, warm saturated colors accented with ink black, rice-paper texture, jade and vermilion, subtle ink-brush stroke edges, high readability, game asset, no text, no watermark",
+    "promptZh": "圆润卡通奇幻融合中国水墨：厚实光泽的游戏按钮带厚底唇，大轮廓干净利落，友好夸张的比例，柔和双调阴影，暖调高饱和色点缀墨黑，宣纸纹理，竹青与朱砂，淡淡水墨笔触边缘，高辨识度，游戏素材，无文字，无水印",
+    "palette": [
+      16183522,
+      2894900,
+      3431528,
+      5615758,
+      14176319,
+      15447373,
+      8373464,
+      9067130
+    ],
+    "negative": {
+      "zh": "写实照片，暗沉，噪点，锯齿，杂乱背景，厂牌标识",
+      "en": "photorealistic, dark and muddy, noisy, jagged edges, cluttered background, brand logo"
+    },
+    "post": {
+      "paletteSnap": false
+    },
+    "params": {
+      "provider": "qwen",
+      "model": "wanx2.1-t2i-turbo",
+      "seed": 1775
+    },
+    "refImage": null
+  },
+  "sakura-nijigen": {
+    "packId": "sakura-nijigen",
+    "name": "樱色二次元（女性向人物锚）",
+    "stylePrompt": "elegant anime style for a female-oriented audience: refined line art, soft shading, mature adult characters, graceful poses, warm ambient light, high readability, game asset, no text, no watermark",
+    "promptEn": "elegant anime style for a female-oriented audience: refined line art, soft shading, mature adult characters, graceful poses, warm ambient light, high readability, game asset, no text, no watermark",
+    "promptZh": "女性向二次元风格：细腻柔和线条，柔光上色，成年角色，优雅姿态，暖调环境光，人物清丽，高辨识度，游戏素材，无文字，无水印",
+    "palette": [
+      16171982,
+      16511975,
+      2901584,
+      13081172,
+      13130868,
+      12032964,
+      3951211,
+      3551029
+    ],
+    "negative": {
+      "zh": "写实照片，暗沉，噪点，锯齿，杂乱背景，厂牌标识",
+      "en": "photorealistic, dark and muddy, noisy, jagged edges, cluttered background, brand logo"
+    },
+    "post": {
+      "paletteSnap": false
+    },
+    "params": {
+      "provider": "qwen",
+      "model": "wanx2.1-t2i-turbo",
+      "seed": 1776
+    },
+    "refImage": null
+  },
+  "vegas-victoriana": {
+    "packId": "vegas-victoriana",
+    "name": "维多利亚赌宴（game-c 场景锚）",
+    "stylePrompt": "opulent Las Vegas casino meets Victorian elegance: gilded gold ornament, deep green felt, burgundy velvet, crystal chandelier glow, ornate baroque frames, warm dramatic lighting, high readability, game asset, no text, no watermark",
+    "promptEn": "opulent Las Vegas casino meets Victorian elegance: gilded gold ornament, deep green felt, burgundy velvet, crystal chandelier glow, ornate baroque frames, warm dramatic lighting, high readability, game asset, no text, no watermark",
+    "promptZh": "拉斯维加斯奢华融合维多利亚优雅：鎏金装饰，深绿桌呢，酒红丝绒，水晶吊灯辉光，繁复巴洛克画框，暖调戏剧光，高辨识度，游戏素材，无文字，无水印",
+    "uiPromptEn": "Victorian casino palette: gilded gold trim, deep green and burgundy velvet material, warm gold highlights, clean painterly finish, isolated single subject, no scene, no background, flat and tileable, high readability, game UI asset, no text, no watermark",
+    "uiPromptZh": "维多利亚赌宴配色：鎏金描边，深绿与酒红丝绒质感，暖金高光，干净厚涂收边，孤立单一主体，无场景，无背景，平整可平铺，高辨识度，游戏 UI 素材，无文字，无水印",
+    "palette": [
+      13938487,
+      3499341,
+      8072507,
+      2760478,
+      15919317,
+      7032433,
+      12088115,
+      16767392
+    ],
+    "negative": {
+      "zh": "写实照片，暗沉，噪点，锯齿，杂乱背景，厂牌标识",
+      "en": "photorealistic, dark and muddy, noisy, jagged edges, cluttered background, brand logo"
+    },
+    "post": {
+      "paletteSnap": false
+    },
+    "params": {
+      "provider": "qwen",
+      "model": "wanx2.1-t2i-turbo",
+      "seed": 1777
+    },
+    "refImage": null
+  },
+  "modern-manor": {
+    "packId": "modern-manor",
+    "name": "现代豪宅夜局（game-a 场景锚）",
+    "stylePrompt": "modern luxury mansion night interior: warm lamplight, wooden card table, contemporary elegant furnishing, cozy intimate atmosphere, clean composition, game asset, no text, no watermark",
+    "promptEn": "modern luxury mansion night interior: warm lamplight, wooden card table, contemporary elegant furnishing, cozy intimate atmosphere, clean composition, game asset, no text, no watermark",
+    "promptZh": "现代奢华豪宅夜间室内：暖调灯光，木质牌桌，当代雅致陈设，温馨私密氛围，构图干净，游戏素材，无文字，无水印",
+    "palette": [
+      9067068,
+      2372685,
+      15186282,
+      15787730,
+      4862756,
+      2829104,
+      8010564,
+      5140074
+    ],
+    "negative": {
+      "zh": "写实照片，暗沉，噪点，锯齿，杂乱背景，厂牌标识",
+      "en": "photorealistic, dark and muddy, noisy, jagged edges, cluttered background, brand logo"
+    },
+    "post": {
+      "paletteSnap": false
+    },
+    "params": {
+      "provider": "qwen",
+      "model": "wanx2.1-t2i-turbo",
+      "seed": 1778
+    },
+    "refImage": null
+  }
+}

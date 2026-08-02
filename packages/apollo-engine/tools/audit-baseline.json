@@ -1,0 +1,66 @@
+{
+  "_doc": "红旗棘轮基线（REQ-QA-红旗棘轮·owner 2026-07-04；防自基线加固·REQ-AUDIT-守门·owner 2026-07-16）。每游戏三红旗计数只许降不许升：game-skill-audit.mjs 实测任一计数高于基线 → RATCHET: FAIL + 退出码 1；低于 → 提示同提交降基线；等于 → 静默。**豁免须 Lead 亲批**：任一红旗计数>0 的条目必须带 approvedBy:\"LEAD\" + date + reason 三字段，缺失 → RATCHET FAIL（违规者不得自写豁免·历史事故=PE-T 6142237d 自写 createElement:5）。新游戏（无条目）带红旗即 FAIL——豁免走 docs/workflow/requests.md 找 Lead 裁决，绝不自加条目。被 Lead 批注覆盖的红旗仍在 audit 显示但不红判（AUDIT/RATCHET 皆不 FAIL）。降基线是还债仪式，必须与消灭红旗的提交同提交改本文件。",
+  "games": {
+    "game-d": {
+      "nakedRandom": 0,
+      "innerHTML": 0,
+      "createElement": 3,
+      "approvedBy": "LEAD",
+      "date": "2026-07-04",
+      "reason": "存量既往不咎（REQ-QA-红旗棘轮灌入时 HEAD 实测·owner 2026-07-04 拍板）"
+    },
+    "game-e": {
+      "nakedRandom": 3,
+      "innerHTML": 0,
+      "createElement": 1,
+      "approvedBy": "LEAD",
+      "date": "2026-07-04",
+      "reason": "存量既往不咎（REQ-QA-红旗棘轮灌入时 HEAD 实测·owner 2026-07-04 拍板）"
+    },
+    "game-f": {
+      "nakedRandom": 0,
+      "innerHTML": 27,
+      "createElement": 14,
+      "approvedBy": "LEAD",
+      "date": "2026-07-04",
+      "reason": "存量既往不咎（REQ-QA-红旗棘轮灌入时 HEAD 实测·owner 2026-07-04 拍板·game-f 冻结勿删勿迁）"
+    },
+    "game-g": {
+      "nakedRandom": 8,
+      "innerHTML": 29,
+      "createElement": 31,
+      "approvedBy": "LEAD",
+      "date": "2026-07-04",
+      "reason": "存量既往不咎（REQ-QA-红旗棘轮灌入时 HEAD 实测·owner 2026-07-04 拍板）"
+    },
+    "game-i": {
+      "nakedRandom": 0,
+      "innerHTML": 0,
+      "createElement": 5,
+      "approvedBy": "LEAD",
+      "date": "2026-07-04",
+      "reason": "存量既往不咎（REQ-QA-红旗棘轮灌入时 HEAD 实测·owner 2026-07-04 拍板·PUI 展示台）"
+    },
+    "game-q": {
+      "nakedRandom": 0,
+      "innerHTML": 0,
+      "createElement": 0
+    },
+    "game-x": {
+      "nakedRandom": 0,
+      "innerHTML": 0,
+      "createElement": 3,
+      "approvedBy": "LEAD",
+      "date": "2026-07-04",
+      "reason": "存量既往不咎（REQ-QA-红旗棘轮灌入时 HEAD 实测·owner 2026-07-04 拍板）"
+    },
+    "game-z": {
+      "nakedRandom": 0,
+      "innerHTML": 0,
+      "createElement": 4,
+      "approvedBy": "LEAD",
+      "date": "2026-07-04",
+      "reason": "存量既往不咎（REQ-QA-红旗棘轮灌入时 HEAD 实测·owner 2026-07-04 拍板·P3D 域）"
+    }
+  }
+}

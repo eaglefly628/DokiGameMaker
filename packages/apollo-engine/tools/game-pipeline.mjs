@@ -1,0 +1,581 @@
+#!/usr/bin/env node
+// ═══════════════════════════════════════════════════════════════
+//  scripts/game-pipeline.mjs —— 逐游戏生产流程板（owner 2026-07-10：
+//  「不能靠一个手册让 LLM 一口气跑完整条流程——要 N 步拆分·每步做完对手册 review·反复迭代」）
+//
+//  治的病：LLM 长流程上下文丢失/漂移（game-k RCA=会话早于手册·plan 门没接住）。
+//  药方＝把「流程走到哪了」放到 LLM 之外：
+//    · 状态**从工件推导**（manifest/测试/台账/审计真跑），不信模型的口头汇报；
+//    · 跑过的机器门记**证据**（退出码+游戏内容指纹）——游戏文件一动，证据自动标过期，绿不是永久绿；
+//    · 每步双验（double verify）：机器门（本脚本 gate 真跑）+ 人门（signoff 落账·带 note）；
+//    · 台账=public/games/<slug>/pipeline.json——新 session 先 board 再干活，只做第一个非绿阶段。
+//
+//  八阶段（每阶段一本手册·≤80 行·弱模型也读得完）：
+//    S1 立项卡 → S2 能力计划 → S3 骨架关 → S4 玩法关 → S5 UI 关 → S6 美术关 → S7 品质关 → S8 终检关
+//
+//  用法：
+//    node scripts/game-pipeline.mjs board <slug> [--json]      看板（推导态·不跑重活）
+//    node scripts/game-pipeline.mjs gate <slug> <S3|S4|S5|S8>  跑该阶段机器门→记证据
+//    node scripts/game-pipeline.mjs checklist <slug> <SN>      打印该阶段复查清单（复查 session 开工第一命令）
+//    node scripts/game-pipeline.mjs review <slug> <S2|S3|S4|S5|S8> --verdict PASS|CONCERNS|FAIL --note "…" --by 复查人   复查门落账（REQ-QC-三门）
+//    node scripts/game-pipeline.mjs scorecard <slug> --scores "艺术方向:2,…八维" --by 复查人 --note 证据   S7 评分卡落账（全维≥2=premium·任一 0 分=红）
+//    node scripts/game-pipeline.mjs signoff <slug> <SN> --note "…" [--by 名]   人门落账
+//    node scripts/game-pipeline.mjs concept <slug> --name "…" --pitch "…" [--refs …] [--style …] [--plan-waiver 理由]
+//  线手册：docs/playbooks/game-production.md + docs/playbooks/review-gates.md（三门制·复查清单）。
+// ═══════════════════════════════════════════════════════════════
+
+import { readFileSync, writeFileSync, existsSync, readdirSync, statSync, mkdirSync } from 'node:fs';
+import { join, dirname, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
+
+// ROOT=仓库根（默认）。APOLLO_PIPELINE_ROOT 仅供测试注入临时根（跑 CLI 端到端·不碰真仓库）——
+// 生产不设此环境变量，行为逐字节同旧版。
+const ROOT = process.env.APOLLO_PIPELINE_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..');
+
+const readJson = (f, fb) => { try { return JSON.parse(readFileSync(f, 'utf8')); } catch { return fb; } };
+const writeJson = (f, v) => { mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, JSON.stringify(v, null, 2) + '\n'); };
+
+export const pipelineFile = (root, slug) => join(root, 'public', 'games', slug, 'pipeline.json');
+
+// 游戏形态：cart=创作台卡带（library/）· builtin=内置纯数据（public/games/<slug>/manifest.json tracked）· compiled=编译期（src/games/）。
+export function detectForm(root, slug) {
+  if (existsSync(join(root, 'library', slug, 'manifest.json'))) return 'cart';
+  if (existsSync(join(root, 'public', 'games', slug, 'manifest.json'))) return 'builtin';
+  if (existsSync(join(root, 'src', 'games', slug))) return 'compiled';
+  return null;
+}
+
+const manifestPath = (root, slug, form) =>
+  form === 'cart' ? join(root, 'library', slug, 'manifest.json')
+    : form === 'builtin' ? join(root, 'public', 'games', slug, 'manifest.json')
+      : null;
+
+/** 游戏内容指纹：只哈希**这款游戏自己的**输入（manifest/源码/美术/设计档），引擎全局变化由 S8 的 git HEAD 兜。
+ *  排除 pipeline.json 自身（记证据不得自我过期）、gen/mock/（mock 预览物不影响出货内容）
+ *  与 requests.md（工单池=沟通台账非游戏内容——回执/批注不得作废复查·Lead 2026-07-17 修 game-b S3 误失效）。 */
+export function gameHash(root, slug) {
+  const roots = [
+    join(root, 'library', slug),
+    join(root, 'public', 'games', slug),
+    join(root, 'src', 'games', slug),
+    join(root, 'docs', 'design', slug),
+  ];
+  const files = [];
+  const walk = (d) => {
+    if (!existsSync(d)) return;
+    for (const name of readdirSync(d).sort()) {
+      const p = join(d, name);
+      const st = statSync(p);
+      if (st.isDirectory()) { if (name !== 'mock') walk(p); continue; } // gen/mock/ 预览物不入指纹
+      if (name === 'pipeline.json') continue;
+      if (name === 'requests.md') continue; // 工单池台账不入指纹（高频回执≠内容变更）
+      files.push(p);
+    }
+  };
+  for (const r of roots) walk(r);
+  const h = createHash('sha256');
+  for (const f of files) { h.update(relative(root, f)); h.update('\0'); h.update(readFileSync(f)); h.update('\0'); }
+  return h.digest('hex').slice(0, 16);
+}
+
+// ── 阶段表（id·名·手册·机器门语义）。手册列=该步开工前唯一必读（每本 ≤80 行）。──
+export const STAGES = [
+  { id: 'S1', title: '立项卡', handbook: 'docs/llm-onboarding.md', gate: null },
+  { id: 'S2', title: '能力计划', handbook: 'docs/design/capability-plan-template.md', gate: null },
+  { id: 'S3', title: '骨架关', handbook: 'docs/playbooks/index.md', gate: 'manifest-check' },
+  { id: 'S4', title: '玩法关', handbook: 'docs/playbooks/testing.md', gate: 'walkthrough' },
+  { id: 'S5', title: 'UI 关', handbook: 'docs/playbooks/ui.md', gate: 'audit' },
+  { id: 'S6', title: '美术关', handbook: 'docs/playbooks/art-pipeline.md', gate: null },
+  { id: 'S7', title: '品质关', handbook: 'docs/playbooks/visual-scorecard.md', gate: null },
+  { id: 'S8', title: '终检关', handbook: 'docs/playbooks/testing.md', gate: 'full-suite' },
+];
+export const GATE_STAGES = STAGES.filter((s) => s.gate).map((s) => s.id);
+
+const led = (root, slug) => readJson(join(root, 'public', 'games', slug, 'art', 'art-ledger.json'), null);
+
+// ── 验收剧本存在性（REQ-ACCEPT·图纸④·「绿门不可玩」复盘）─────────────────
+// S4 门在原 walkthrough/bench 之上加一道：GD 写的验收剧本 ≥3 场景才许过（防零剧本空转）。
+// 纯 fs 计数（不装载·不跑）——导出供 gate 与单测共用（compiled/builtin/cart 通用）。
+export const MIN_ACCEPTANCE_SCENARIOS = 3;
+export function acceptanceScenarioCount(root, slug) {
+  const dir = join(root, 'docs', 'design', slug, 'acceptance');
+  if (!existsSync(dir)) return 0;
+  return readdirSync(dir).filter((f) => f.endsWith('.scenario.jsonc')).length;
+}
+
+// ── 自证产物存在性（REQ-SELFCHECK·图纸①②·手册 docs/playbooks/self-check.md）─────────
+// owner 2026-07-29 拍板（101/102/103 复盘）：「门禁全绿」只证逻辑闭环——好不好看/好不好玩/
+// 和策划文本对不对得上，从来没人检查。故 S4/S5 门在原牙齿之上加一道**最便宜的前置**：
+// 施工 session 的自证产物（策划对齐单 + 真渲染自玩截图序列）不在档 → 拒跑重活（点名「自证未做」）。
+// 纯 fs 计数（不装载·不跑）——导出供 gate/board 与单测共用（compiled/builtin/cart 通用）。
+export const MIN_SELFCHECK_SHOTS = 5;
+export const SELFCHECK_HANDBOOK = 'docs/playbooks/self-check.md';
+
+/** shots/ 下的截图计数（png/jpg/jpeg·递归）：手册要求「每轮都做」，按轮分子目录（shots/r1/…）是
+ *  正当组织方式，不该被门罚——故递归计数；非图片文件（对齐单草稿/说明）不计。 */
+function countShots(dir) {
+  if (!existsSync(dir)) return 0;
+  let n = 0;
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    if (statSync(p).isDirectory()) { n += countShots(p); continue; }
+    if (/\.(png|jpe?g)$/i.test(name)) n += 1;
+  }
+  return n;
+}
+
+/** 某关自证产物盘点：docs/design/<slug>/self-check/{SN-alignment.md, shots/}。纯 fs·无副作用。 */
+export function selfCheckArtifacts(root, slug, stage) {
+  const dir = join(root, 'docs', 'design', slug, 'self-check');
+  const alignment = `${stage}-alignment.md`;
+  const hasAlignment = existsSync(join(dir, alignment));
+  const shots = countShots(join(dir, 'shots'));
+  return { ok: hasAlignment && shots >= MIN_SELFCHECK_SHOTS, hasAlignment, shots, alignment, dir: `docs/design/${slug}/self-check/` };
+}
+
+/** 门拒判词（缺什么点名什么）：齐活=null 放行。导出供 gate 与单测共用。 */
+export function selfCheckBlock(a, stage) {
+  if (a.ok) return null;
+  const owes = [];
+  if (!a.hasAlignment) owes.push(`缺策划对齐单 ${a.alignment}`);
+  if (a.shots < MIN_SELFCHECK_SHOTS) owes.push(`截图 ${a.shots}/${MIN_SELFCHECK_SHOTS}（真渲染自玩序列：开局→关键操作≥3→失败路径→终局→重开）`);
+  return `✗ ${stage} 自证未做（见 ${SELFCHECK_HANDBOOK}）· ${owes.join(' · ')} · ${a.dir}`;
+}
+
+/** 板上自证提示（图纸②·新鲜度绑 gameHash）：产物缺=✗ 点名；产物在档但上次自证时的指纹已变=⚠ 过期
+ *  **提示**（不硬拦——图可能真没变，重玩重截或在对齐单注明即可）；否则 ✓。导出供单测。 */
+export function selfCheckNote(root, slug, stage, rec, freshHash) {
+  const a = selfCheckArtifacts(root, slug, stage);
+  if (!a.ok) return `自证 ✗ 未做（${a.hasAlignment ? `截图 ${a.shots}/${MIN_SELFCHECK_SHOTS}` : `缺 ${a.alignment}`} · 见 ${SELFCHECK_HANDBOOK}）`;
+  if (rec?.gameHash && rec.gameHash !== freshHash) return `自证 ⚠ 对齐单可能过期（游戏文件已变动·重玩重截或在单中注明未变）`;
+  return `自证 ✓（对齐单 + ${a.shots} 图${rec?.at ? ` @ ${String(rec.at).slice(0, 10)}` : ''}）`;
+}
+
+/** mock 债：live 行（非 retired）里 gen.mock 的计数——「mock 永不上画面」在终检关的机器化表达。无台账=0（纯免费库 placeholder 也算清账）。 */
+export function mockDebt(root, slug) {
+  const l = led(root, slug);
+  if (!l || !Array.isArray(l.rows)) return 0;
+  return l.rows.filter((r) => r.status !== 'retired' && r.gen?.mock).length;
+}
+
+/** 立项卡写入（字段级合并·只覆盖出现的字段）。CLI concept 与 /api/pipeline/concept 共用。 */
+export function writeConcept(root, slug, fields) {
+  const pf = readJson(pipelineFile(root, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
+  for (const k of ['name', 'pitch', 'refs', 'style', 'planWaiver']) {
+    if (fields[k] !== undefined) pf.concept[k] = fields[k];
+  }
+  (pf.history ||= []).push({ action: 'concept', at: new Date().toISOString() });
+  writeJson(pipelineFile(root, slug), pf);
+  return pf.concept;
+}
+
+/** 美术关子状态（复用美术平台五步条口径·纯推导）：MOCK 行不算完成——mock 永不上画面（owner 07-10）。 */
+export function artSubState(root, slug) {
+  const l = led(root, slug);
+  if (!l || !Array.isArray(l.rows) || !l.rows.length) return { state: 'dim', detail: '无台账（美术平台进游戏自动初始化 / POST /api/art/derive）' };
+  const live = l.rows.filter((r) => r.status !== 'retired');
+  const mockN = live.filter((r) => r.gen?.mock).length;
+  const wrote = live.filter((r) => ['replaced', 'filled', 'approved'].includes(r.status)).length;
+  const ok = live.filter((r) => r.status === 'approved').length;
+  const anchor = !!(l.artStyle && (l.artStyle.stylePrompt || l.artStyle.packId));
+  const detail = `台账 ${live.length} 行 · 锚${anchor ? '✓' : '✗'} · 写回 ${wrote} · 复核 ${ok}${mockN ? ` · MOCK ${mockN}（不算完成）` : ''}`;
+  if (ok === live.length && live.length > 0 && mockN === 0) return { state: 'ok', detail };
+  if (wrote > 0 || anchor || live.some((r) => r.status !== 'placeholder' && r.status !== 'needs-art')) return { state: 'warn', detail };
+  return { state: 'warn', detail }; // 有台账即已开工（placeholder 版也是流程一步）
+}
+
+// ── 复查门（REQ-QC-三门·owner 2026-07-15「每步要有其他 session 复查/自检，品质比预期低」）──
+// 三门制：机器门（真跑）→ 复查门（另一 session 按 checklist 对抗性复核·落账）→ 人门（owner 签）。
+// 复查适用 S2-S5/S8；S1 免（owner 亲提）；S6 免（人审内嵌美术平台逐行复核）；S7 的复查形态=评分卡（见下）。
+export const REVIEW_STAGES = ['S2', 'S3', 'S4', 'S5', 'S8'];
+export const REVIEW_CHECKLISTS = {
+  S2: ['能力清单逐条对 registry 实名核真（无幻觉能力）', '规则面全有现成解释器（无「数据表+待写解释器」虚胖）', '游戏层代码例外逐条有 Lead 裁决', '§4.5 美术接入已答（纯程序化须申请例外）'],
+  S3: ['manifest 纯 JSON（无代码走私）', '实体/组件用途与 plan 一致（无 plan 外私加系统性机制）', '落盘门真跑过（load+2tick 证据新鲜）', '组件字段无「填了但没人解释」的死数据'],
+  S4: ['走查测试断言的是行为而非常量（假信心自查：故意改坏被测逻辑应变红）', '核心循环闭环：开局→行动→反馈→终局→可重开', '失败路径有测试（非法输入被拒/终局判定不误报）', '确定性：同 seed 同结果有断言', '验收剧本作者=GD 非 PE（git blame docs/design/<game>/acceptance/*.scenario.jsonc 抽查·PE 自写剧本=FAIL·REQ-ACCEPT 循环律）', '附真浏览器试玩截图序列（开局→N 步→终局→重开·非仅 CLI 绿）', '自证对齐单抽样重走 ≥3 条（含 ⚠降格行的裁决去向核对）+ 好玩三问已作答非敷衍（docs/playbooks/self-check.md）'],
+  S5: ['UI 全走 LayoutNode/引擎渲染（无手写 DOM 逃生）', 'audit 零新增红旗（棘轮绿）', '/check-ui 四关过（重叠/对比度/透明度/布局）', '交互可发现（按钮可见可点·不靠猜）', '自证对齐单抽样重走 ≥3 条（含 ⚠降格行的裁决去向核对）+ 好玩三问已作答非敷衍（docs/playbooks/self-check.md）'],
+  S8: ['三绿证据绑当前 HEAD 且净树', '本游戏走查在全量并发下仍绿（非单跑侥幸）', '复盘：本次撞到的手册缺口已回填或提单'],
+};
+// S7 评分卡（docs/playbooks/visual-scorecard.md 八维·0-3 分·premium=全维≥2·无证据不给分）。
+export const SCORECARD_DIMS = ['艺术方向', '主角面', '世界密度', '材质', '渲染管线', 'VFX', 'UI美术', '性能证据'];
+
+/** 复查记录评估：无=dim；FAIL=fail；指纹过期=stale；CONCERNS=有条件过（ok·⚠标注）；PASS=ok。导出供单测。 */
+export function evalReview(rv, freshHash) {
+  if (!rv) return { state: 'dim', detail: '未复查（checklist 打单 → 另开 session 复核 → review 落账）' };
+  const when = (rv.at || '').slice(0, 16).replace('T', ' ');
+  if (rv.gameHash && rv.gameHash !== freshHash) return { state: 'stale', detail: `⚠ 复查过期（游戏文件已变动·须重查）· 上次 ${rv.verdict} @ ${when}` };
+  if (rv.verdict === 'FAIL') return { state: 'fail', detail: `✗ FAIL by ${rv.by} @ ${when} · ${String(rv.note).slice(0, 80)}` };
+  const tag = rv.verdict === 'CONCERNS' ? '⚠ CONCERNS（有条件过）' : '✓ PASS';
+  return { state: 'ok', detail: `${tag} by ${rv.by} @ ${when} · ${String(rv.note).slice(0, 80)}` };
+}
+
+/** 评分卡评估（S7 机器门）：未打=dim；过期=stale；任一维 0=fail；全维≥2=ok(PREMIUM YES)；否则 warn。导出供单测。 */
+export function evalScorecard(sc, freshHash) {
+  if (!sc || !sc.scores) return { state: 'dim', detail: '评分卡未打（scorecard 子命令·由复查人执行·八维 0-3·无证据不给分）' };
+  const when = (sc.at || '').slice(0, 16).replace('T', ' ');
+  if (sc.gameHash && sc.gameHash !== freshHash) return { state: 'stale', detail: `⚠ 评分过期（游戏文件已变动·须重评）· 上次 ${sc.total}/24 @ ${when}` };
+  const vals = SCORECARD_DIMS.map((d) => sc.scores[d] ?? 0);
+  const total = vals.reduce((a, b) => a + b, 0);
+  const zeros = SCORECARD_DIMS.filter((d) => (sc.scores[d] ?? 0) === 0);
+  const premium = vals.every((v) => v >= 2);
+  const verdict = `VISUAL: ${total}/24 · PREMIUM: ${premium ? 'YES' : 'NO'}（by ${sc.by} @ ${when}）`;
+  if (zeros.length) return { state: 'fail', detail: `✗ ${verdict} · ${zeros.join('/')}=0 分（缺失/敷衍）` };
+  if (premium) return { state: 'ok', detail: `✓ ${verdict}` };
+  return { state: 'warn', detail: `⚠ ${verdict} · 未达全维≥2（短板决定观感）` };
+}
+
+/** 机器门证据评估：无证据=dim；exit≠0=fail；指纹过期=stale；否则 ok。 */
+function evalEvidence(ev, freshHash, headNow) {
+  if (!ev) return { state: 'dim', detail: '未跑（gate 跑一次落证据）' };
+  const when = (ev.at || '').slice(0, 16).replace('T', ' ');
+  if (ev.exit !== 0) return { state: 'fail', detail: `✗ 未过（exit ${ev.exit} @ ${when}）${ev.summary ? ' · ' + ev.summary : ''}` };
+  if (ev.gameHash && ev.gameHash !== freshHash) return { state: 'stale', detail: `⚠ 证据过期（游戏文件已变动·须重跑）· 上次绿 @ ${when}` };
+  if (ev.head && (ev.head !== headNow || ev.dirty)) return { state: 'stale', detail: `⚠ 证据过期（${ev.dirty ? '跑时工作树不净' : '仓库已前进'}）· 上次绿 @ ${when}` };
+  return { state: 'ok', detail: `✓ 过（@ ${when}）${ev.summary ? ' · ' + ev.summary : ''}` };
+}
+
+/** 看板推导（读盘+轻推导·不跑重活）。绿=机器 ok/免 + 人门 ok；任何一边欠=黄；机器 fail=红。 */
+export function boardFor(root, slug) {
+  const form = detectForm(root, slug);
+  if (!form) return { ok: false, error: `未知游戏: ${slug}（library/public/src 三处均无）` };
+  const pf = readJson(pipelineFile(root, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
+  const hashNow = gameHash(root, slug);
+  const head = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).stdout?.trim() || '';
+  const c = pf.concept || {};
+  const hasTests = form !== 'cart' && existsSync(join(root, 'src', 'games', slug))
+    && readdirSync(join(root, 'src', 'games', slug)).some((f) => f.endsWith('.test.ts'));
+  const planFile = join(root, 'docs', 'design', slug, 'capability-plan.md');
+
+  const stages = STAGES.map((st) => {
+    let machine;
+    switch (st.id) {
+      case 'S1':
+        machine = c.name && c.pitch
+          ? { state: 'ok', detail: `${c.name} —— ${String(c.pitch).slice(0, 40)}` }
+          : { state: 'dim', detail: '立项卡未填（concept 子命令：--name --pitch）' };
+        break;
+      case 'S2':
+        machine = existsSync(planFile)
+          ? { state: 'ok', detail: 'capability-plan.md 在档' }
+          : c.planWaiver
+            ? { state: 'ok', detail: `纯数据卡带免正式 plan（裁决在案：${String(c.planWaiver).slice(0, 40)}）` }
+            : { state: 'dim', detail: '无能力计划也无免 plan 裁决（模板见手册列）' };
+        break;
+      case 'S3':
+        machine = manifestPath(root, slug, form)
+          ? evalEvidence(pf.evidence?.S3, hashNow, head)
+          : { state: 'ok', detail: '编译期游戏无 manifest（本关免·玩法关直接接管）' };
+        break;
+      case 'S4': {
+        machine = evalEvidence(pf.evidence?.S4, hashNow, head);
+        const nScen = acceptanceScenarioCount(root, slug);
+        const scenNote = `验收剧本 ${nScen}/${MIN_ACCEPTANCE_SCENARIOS}${nScen < MIN_ACCEPTANCE_SCENARIOS ? '（GD 补）' : ' ✓'}`;
+        if (machine.state === 'dim') machine.detail = form === 'cart' ? `未跑（gate=bench 五轴 + ${scenNote}）` : hasTests ? `未跑（gate=该游戏 vitest + ${scenNote}）` : `✗ 无 walkthrough 测试（testing.md：先补测试再谈玩法完成）· ${scenNote}`;
+        if (machine.state === 'dim' && form !== 'cart' && !hasTests) machine.state = 'fail';
+        machine.detail += ` · ${selfCheckNote(root, slug, 'S4', pf.selfCheck?.S4, hashNow)}`;
+        break;
+      }
+      case 'S5':
+        machine = form === 'cart'
+          ? { state: 'ok', detail: '纯数据卡带无游戏层代码（LayoutNode 纪律天然满足）' }
+          : evalEvidence(pf.evidence?.S5, hashNow, head);
+        // 卡带 S5 本就免审计（无游戏层代码）→ 不加自证前置；其余形态板上常显自证态（缺=✗·陈旧=⚠）。
+        if (form !== 'cart') machine.detail += ` · ${selfCheckNote(root, slug, 'S5', pf.selfCheck?.S5, hashNow)}`;
+        break;
+      case 'S6':
+        machine = artSubState(root, slug);
+        break;
+      case 'S7':
+        machine = evalScorecard(pf.scorecard, hashNow); // 品质关机器牙齿=评分卡落账（REQ-QC-三门）
+        break;
+      case 'S8':
+        machine = evalEvidence(pf.evidence?.S8, hashNow, head);
+        if (machine.state === 'dim') machine.detail = form === 'cart' ? '未跑（gate=manifest-check+bench+MOCK 清账·卡带轻量终检）' : '未跑（gate=tsc+vitest+build 三绿）';
+        break;
+      default:
+        machine = { state: 'dim', detail: '' };
+    }
+    // 复查门（REQ-QC-三门）：S2-S5/S8=另一 session 按 checklist 复核落账；S1/S6/S7 各有豁免语义。
+    const review = st.id === 'S1' ? { state: 'ok', detail: '免（立项=owner 亲提·无需复查）' }
+      : st.id === 'S6' ? { state: 'ok', detail: '免（复核已内嵌美术平台逐行 ☑）' }
+        : st.id === 'S7' ? { state: machine.state === 'ok' || machine.state === 'warn' ? 'ok' : 'dim', detail: '复查形态=评分卡本身（复查人打分·机器门即其判词）' }
+          : evalReview(pf.reviews?.[st.id], hashNow);
+    const so = pf.signoffs?.[st.id];
+    // S6 人门已内嵌美术平台逐行 approve（不设重复签核）；其余阶段一律要 signoff。
+    const human = st.id === 'S6'
+      ? { state: machine.state === 'ok' ? 'ok' : 'dim', detail: '人门=平台逐行 ☑ 复核（已内嵌·不另签）' }
+      : so
+        ? { state: 'ok', detail: `✓ ${so.by || '人审'} @ ${(so.at || '').slice(0, 10)}${so.note ? ' · ' + String(so.note).slice(0, 60) : ''}` }
+        : { state: 'dim', detail: '待人审（signoff 落账）' };
+    const reviewExempt = ['S1', 'S6', 'S7'].includes(st.id);
+    const status = machine.state === 'fail' || review.state === 'fail' ? 'fail'
+      : machine.state === 'ok' && review.state === 'ok' && human.state === 'ok' ? 'ok'
+        : machine.state === 'dim' && human.state === 'dim' && (reviewExempt || review.state === 'dim') ? 'dim' : 'warn';
+    // 乱序放行痕（F·REQ-GATE-硬化）：该关曾在前置未全绿时被 --out-of-order 放行——板上显 ⚠乱序标。
+    // 旧 pipeline.json 无 outOfOrder 字段=零回归（取最近一条）。
+    const ooo = (pf.outOfOrder || []).filter((o) => o.stage === st.id);
+    const outOfOrder = ooo.length ? ooo[ooo.length - 1] : null;
+    return { id: st.id, title: st.title, handbook: st.handbook, gate: st.gate, machine, review, human, status, outOfOrder };
+  });
+  const next = stages.find((s) => s.status !== 'ok');
+  return { ok: true, slug, form, gameHash: hashNow, concept: c, stages, next: next ? next.id : null };
+}
+
+// ── 阶段顺序闸（F·REQ-GATE-硬化·owner「跳关可以，但从悄悄跳变记录在案」）─────────────
+/** 目标阶段之前（S1..S(N-1)）里所有非绿（status≠ok）的关，连同各关欠的门（机器/复查/人）。
+ *  空数组=前置全绿·可直跑。导出供 CLI 与单测共用（纯函数·不碰盘）。 */
+export function priorGaps(board, stage) {
+  const idx = STAGES.findIndex((s) => s.id === stage);
+  if (idx <= 0) return []; // S1 或未知阶段：无前置
+  const gaps = [];
+  for (const st of (board?.stages || []).slice(0, idx)) {
+    if (st.status === 'ok') continue;
+    const owes = [];
+    if (st.machine?.state !== 'ok') owes.push(`机器门(${st.machine?.state ?? '?'})`);
+    if (st.review?.state !== 'ok') owes.push(`复查门(${st.review?.state ?? '?'})`);
+    if (st.human?.state !== 'ok') owes.push(`人门(${st.human?.state ?? '?'})`);
+    gaps.push({ id: st.id, title: st.title, owes });
+  }
+  return gaps;
+}
+
+/** 顺序闸判定：前置全绿→allowed；有欠且给了 --out-of-order 理由→allowed+落痕记录；有欠且无理由→拒跑。 */
+export function orderGate(board, stage, reason) {
+  const gaps = priorGaps(board, stage);
+  if (!gaps.length) return { allowed: true, gaps: [] };
+  const r = (reason || '').trim();
+  if (r) return { allowed: true, gaps, outOfOrder: { stage, reason: r.slice(0, 200), at: new Date().toISOString() } };
+  return { allowed: false, gaps };
+}
+
+// ── 机器门执行（gate 子命令·真跑·记证据）──────────────────────────────
+const run = (cmd, args, opts = {}) => spawnSync(cmd, args, { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts });
+
+function gateRun(slug, stage, form) {
+  if (stage === 'S3') {
+    const mf = manifestPath(ROOT, slug, form);
+    if (!mf) return { exit: 0, summary: '编译期游戏免 manifest 校验' };
+    const r = run('npx', ['vite-node', 'scripts/manifest-check.mjs'], { input: readFileSync(mf, 'utf8') });
+    return { exit: r.status ?? 1, summary: r.status === 0 ? 'parse+引擎装载（load+2tick）零 error' : (r.stderr || r.stdout || '').trim().slice(0, 300) };
+  }
+  if (stage === 'S4') {
+    // 图纸④·验收剧本存在性门（compiled/卡带通用·先查最便宜的）：<3 场景直接拒，不空转跑重活。
+    const nScen = acceptanceScenarioCount(ROOT, slug);
+    if (nScen < MIN_ACCEPTANCE_SCENARIOS) {
+      return { exit: 1, summary: `✗ 验收剧本不足（GD 补·需≥${MIN_ACCEPTANCE_SCENARIOS}·现 ${nScen}）· docs/design/${slug}/acceptance/*.scenario.jsonc` };
+    }
+    // REQ-SELFCHECK·图纸①·自证产物存在性（同为 spawn 前的纯 fs 前置·缺=拒跑不空转）：
+    // 「先过自己这关」——对齐单 + 真渲染截图序列在档才许送机器门/复查门（手册 self-check.md）。
+    const scBlock = selfCheckBlock(selfCheckArtifacts(ROOT, slug, 'S4'), 'S4');
+    if (scBlock) return { exit: 1, summary: scBlock };
+    // conformance：真引擎逐 step 对账 GD 剧本（无 adapter/断言不过=非零退出）。
+    // 脚本用绝对路径 + 显式对齐 runner 的根（Lead 验收加固：ROOT 被测试注入临时根时，
+    // 相对路径以 cwd=临时根解析不到脚本、runner 又按自身位置定根——两处都会错位成崩溃式落红）。
+    // APOLLO_ACCEPTANCE_CLI=1 是 CLI 握手：VITEST 变量会穿透嵌套 spawn 使 runner 误判被 import
+    // 而静默退 0（conformance 假绿）——显式握手封死该路径。
+    const accScript = join(dirname(fileURLToPath(import.meta.url)), 'acceptance-run.mjs');
+    const acc = run('npx', ['vite-node', accScript, '--game', slug], { env: { ...process.env, APOLLO_ACCEPTANCE_ROOT: ROOT, APOLLO_ACCEPTANCE_CLI: '1' } });
+    const accTail = (acc.stdout || acc.stderr || '').trim().split('\n').slice(-3).join(' / ').slice(0, 200);
+    if ((acc.status ?? 1) !== 0) return { exit: acc.status ?? 1, summary: `✗ 验收剧本 conformance 未过（${nScen} 场景）· ${accTail}` };
+    if (form === 'cart') {
+      const mf = manifestPath(ROOT, slug, form);
+      const r = run('npx', ['vite-node', 'scripts/bench-manifest.mjs'], { input: readFileSync(mf, 'utf8') });
+      let pass = false, score = '?';
+      try { const j = JSON.parse((r.stdout || '').trim().split('\n').pop()); pass = !!j.pass; score = j.score; } catch { /* 输出非 JSON 即失败 */ }
+      if (!pass) return { exit: 1, summary: `✗ bench 五轴 score=${score}` };
+      return { exit: 0, summary: `bench 五轴 score=${score} · 验收剧本 ${nScen} 场景绿` };
+    }
+    const r = run('npx', ['vitest', 'run', `src/games/${slug}/`]);
+    const tail = (r.stdout || '').trim().split('\n').filter((l) => /Tests|Test Files/.test(l)).join(' · ');
+    if ((r.status ?? 1) !== 0) return { exit: r.status ?? 1, summary: `✗ walkthrough · ${tail.slice(0, 160) || (r.stderr || '').slice(0, 160)}` };
+    return { exit: 0, summary: `walkthrough 绿（${tail.slice(0, 120)}）· 验收剧本 ${nScen} 场景绿` };
+  }
+  if (stage === 'S5') {
+    if (form === 'cart') return { exit: 0, summary: '纯数据卡带免审计' };
+    // REQ-SELFCHECK·图纸①（UI 关同款前置·spawn audit 前的纯 fs 检查）：
+    // UI 好不好看/交互顺不顺，audit 判不了——自证对齐单 + 真渲染截图序列在档才许跑。
+    const scBlock5 = selfCheckBlock(selfCheckArtifacts(ROOT, slug, 'S5'), 'S5');
+    if (scBlock5) return { exit: 1, summary: scBlock5 };
+    const r = run('node', ['scripts/game-skill-audit.mjs', slug]);
+    const verdict = (r.stdout || '').split('\n').filter((l) => /^(AUDIT|RATCHET):/.test(l)).join(' · ');
+    return { exit: r.status ?? 1, summary: verdict || (r.stderr || '').slice(0, 200) };
+  }
+  if (stage === 'S8') {
+    if (form === 'cart') {
+      // 卡带轻量终检（REQ-WORKSHOP C2·Lead 裁决）：纯数据卡带不背全仓门——
+      // mock 债清零（「mock 永不上画面」的终检表达）∧ 完整性（manifest-check）∧ 可玩健康（bench 五轴）。
+      // 债最便宜先查（不给 mock 未清的卡带白跑重门）。
+      const debt = mockDebt(ROOT, slug);
+      if (debt > 0) return { exit: 1, summary: `✗ MOCK 债 ${debt} 行未清（mock 不算真图·重生成或清账后再终检）` };
+      const mf = manifestPath(ROOT, slug, form);
+      const chk = run('npx', ['vite-node', 'scripts/manifest-check.mjs'], { input: readFileSync(mf, 'utf8') });
+      if ((chk.status ?? 1) !== 0) return { exit: chk.status ?? 1, summary: `✗ manifest-check · ${(chk.stderr || chk.stdout || '').trim().slice(0, 200)}` };
+      const b = run('npx', ['vite-node', 'scripts/bench-manifest.mjs'], { input: readFileSync(mf, 'utf8') });
+      let pass = false, score = '?';
+      try { const j = JSON.parse((b.stdout || '').trim().split('\n').pop()); pass = !!j.pass; score = j.score; } catch { /* 输出非 JSON 即失败 */ }
+      if (!pass) return { exit: 1, summary: `✗ bench 五轴 score=${score}` };
+      return { exit: 0, summary: `cart 终检：MOCK 0 · manifest-check=0 · bench score=${score}` };
+    }
+    const steps = [
+      ['npx', ['tsc', '--noEmit']],
+      ['npx', ['vitest', 'run', '--silent']],
+      ['npm', ['run', 'build']],
+    ];
+    const parts = [];
+    for (const [cmd, args] of steps) {
+      const r = run(cmd, args);
+      parts.push(`${args[0]}=${r.status ?? 1}`);
+      if ((r.status ?? 1) !== 0) return { exit: r.status ?? 1, summary: `✗ ${parts.join(' ')} · ${(r.stderr || r.stdout || '').trim().slice(0, 200)}` };
+    }
+    return { exit: 0, summary: `tsc+vitest+build 三绿（${parts.join(' ')}）` };
+  }
+  return { exit: 1, summary: `阶段 ${stage} 无机器门` };
+}
+
+// ── CLI ─────────────────────────────────────────────────────────
+const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+if (isMain) {
+  const [cmd, slug, a3] = process.argv.slice(2);
+  const argv = process.argv.slice(2);
+  const opt = (name) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : undefined; };
+  if (!cmd || !slug) { console.error('用法: game-pipeline.mjs <board|gate|checklist|review|scorecard|signoff|concept> <slug> …（头注有全表）'); process.exit(1); }
+  const form = detectForm(ROOT, slug);
+  if (!form) { console.error(`未知游戏: ${slug}`); process.exit(1); }
+
+  if (cmd === 'board') {
+    const b = boardFor(ROOT, slug);
+    if (argv.includes('--json')) { console.log(JSON.stringify(b)); process.exit(b.ok ? 0 : 1); }
+    console.log(`══ 生产流程板 · ${slug}（${form}）══`);
+    const dot = { ok: '\x1b[32m●\x1b[0m', warn: '\x1b[33m●\x1b[0m', fail: '\x1b[31m●\x1b[0m', dim: '\x1b[90m○\x1b[0m' };
+    for (const s of b.stages) {
+      const oooTag = s.outOfOrder ? '\x1b[33m⚠乱序\x1b[0m ' : '';
+      console.log(`${dot[s.status]} ${oooTag}${s.id} ${s.title}  〔手册: ${s.handbook}〕`);
+      console.log(`   机器门: ${s.machine.detail}`);
+      console.log(`   复查门: ${s.review.detail}`);
+      console.log(`   人  门: ${s.human.detail}`);
+      if (s.outOfOrder) console.log(`   ⚠ 乱序放行：${s.outOfOrder.reason}（${(s.outOfOrder.at || '').slice(0, 10)}）`);
+    }
+    console.log(b.next ? `\n→ 下一步：${b.next}（只做这一步·做完 gate/review/signoff 再看板）` : '\n✔ 全绿——可推进发布/换皮量产');
+    process.exit(0);
+  }
+  if (cmd === 'checklist') {
+    const stage = a3;
+    if (stage === 'S7') {
+      console.log(`══ S7 品质关 · 评分卡（复查人执行·docs/playbooks/visual-scorecard.md）══`);
+      console.log(`八维 0-3 分（0=缺失/敷衍 1=粗糙 2=达标 3=出色）·premium=全维≥2·无证据不给分：`);
+      for (const d of SCORECARD_DIMS) console.log(`  □ ${d}`);
+      console.log(`落账：node scripts/game-pipeline.mjs scorecard ${slug} --scores "${SCORECARD_DIMS.map((d) => d + ':N').join(',')}" --by 复查人 --note "逐维证据摘要"`);
+      process.exit(0);
+    }
+    if (!REVIEW_CHECKLISTS[stage]) { console.error(`checklist 只认 ${Object.keys(REVIEW_CHECKLISTS).join('/')}/S7（S1 owner 亲提免查·S6 平台内嵌）`); process.exit(1); }
+    console.log(`══ ${stage} 复查清单 · ${slug}（复查人≠施工人·另开 session 逐条对抗性核证）══`);
+    console.log(`  □ 【范围核查·每关必查】git diff 对照施工方领工声明/工单「边界」栏——碰了声明外的文件=FAIL（偏离手册的硬证据·REQ-CTX③）`);
+    for (const item of REVIEW_CHECKLISTS[stage]) console.log(`  □ ${item}`);
+    console.log(`落账：node scripts/game-pipeline.mjs review ${slug} ${stage} --verdict PASS|CONCERNS|FAIL --note "逐条结论（带 file:line/实数）" --by 复查人`);
+    process.exit(0);
+  }
+  if (cmd === 'review') {
+    const stage = a3;
+    if (!REVIEW_STAGES.includes(stage)) { console.error(`review 只认 ${REVIEW_STAGES.join('/')}（S7 用 scorecard·S1 owner 亲提·S6 平台内嵌）`); process.exit(1); }
+    const verdict = opt('--verdict');
+    const note = opt('--note');
+    const by = opt('--by');
+    if (!['PASS', 'CONCERNS', 'FAIL'].includes(verdict)) { console.error('复查判词限 PASS|CONCERNS|FAIL（闭集）'); process.exit(1); }
+    if (!note || !note.trim()) { console.error('复查必须带 --note（逐条结论落账·不许空查）'); process.exit(1); }
+    if (!by || !by.trim()) { console.error('复查必须带 --by（复查人身份·复查人≠施工人）'); process.exit(1); }
+    const pf = readJson(pipelineFile(ROOT, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
+    const rv = { verdict, note: note.trim().slice(0, 500), by: by.trim(), at: new Date().toISOString(), gameHash: gameHash(ROOT, slug) };
+    pf.reviews = { ...(pf.reviews || {}), [stage]: rv };
+    (pf.history ||= []).push({ action: 'review', stage, verdict, at: rv.at });
+    writeJson(pipelineFile(ROOT, slug), pf);
+    console.log(JSON.stringify({ ok: true, slug, stage, ...rv }));
+    process.exit(0);
+  }
+  if (cmd === 'scorecard') {
+    const raw = opt('--scores');
+    const by = opt('--by');
+    const note = opt('--note');
+    if (!raw || !by || !by.trim() || !note || !note.trim()) { console.error('scorecard 需 --scores "维:分,…八维全给" --by 复查人 --note 逐维证据摘要（无证据不给分）'); process.exit(1); }
+    const scores = {};
+    for (const kv of raw.split(',')) {
+      const [k, v] = kv.split(':').map((s) => s.trim());
+      const n = Number(v);
+      if (!SCORECARD_DIMS.includes(k)) { console.error(`未知维度: ${k}（闭集：${SCORECARD_DIMS.join('/')}）`); process.exit(1); }
+      if (!Number.isInteger(n) || n < 0 || n > 3) { console.error(`${k} 分值非法: ${v}（0-3 整数）`); process.exit(1); }
+      scores[k] = n;
+    }
+    const missing = SCORECARD_DIMS.filter((d) => scores[d] === undefined);
+    if (missing.length) { console.error(`缺维度: ${missing.join('/')}（八维必须全打·不适配的维走 requests.md 裁豁免·不得自行跳维）`); process.exit(1); }
+    const total = SCORECARD_DIMS.reduce((a, d) => a + scores[d], 0);
+    const premium = SCORECARD_DIMS.every((d) => scores[d] >= 2);
+    const pf = readJson(pipelineFile(ROOT, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
+    pf.scorecard = { scores, total, premium, by: by.trim(), note: note.trim().slice(0, 500), at: new Date().toISOString(), gameHash: gameHash(ROOT, slug) };
+    (pf.history ||= []).push({ action: 'scorecard', total, premium, at: pf.scorecard.at });
+    writeJson(pipelineFile(ROOT, slug), pf);
+    console.log(JSON.stringify({ ok: true, slug, verdict: `VISUAL: ${total}/24 · PREMIUM: ${premium ? 'YES' : 'NO'}`, ...pf.scorecard }));
+    process.exit(0);
+  }
+  if (cmd === 'gate') {
+    const stage = a3;
+    if (!GATE_STAGES.includes(stage)) { console.error(`gate 只认 ${GATE_STAGES.join('/')}（其余阶段是纯推导或纯人门）`); process.exit(1); }
+    // F·阶段顺序闸：前置阶段（S1..S(N-1)）非全绿则拒跑，除非带 --out-of-order "<理由>" 记账放行。
+    const oooReason = opt('--out-of-order');
+    const decision = orderGate(boardFor(ROOT, slug), stage, oooReason);
+    if (!decision.allowed) {
+      console.error(`✗ 阶段顺序闸：${stage} 前置阶段未全绿，拒跑（要跳关须带 --out-of-order "<理由>" 显式记账放行）：`);
+      for (const g of decision.gaps) console.error(`  · ${g.id} ${g.title} 欠：${g.owes.join(' / ')}`);
+      process.exit(1);
+    }
+    const res = gateRun(slug, stage, form);
+    const pf = readJson(pipelineFile(ROOT, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
+    if (decision.outOfOrder) {
+      (pf.outOfOrder ||= []).push(decision.outOfOrder);
+      (pf.history ||= []).push({ action: 'out-of-order', stage, reason: decision.outOfOrder.reason, at: decision.outOfOrder.at });
+    }
+    const ev = { exit: res.exit, summary: res.summary, at: new Date().toISOString() };
+    if (stage === 'S8' && form !== 'cart') {
+      // 全仓门证据绑仓库位置（引擎一动即过期）；cart 轻量门只看游戏自身内容 → 绑 gameHash（C2）
+      ev.head = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).stdout?.trim() || '';
+      ev.dirty = (spawnSync('git', ['status', '--porcelain'], { cwd: ROOT, encoding: 'utf8' }).stdout || '').trim().length > 0;
+    } else {
+      ev.gameHash = gameHash(ROOT, slug);
+    }
+    // 自证快照（REQ-SELFCHECK·图纸②）：产物齐活时记下**当时的游戏指纹**——此后游戏文件一动，
+    // 板上自证提示转 ⚠过期（提示不硬拦：图可能真没变）。产物不齐时不记（无快照=板显 ✗ 未做）。
+    if (stage === 'S4' || stage === 'S5') {
+      const a = selfCheckArtifacts(ROOT, slug, stage);
+      if (a.ok) pf.selfCheck = { ...(pf.selfCheck || {}), [stage]: { at: ev.at, shots: a.shots, gameHash: ev.gameHash || gameHash(ROOT, slug) } };
+    }
+    pf.evidence = { ...(pf.evidence || {}), [stage]: ev };
+    (pf.history ||= []).push({ action: 'gate', stage, exit: res.exit, at: ev.at });
+    writeJson(pipelineFile(ROOT, slug), pf);
+    console.log(JSON.stringify({ ok: res.exit === 0, slug, stage, ...ev }));
+    process.exit(res.exit === 0 ? 0 : 1);
+  }
+  if (cmd === 'signoff') {
+    const stage = a3;
+    const note = opt('--note');
+    if (!STAGES.some((s) => s.id === stage) || stage === 'S6') { console.error('signoff 阶段非法（S6 人门=美术平台逐行复核·不另签）'); process.exit(1); }
+    if (!note || !note.trim()) { console.error('人门必须带 --note（review 内容落账·不许空签）'); process.exit(1); }
+    const pf = readJson(pipelineFile(ROOT, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
+    const so = { by: opt('--by') || 'owner', note: note.trim().slice(0, 500), at: new Date().toISOString() };
+    pf.signoffs = { ...(pf.signoffs || {}), [stage]: so };
+    (pf.history ||= []).push({ action: 'signoff', stage, at: so.at });
+    writeJson(pipelineFile(ROOT, slug), pf);
+    console.log(JSON.stringify({ ok: true, slug, stage, ...so }));
+    process.exit(0);
+  }
+  if (cmd === 'concept') {
+    const fields = {};
+    for (const [k, flag] of [['name', '--name'], ['pitch', '--pitch'], ['refs', '--refs'], ['style', '--style'], ['planWaiver', '--plan-waiver']]) {
+      const v = opt(flag);
+      if (v !== undefined) fields[k] = v;
+    }
+    const concept = writeConcept(ROOT, slug, fields);
+    console.log(JSON.stringify({ ok: true, slug, concept }));
+    process.exit(0);
+  }
+  console.error(`未知子命令: ${cmd}`);
+  process.exit(1);
+}

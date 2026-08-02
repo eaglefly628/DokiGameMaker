@@ -1,94 +1,124 @@
 ---
 name: zerocraft-game-maker
-description: 用 ZeroCraft（Apollo）引擎的积木库做游戏。当用户要「做一个游戏 / 加一个玩法 / 改游戏机制 / 做关卡 / 加卡牌·战斗·合成·塔防·平台跳跃等玩法」，或提到 Assembly 蓝图、capability、积木、game-i 等本引擎概念时使用。它给出这套引擎的开发流程、可用积木清单的查法、以及必须遵守的数据驱动铁律。
+description: 用 ZeroCraft（Apollo）引擎做游戏的完整工作流。当用户要「做一个游戏 / 加一个玩法 / 改游戏机制 / 做关卡 / 推进某个游戏 / 加卡牌·战斗·合成·塔防·平台跳跃等玩法」，或提到 Assembly 蓝图、capability、积木、流程板、game-i 等本引擎概念时使用。它给出八阶段生产流程板、积木清单查法、自证与门禁判据，以及必须遵守的数据驱动铁律。
 ---
 
 # ZeroCraft Game Maker
 
-用**已有积木**拼出游戏，而不是写新引擎代码。
+用**已有积木**拼游戏，按**八阶段流程板**推进。
 
-## 第一性原则（违反即判定未完成）
+> 所有命令都在仓库根执行。引擎与工具在 `packages/apollo-engine/`。
 
-**整个游戏是数据，不是代码。** 引擎是固定的确定性解释器；游戏内容用 Assembly JSON
-蓝图描述。你的产出物是**一份数据蓝图 + 必要的薄接线**，不是一坨新系统。
-
-由此派生四条硬红线：
-
-1. **禁止在游戏层自写解释器/状态机引擎** —— 玩法用既有 capability 组合表达。
-   找不到合适积木时，先回来问，而不是自己造一套。
-2. **禁止裸 `Math.random()`** —— 破坏确定性 tick 与回放/联机，随机走引擎受控随机源。
-3. **禁止 `innerHTML`** —— UI 走 LayoutNode 数据化组件（`@ui/components`），不手写自由 DOM。
-4. **优先复用，其次组合，最后才考虑新增能力**。
-
-## 工作流程
-
-### 1. 明确玩法（先想清楚再动手）
-一句话说清「玩家做什么动作 → 得到什么反馈 → 怎么算赢/输」。含糊就先问用户，不要猜着做。
-
-### 2. 查积木（**必做**，不要凭记忆）
-能力清单会变，**永远现场查**，不要照抄任何历史清单：
+## 0. 开工第一命令（**不许跳过**）
 
 ```bash
-# 先看有哪些（省 token）
-pnpm --filter @zerocraft/apollo-engine catalog -- --ids
-
-# 按玩法关键词找（卡牌 / 战斗 / 合成 / 拖拽 / 寻路 / 生成…）
-pnpm --filter @zerocraft/apollo-engine catalog -- --grep 卡牌
-
-# 全量详情（含每个能力提供的组件字段、何时用、具体示例）
-pnpm --filter @zerocraft/apollo-engine catalog
+node packages/apollo-engine/tools/game-pipeline.mjs board <slug>
 ```
 
-输出里每条给了 `provides`（该能力提供哪些组件及字段类型）、`when`（何时用）、
-`e.g.`（真实数据示例）——**照着示例的数据形状写蓝图**，这是信号最高的部分。
+**先看板，再干活；只做第一个非绿的阶段。** 板子的状态是**从工件推导**的（真跑
+manifest / 测试 / 台账 / 审计），不是谁说了算——所以：
 
-### 3. 选积木、拼蓝图
-把玩法拆成「实体 + 组件」，为每个需求挑一个既有 capability。产出 Assembly 蓝图：
-`entities[].components[]` 的纯 JSON 结构，`Engine.load(blueprint)` 即可运行。
+- 不要凭对话历史判断"做到哪了"，**一律以 board 输出为准**；
+- 不要一口气冲完八个阶段。**一次只推一个阶段**，做完重跑 board 确认再往下；
+- 机器门的证据绑内容指纹，**游戏文件一动证据自动过期**——绿不是永久绿。
 
-参考已有游戏的写法：`packages/apollo-engine/src/games/game-i/`（各 `*-lab.ts` 是
-按主题拆开的蓝图示例，最适合照着学）。
+这条设计正是为了治「LLM 长流程上下文丢失/漂移」，见
+`packages/apollo-engine/tools/game-pipeline.mjs` 头注释。
 
-### 4. 接线与运行
-游戏入口导出 `mount(container) => cleanup`（与预览页/上游 launcher 同一契约）。
-本地跑起来看：
+## 1. 八阶段与判据
+
+| 阶段 | 做什么 | 机器门判据 |
+| --- | --- | --- |
+| **S1 立项卡** | 名字 + 一句话玩法 + 参考 + 风格意向 | concept 字段非空 |
+| **S2 能力计划** | 挑哪些积木、怎么组合 | plan 在档 或 免 plan 裁决在案 |
+| **S3 骨架关** | manifest 立起来、引擎吃得下 | parseManifest 零 error **+ 真引擎 load + 空跑 2 tick** |
+| **S4 玩法关** | 胜负/重开/核心循环闭环 | **自证产物在档**（`S4-alignment.md` + shots ≥5，**缺=拒跑**）→ 验收剧本 ≥3 场景 → 该游戏 vitest 绿 |
+| **S5 UI 关** | HUD/菜单守 LayoutNode 纪律 | **自证产物在档**（`S5-alignment.md` + shots ≥5）→ game-skill-audit 红旗零 |
+| **S6 美术关** | 台账 → 风格锚 → 生成 → 写回 → 复核 | 台账推导（MOCK 不算完成） |
+| **S7 品质关** | 视觉评分卡打分 | 以人门为主 |
+| **S8 终检关** | 全库门禁 | tsc + vitest + build 三绿 |
+
+常用子命令：
 
 ```bash
-pnpm dev:engine     # → http://localhost:5180，在选择页点进游戏
+# 打印该阶段复查清单（推进某阶段前先看）
+node packages/apollo-engine/tools/game-pipeline.mjs checklist <slug> <S3|S4|S5|S8>
+
+# 跑该阶段机器门 → 记证据（退出码即结果）
+node packages/apollo-engine/tools/game-pipeline.mjs gate <slug> <S3|S4|S5|S8>
+
+# 立项卡
+node packages/apollo-engine/tools/game-pipeline.mjs concept <slug> --name "…" --pitch "…"
+```
+
+**宣布"完成"的唯一凭据 = 贴 `board <slug>` 的全绿输出。不全绿只许说"做到 SN"。**
+
+## 2. 自证（S4/S5 的硬门，也是自我迭代的抓手）
+
+S4/S5 要求 `S4-alignment.md` / `S5-alignment.md` + **≥5 张画面证据**，缺了直接拒跑。
+这不是走过场——**它是让你自己发现问题、自己改的机制**，不要等人来指出。
+
+拿画面证据**不需要人肉截图**，引擎自带无头渲染：
+
+- `AsciiRenderer.render(world) → string`（`@renderer/ascii-renderer.js`）——
+  把世界渲成字符网格，**你自己就能读**，用来判断"东西在不在该在的位置、动没动"；
+- `frame-svg`（`@renderer/frame-svg.js`）——渲成 SVG，可存档当证据；
+- 引擎是**确定性 tick**：同 seed 同输入必然同结果，所以证据可复现、回归可比对。
+
+自证的循环应该是：**跑起来 → 渲一帧读一读 → 对照 S1 的玩法描述找差距 → 改数据 →
+再跑**。把每轮的差距与修法写进 `SN-alignment.md`，这就是自证产物。
+
+规范见 `packages/apollo-engine/docs/playbooks/self-check.md`。
+
+## 3. 查积木（**必做，禁止凭记忆**）
+
+能力清单会变，**永远现场查**：
+
+```bash
+pnpm --filter @zerocraft/apollo-engine catalog -- --ids       # 先看有哪些（省 token）
+pnpm --filter @zerocraft/apollo-engine catalog -- --grep 卡牌  # 按玩法找
+pnpm --filter @zerocraft/apollo-engine catalog                # 全量详情
+```
+
+每条输出含 `provides`（提供哪些组件及字段类型）、`when`（何时用）、`e.g.`（真实数据
+示例）——**照 `e.g.` 的数据形状写蓝图**，那是信号最高的部分。
+
+找不到合适积木时**先回来问**，不要自己造一套系统。
+
+## 4. 铁律（违反即判定未完成）
+
+**整个游戏是数据，不是代码。** 引擎是固定的确定性解释器；游戏内容用 Assembly JSON
+蓝图描述。产出物是**数据蓝图 + 薄接线**，不是一坨新系统。
+
+1. **禁止在游戏层自写解释器/状态机引擎** —— 玩法用既有 capability 组合表达。
+2. **禁止裸 `Math.random()`** —— 破坏确定性 tick 与回放/联机，随机走引擎受控随机源。
+3. **禁止 `innerHTML`** —— UI 走 LayoutNode 数据化组件（`@ui/components`）。
+4. **零测试不出货**；不得跳过、删除或弱化测试来制造通过。
+
+## 5. 本地跑起来看
+
+```bash
+pnpm dev:engine     # → http://localhost:5180，选择页点进游戏
 ```
 
 新游戏要出现在预览页，在 `packages/apollo-engine/src/dev-preview.ts` 的 `GAMES` 加一行。
+游戏入口导出 `mount(container) => cleanup`。
 
-### 5. 过门禁（**改完必须跑，看退出码**）
+参考写法：`packages/apollo-engine/src/games/game-i/`（各 `*-lab.ts` 是按主题拆开的
+蓝图示例，最适合照着学）。
 
-```bash
-pnpm --filter @zerocraft/apollo-engine test        # 引擎 + 游戏测试
-pnpm --filter @zerocraft/apollo-engine typecheck   # tsc --noEmit
-pnpm --filter @zerocraft/apollo-engine ledger:audit # 动了美术才需要
-```
+## 6. 手册（按需查，不要全读）
 
-**不要靠"看起来对"交付**：没跑过测试就说完成了，等于没完成。测试红了先修，
-不要跳过、删除或弱化测试来制造通过。
+`packages/apollo-engine/docs/playbooks/`：
+`game-production.md`（八阶段线手册·**推进阶段前读对应节**）· `self-check.md`（自证）·
+`review-gates.md`（三门制）· `testing.md` · `cards.md` · `combat.md` ·
+`movement-pathfinding.md` · `randomness.md` · `rendering-fx.md` · `art-pipeline.md` ·
+`assets.md` · `save-platform.md` 等。核心铁律正文在 `docs/rules/`。
 
-## 美术怎么加（账本制）
+## 7. 边界
 
-美术不是「丢一堆图进去」，而是**账本驱动**：资源在账本里登记，由 `ledger:audit`
-校验缺漏与孤儿。加美术前读
-`packages/apollo-engine/docs/playbooks/art-pipeline.md` 与 `assets.md`。
-
-## 手册（按需查，不要全读）
-
-`packages/apollo-engine/docs/playbooks/` 下按主题分：
-`cards.md`（卡牌）· `combat.md`（战斗）· `movement-pathfinding.md`（移动寻路）·
-`randomness.md`（随机）· `rendering-fx.md`（渲染特效）· `art-pipeline.md`（美术管线）·
-`save-platform.md`（存档）· `testing.md`（测试）· `self-check.md`（自检）等。
-
-核心铁律正文在 `packages/apollo-engine/docs/rules/`。
-
-## 边界
-
-- 只在 `packages/apollo-engine/` 内做游戏相关改动。
+- 游戏相关改动只在 `packages/apollo-engine/` 内。
 - 动 `src/engine` / `src/skills` 等**引擎共享面**会影响所有游戏——除非用户明确要求
-  改引擎，否则应在游戏自己的目录里解决；确需改引擎时先说明影响面再动手。
-- 引擎为 vendored（见 `packages/apollo-engine/SYNC.json`）：本地改了引擎共享面，
-  下次从上游同步时会冲突，务必在改动说明里点出来。
+  改引擎，否则在游戏自己的目录里解决；确需改时先说明影响面。
+- 引擎为 vendored（见 `SYNC.json`）：改了共享面，下次从上游同步会冲突，须在改动说明里点出。
+- 美术走**账本制**（登记 → `ledger:audit` 校验），不是"丢一堆图进去"。
